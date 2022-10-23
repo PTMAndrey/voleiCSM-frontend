@@ -2,7 +2,16 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <>
+      <p>HOME</p>
+      <p>HOME</p>
+      <p>HOME</p>
+      <p>HOME</p>
+      <p>HOME</p>
+      <p>HOME</p>
+      <p>HOME</p>
+      <p>HOME</p>
+    </>
   )
 }
 

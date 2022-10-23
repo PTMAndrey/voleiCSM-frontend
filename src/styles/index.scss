@@ -12,6 +12,16 @@
   box-sizing: border-box;
   font-family: $primary_font_family;
 }
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #3c484e;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6em;
+}
 
 a,
 button {
@@ -59,4 +69,13 @@ meter {
 
 :where([draggable="true"]) {
   -webkit-user-drag: element;
+}
+
+header{
+  display: block;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
 }

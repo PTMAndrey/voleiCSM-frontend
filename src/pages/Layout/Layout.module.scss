@@ -1,8 +1,8 @@
 @import "../../styles/mixins.scss";
 
 .layout {
-  max-width: 1140px;
-  margin: 32px auto 0 auto;
+  background-image: linear-gradient(to top, rgba(16, 13, 182, 0.511), rgb(255,255,255));
+  padding: 32px;
   @include medium {
     padding: 0 2rem;
   }
@@ -10,4 +10,12 @@
   @include small {
     padding: 0 1rem;
   }
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  max-width: 1140px;
+  margin:32px auto 0 auto;
+  padding:32px;
 }

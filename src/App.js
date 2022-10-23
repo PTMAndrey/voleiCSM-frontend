@@ -5,7 +5,8 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import Header from "./pages/Header/Header";
+import Navigation from "./components/Navigation/Navigation.jsx";
+import Header from "./components/Header/Header"
 import Home from "./pages/Home/Home";
 import Layout from './pages/Layout/Layout'
 import ProtectedRoute from "./routes/ProtectedRoutes";
@@ -22,7 +23,8 @@ function App() {
         <Route
           element={
             <>
-              <Header expand = {width >= 630 ? "md" : false} ></Header>
+              <Navigation expand = {width >= 750 ? "md" : false} ></Navigation>
+              <Header></Header>
               <Layout>
                 <ProtectedRoute />
               </Layout>
@@ -46,7 +48,8 @@ function App() {
         <Route
           element={
             <>
-              <Header expand = {width >= 630 ? "sm" : false} ></Header>
+              <Navigation expand = {width >= 750 ? "sm" : false} ></Navigation>
+              <Header/>
               <Layout>
                 <Outlet />
               </Layout>
