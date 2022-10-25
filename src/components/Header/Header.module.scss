@@ -8,6 +8,18 @@
     text-align: center;
 }
 
+.textHeader {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+
+    & h1,
+    h4 {
+        color: rgb(19, 15, 66);
+
+    }
+}
+
 // .arrowRotate {
 //     cursor: pointer;
 //     display: flex;
