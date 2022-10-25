@@ -1,7 +1,7 @@
 @import "../../styles/mixins.scss";
 
 .layout {
-  background-image: linear-gradient(to top, rgba(16, 13, 182, 0.511), rgb(255,255,255));
+  background-image: linear-gradient(to top, rgba(16, 13, 182,1), rgba(255, 255, 255, 0.386));
   padding: 32px;
   @include medium {
     padding: 0 2rem;
@@ -14,8 +14,10 @@
 .container{
   display: flex;
   flex-direction: column;
-  border: 1px solid;
-  max-width: 1140px;
-  margin:32px auto 0 auto;
+  // border-radius: 25px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 18px 18px 18px -18px inset;
+  max-width: 1320px;
+  margin:16px auto 0 auto;
   padding:32px;
+  background-color: rgba(227, 227, 227,1);
 }
