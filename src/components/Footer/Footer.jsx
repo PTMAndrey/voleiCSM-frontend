@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBBtn, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
-import { RiFacebookCircleLine } from 'react-icons/ri'
+
 const Footer = () => {
     return (
         <MDBFooter bgColor='black' color='light' className='text-center text-lg-start text-white'>
