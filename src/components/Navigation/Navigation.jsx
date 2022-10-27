@@ -14,7 +14,7 @@ const Navigation = (props) => {
   return (
         <Navbar key={props.expand} bg="light" expand={props.expand} className="mb-3 border-bottom">
           <Container fluid>
-            <Navbar.Brand href="/"><img src={LogoCSM} alt="C.S.M. SUCEAVA - VOLEI" /></Navbar.Brand>
+            <Navbar.Brand href="/"><img src={LogoCSM} className={styles.logoNavbar} alt="C.S.M. SUCEAVA - VOLEI" /></Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${props.expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${props.expand}`}
@@ -23,7 +23,7 @@ const Navigation = (props) => {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${props.expand}`}>
-                <Nav.Link href="/"><img src={LogoCSM} alt="C.S.M. SUCEAVA - VOLEI" /></Nav.Link>
+                <Nav.Link href="/"><img src={LogoCSM} className={styles.logoNabvar} alt="C.S.M. SUCEAVA - VOLEI" /></Nav.Link>
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>

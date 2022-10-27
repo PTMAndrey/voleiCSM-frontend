@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 
 import Navigation from "./components/Navigation/Navigation.jsx";
-import Header from "./components/Header/Header"
 import Footer from './components/Footer/Footer';
 import Home from "./pages/Home/Home";
 import Layout from './pages/Layout/Layout'
+import NotFound from "./pages/NotFound/NotFound.jsx";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Alert from "./components/Alert/Alert";
 import useStateProvider from "./hooks/useStateProvider";
@@ -24,16 +24,13 @@ function App() {
         <Route
           element={
             <>
-              <Navigation expand = {width >= 750 ? "md" : false} />
-              <Header width={width}/>
-              <Layout>
-                <ProtectedRoute />
-              </Layout>
-              <Footer/>
+              <Navigation expand={width >= 750 ? "md" : false} />
+              <ProtectedRoute />
+              <Footer />
             </>
           }
         >
-        
+
           {/* protected routes */}
           {/* <Route path="/add" element={<AddEdit />} />
           <Route path="/add/preview" element={<Preview />} />
@@ -50,20 +47,21 @@ function App() {
         <Route
           element={
             <>
-              <Navigation expand = {width >= 750 ? "sm" : false} />
-              <Header width={width}/>
-              <Layout>
-                <Outlet />
-              </Layout>
-              <Footer/>
+              <Navigation expand={width >= 750 ? "sm" : false} />
+              <Outlet />
+              <Footer />
             </>
           }
         >
           {/* public routes */}
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<Home />} />
+
           {/* <Route path="/listing" element={<Listing />} />
-          <Route path="/listing/:id" element={<Details />} />
-          <Route path="/favorites" element={<Favorites />} /> */}
+            <Route path="/listing/:id" element={<Details />} />
+            <Route path="/favorites" element={<Favorites />} /> */}
+
+          <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />
+
         </Route>
 
         {/* onboarding routes */}
@@ -71,6 +69,7 @@ function App() {
         <Route path="/register" element={<Onboarding />} />
         <Route path="/forgot-password" element={<Onboarding />} />
         <Route path="/reset-password" element={<Onboarding />} /> */}
+
       </Routes>
       {alert && <Alert message={alert.message} type={alert.type} />}
     </Router>

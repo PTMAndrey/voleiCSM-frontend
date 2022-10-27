@@ -1,0 +1,50 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.containerNotFound {
+    display: flex;
+}
+img{-moz-drag-over:none; -webkit-user-drag: none;}
+.imagineNotFound {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    width: 270px;
+    height: 350px;
+
+    @media screen and (max-width:400px) {
+        width: 150px;
+        height: 150px;
+    }
+
+}
+
+.textFont {
+    color: $color-dark-blue-background;
+}
+
+.ntf {
+    font-size: 130px;
+
+    @media screen and (max-width:400px) {
+        font-size: 80px;
+    }
+}
+
+.ntf2 {
+    font-size: 20px;
+
+    & a {
+        color: $color-primary-300;
+    }
+
+    & a:hover {
+        color: $color-yellow;
+    }
+}
+
+.ntf3 {
+    font-size: 13px;
+}

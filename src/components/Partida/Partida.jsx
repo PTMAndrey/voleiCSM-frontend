@@ -5,10 +5,11 @@ import Col from 'react-bootstrap/Col';
 import styles from './Partida.module.scss'
 
 const Partida = (props) => {
+    const srcc=`${require('../../assets/images/logo csm.svg').default}`;
     return (
         <>
             <div className={styles.timelinePartida}>
-                <h3>{props.timeline}</h3>
+                <h3 className={styles.borderTimeline}>{props.timeline}</h3>
                 <span className={styles.linie} />
             </div>
             <div className={styles.containerPartida}>
@@ -16,13 +17,13 @@ const Partida = (props) => {
                     <Row>
                         <Col md={4} xs={{ order: 1 }}>
                             <Row>
-                                <Col className={styles.coloanaNumeEchipa}><p className={styles.numeEchipa}>C.S.M. SUCEAVA</p></Col>
+                                <Col className={styles.coloanaNumeEchipa}><p>{props.echipa1}</p></Col>
                             </Row>
                             <Row>
                                 <Col>
                                     <div className={styles.logoContainer}>
                                         <div className={styles.logoEchipa}>
-                                            <img src={require('../../assets/images/logo csm.svg').default} alt="Team 1" />
+                                            <img src={srcc} className={styles.imagine} alt="Team 1" />
                                         </div>
                                     </div>
 
@@ -49,13 +50,13 @@ const Partida = (props) => {
                         </Col>
                         <Col xs={{ order: 3 }} md={4}>
                             <Row>
-                                <Col className={styles.coloanaNumeEchipa}><p className={styles.numeEchipa}>CSA STEAUA BUCURESTI</p></Col>
+                                <Col className={styles.coloanaNumeEchipa}><p>{props.echipa2}</p></Col>
                             </Row>
                             <Row>
                                 <Col>
                                     <div className={styles.logoContainer}>
                                         <div className={styles.logoEchipa}>
-                                            <img src={require('../../assets/images/logo csm.svg').default} alt="Team 1" />
+                                            <img src={srcc} className={styles.imagine} alt="Team " />
                                         </div>
                                     </div>
 
