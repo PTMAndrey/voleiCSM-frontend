@@ -7,6 +7,7 @@ import {
 
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Header from "./components/Header/Header"
+import Footer from './components/Footer/Footer';
 import Home from "./pages/Home/Home";
 import Layout from './pages/Layout/Layout'
 import ProtectedRoute from "./routes/ProtectedRoutes";
@@ -23,11 +24,12 @@ function App() {
         <Route
           element={
             <>
-              <Navigation expand = {width >= 750 ? "md" : false} ></Navigation>
-              <Header></Header>
+              <Navigation expand = {width >= 750 ? "md" : false} />
+              <Header width={width}/>
               <Layout>
                 <ProtectedRoute />
               </Layout>
+              <Footer/>
             </>
           }
         >
@@ -48,16 +50,17 @@ function App() {
         <Route
           element={
             <>
-              <Navigation expand = {width >= 750 ? "sm" : false} ></Navigation>
-              <Header/>
+              <Navigation expand = {width >= 750 ? "sm" : false} />
+              <Header width={width}/>
               <Layout>
                 <Outlet />
               </Layout>
+              <Footer/>
             </>
           }
         >
           {/* public routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home/>} />
           {/* <Route path="/listing" element={<Listing />} />
           <Route path="/listing/:id" element={<Details />} />
           <Route path="/favorites" element={<Favorites />} /> */}

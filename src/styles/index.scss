@@ -10,7 +10,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  font-family: $header_font_family;
+  font-family: $primary_font_family;
 }
 body {
   text-rendering: optimizeLegibility;
@@ -27,6 +27,8 @@ a,
 button {
   cursor: revert;
   pointer-events: revert;
+  text-decoration: none;
+  color:inherit;
 }
 
 ol,
@@ -35,8 +37,8 @@ menu {
   list-style: none;
 }
 
-img {
-  max-width: 100%;
+nav, footer{
+  min-width: 226px;
 }
 
 table {

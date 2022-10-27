@@ -1,0 +1,86 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.timelinePartida {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    & .linie {
+        width: calc(100% - 250px);
+        height: 5px;
+        margin-bottom: 7px;
+        // border: 2px solid $color-yellow;
+        background-color: $color-yellow;
+        
+    }
+
+    @media screen and(max-width:600px) {
+        & .linie {
+            display: none;
+        }
+
+        & {
+            justify-content: center;
+        }
+    }
+}
+
+.detaliiPartida{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    @media screen and(max-width:768px) {
+        padding:20px 0;
+    }
+}
+
+
+.containerPartida {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    border: 5px solid $color-yellow;
+    background-color: #1B1D49;
+    color: $color-white;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    min-width: 100px; // asta e important la resize 
+
+}
+
+.logoContainer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid $color-yellow;
+    background-color: $color-white;
+    border-radius: 50%;
+    height: -moz-fit-content;
+    height: fit-content;
+}
+
+
+.logoEchipa {
+    width: 112px;
+    aspect-ratio: 1;
+    align-self: center;
+    height: fit-content;
+}
+
+img {
+    // height: 100px;
+    // width: 5000px;
+    max-width: 112px !important;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+
+.coloanaNumeEchipa {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
