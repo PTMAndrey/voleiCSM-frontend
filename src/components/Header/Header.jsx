@@ -1,5 +1,5 @@
 import React from 'react'
-import Header100 from "../../assets/images/Header5.svg";
+import Header100 from "../../assets/images/Header.svg";
 import styles from "./Header.module.scss";
 
 
