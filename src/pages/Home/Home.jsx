@@ -1,11 +1,16 @@
 import React from 'react';
-import Partida from '../../components/Partida/Partida';
 
+import Partida from '../../components/Partida/Partida';
 import Header from "./../../components/Header/Header";
 import Layout from './../../pages/Layout/Layout';
-import Iframe from 'react-iframe';
+import Title from '../../components/Title/Title';
 
 import butonClasament from './../../assets/images/butonClasament.svg';
+
+import Iframe from 'react-iframe';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 import styles from './Home.module.scss'
 
@@ -23,14 +28,7 @@ const Home = (props) => {
 
         {/* ################  CLASAMENT ################ */}
 
-        <div className={styles.frameTitle}>
-          <span className={styles.linie1} />
-          <span>
-            <h3>CLASAMENT</h3>
-          </span>
-          <span className={styles.linie2} />
-        </div>
-
+        <Title title="Clasament"/>
         <a href="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i" className={styles.butonClasament}><img src={butonClasament} alt="Clasament oficial" /></a>
         <div className={styles.frameCampionat}>
           <Iframe url="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i"
@@ -42,6 +40,12 @@ const Home = (props) => {
             position="relative"
           />
         </div>
+
+        <div className={styles.stiri}>
+        <Title title="Ultimele noutăți"/>
+
+        </div>
+
       </Layout>
     </>
   )

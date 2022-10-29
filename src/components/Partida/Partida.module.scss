@@ -13,7 +13,7 @@
         margin-bottom: 7px;
         // border: 2px solid $color-yellow;
         background-color: $color-yellow;
-        animation: lineH 4s infinite linear;
+        animation: lineH 5s infinite linear;
     }
 
 
@@ -33,20 +33,24 @@
         transform: scaleX(-0.5);
         width: 0%;
         height: 5px;
-        opacity: 0.1;
+        opacity: 0.5;
     }
 
-    45% {
+    25% {
         transform: scaleY(1);
-        width: 40%;
+        width: 25%;
         height: 5px;
-        opacity: 0.4;
+        opacity: 0.8;
+    }
+    45% {
+        width: 45%;
+        height: 5px;
+        opacity: 0.2;
     }
 
-    65% {
-        transform: scaleY(1.08);
+    55% {
+        width: 55%;
         height: 5px;
-        width: 60%;
         opacity: 0.6;
     }
 

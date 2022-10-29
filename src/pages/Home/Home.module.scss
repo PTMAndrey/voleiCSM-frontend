@@ -14,48 +14,6 @@
     margin-top: -55px;
 }
 
-.frameTitle {
-    margin-top: 7%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-
-    & h3 {
-        padding: 0 15px;
-    }
-
-    & span.linie1,
-    .linie2 {
-        width: calc(100% - 250px);
-        border-width: 5px;
-        border-style: solid;
-    }
-
-    & span.linie1 {
-        border-image:
-            linear-gradient(45deg,
-                $color-yellow,
-                rgba(0, 0, 0, 0)) 1;
-    }
-
-    & span.linie2 {
-        border-image:
-            linear-gradient(45deg, rgba(0, 0, 0, 0),
-                $color-yellow) 1;
-    }
-
-    @media screen and(max-width:500px) {
-        & .linie1, .linie2 {
-            display: none;
-        }
-
-        & {
-            justify-content: center;
-        }
-    }
-}
 
 .butonClasament {
     // width:210px;
@@ -70,4 +28,10 @@
             width: 130px;
         }
     }
+}
+
+.stiri {
+    margin-top:7%;
+    width: 100%;
+    height: 600px;
 }
