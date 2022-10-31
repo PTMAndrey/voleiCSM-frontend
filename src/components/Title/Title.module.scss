@@ -13,24 +13,25 @@
         padding: 0 15px;
     }
 
-    & span.linie1,
+    & .linie1,
     .linie2 {
         width: calc(50% - 120px);
-        border-width: 5px;
-        border-style: solid;
+        height: 10px;
+        // border-width: 3px;
+        // border-style: solid;
     }
 
-    & span.linie1 {
-        border-image:
+    & .linie1 {
+        background: 
             linear-gradient(45deg,
                 $color-yellow,
-                rgba(0, 0, 0, 0)) 1;
+                rgba(0, 0, 0, 0));
     }
 
-    & span.linie2 {
-        border-image:
+    & .linie2 {
+        background:
             linear-gradient(45deg, rgba(0, 0, 0, 0),
-                $color-yellow) 1;
+                $color-yellow);
     }
 
     @media screen and(max-width:500px) {

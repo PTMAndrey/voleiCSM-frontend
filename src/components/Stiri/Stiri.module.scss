@@ -1,0 +1,21 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.stiri {
+    margin-top: 7%;
+    width: 100%;
+    height: 600px;
+}
+
+.containerInfo {
+    background-color: rgba(13, 4, 11, 0.25);
+    height: auto;
+    padding: 40px;
+    color: $color-white;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
