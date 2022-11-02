@@ -72,7 +72,6 @@
     color: $color-white;
     margin-bottom: 30px;
     padding: 10px 0;
-    height: 150px;
     min-width: 100px; // asta e important la resize 
 
 }
@@ -84,20 +83,19 @@
     border: 5px solid $color-yellow;
     background-color: $color-white;
     border-radius: 50%;
-    height: 150px;
     height: -moz-fit-content;
     height: fit-content;
 }
 
 
 .logoEchipa {
-    width: 62px;
+    width: 112px;
     aspect-ratio: 1;
     align-self: center;
     height: fit-content;
 
     & img {
-        max-width: 62px !important;
+        max-width: 112px !important;
         aspect-ratio: 1;
         border-radius: 50%;
     }

@@ -9,6 +9,12 @@
     font-weight: 700;
     color: $color-white;
   }
+  @media screen and(max-width:380px) {
+    h5{
+      font-weight: 300;
+      font-size: $font-body-tiny;
+    }
+  }
 }
 .seeEverything {
   border: 1px solid $color-gray-100;

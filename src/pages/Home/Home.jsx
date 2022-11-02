@@ -5,20 +5,16 @@ import Header from "./../../components/Header/Header";
 import Layout from './../../pages/Layout/Layout';
 import Title from '../../components/Title/Title';
 import Stiri from '../../components/Stiri/Stiri';
-import Carousel from "../../components/Carousel/Carousel";
+
+import Carusel from '../../components/Carusel/Carusel';
 
 import butonClasament from './../../assets/images/butonClasament.svg';
-
-import useAuth from "../../hooks/useAuth";
 
 import Iframe from 'react-iframe';
 
 import styles from './Home.module.scss'
 
-const Home = (props, { showcontrols }) => {
-
-  const { user } = useAuth();
-  
+const Home = (props) => {
   return (
     <>
       <Header width={props.width} />
@@ -33,7 +29,7 @@ const Home = (props, { showcontrols }) => {
         {/* ################  CLASAMENT ################ */}
 
         <Title title="Clasament" />
-        <a href="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i" rel='noreferrer' target="_blank" className={styles.butonClasament}><img src={butonClasament} alt="Clasament oficial" /></a>
+        <a href="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i" className={styles.butonClasament}><img src={butonClasament} alt="Clasament oficial" /></a>
         <div className={styles.frameCampionat}>
           <Iframe url="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i"
             width="100%"
@@ -45,19 +41,11 @@ const Home = (props, { showcontrols }) => {
           />
         </div>
 
-        {/* ################  ULTIMELE NOUTATI ################ */}
+         {/* ################  ULTIMELE NOUTATI ################ */}
 
-        {/* <Stiri title="Ultimele noutati"/> */}
-
-        {user?.role === null ?
-
-          <div className={styles.stiri}>
-            <Carousel titluCarousel="Ultimele noutati"/>
-            <h1>sideways white page!</h1>
-          </div>
-          : null
-        }
-
+        <div className={styles.stiri}>
+          <Carusel titluCarousel="Ultimele noutati" previewDescription screenWidth={props.width}/>
+        </div>
       </Layout>
     </>
   )

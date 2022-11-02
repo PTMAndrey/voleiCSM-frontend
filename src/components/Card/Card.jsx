@@ -21,12 +21,12 @@ const Card = ({
   titlu,
   data_publicarii,
   descriere,
-  price,
   hideApproval,
   id_stiri,
   listing,
   pending,
   showcontrols,
+  previewDescription,
 }) => {
   const [openPopup, setOpenPopup] = useState(false);
   const { user, userId } = useAuth();
@@ -188,8 +188,8 @@ const Card = ({
 
             <p
               // style={{ display: listView ? "block" : "none" }}
-              style={{ display: "block"}}
-              className={styles.cardDescription}
+              style={{ display: "block" }}
+              className={ `${styles.cardDescription} ${ previewDescription ? styles.previewDescription : null}`}
             >
               {/* {descriere.substring(0, 500)} */}
               {descriere}
