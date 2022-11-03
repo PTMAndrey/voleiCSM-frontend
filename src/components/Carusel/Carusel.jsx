@@ -17,6 +17,7 @@ import useStateProvider from "../../hooks/useStateProvider";
 
 import styles from "./Carusel.module.scss";
 const Carusel = ({
+    stiri,
     titluCarousel,
     pending,
     pending2,
@@ -24,16 +25,12 @@ const Carusel = ({
     category,
     previewDescription,
     screenWidth,
+    isHomePage,
     all,
 }) => {
 
     const navigate = useNavigate();
-    const { listings } = useStateProvider();
-    const { setListView } = useStateProvider();
 
-    useEffect(() => {
-        setListView(false);
-    }, [setListView]);
     return (
         <Row>
             <div>
@@ -61,45 +58,66 @@ const Carusel = ({
                                 modules={[Pagination, Navigation]}
                                 className="mySwipper"
                             >
-                                {listings?.slice(0, 6).map((listing, index) =>
-                                    all
-                                        ? listing.status !== pending &&
-                                        listing.status !== pending2 && (
+                                { isHomePage ?
+                                    stiri?.slice(0, 4).map((stire, index) =>
+                                    stire.status === 'Publicat' && (
                                             // latest
                                             <Col>
-                                                <SwiperSlide key={listing.id_stiri}>
+                                                <SwiperSlide key={stire.id_stiri}>
                                                     <Card
                                                         showcontrols={showcontrols}
                                                         style={{ width: "90%" }}
-                                                        fotografii={listing.fotografii}
-                                                        titlu={listing.titlu}
-                                                        descriere={listing.descriere}
-                                                        data_publicarii={listing.data_publicarii}
-                                                        id_stiri={listing.id_stiri}
-                                                        previewDescription={previewDescription}
+                                                        fotografii={stire.fotografii}
+                                                        titlu={stire.titlu}
+                                                        descriere={stire.descriere}
+                                                        data_publicarii={stire.data_publicarii}
+                                                        id_stiri={stire.id_stiri}
                                                         onClick={() => {
-                                                            navigate("/stiri/" + listing.id_stiri);
+                                                            navigate("/stiri/" + stire.id_stiri);
+                                                        }}
+                                                    />
+                                                </SwiperSlide>
+                                            </Col>
+                                    ))
+                                 :
+                                stiri?.map((stire, index) =>//.slice(0, 3)
+                                    all
+                                        ? stire.status !== pending &&
+                                        stire.status !== pending2 && (
+                                            // latest
+                                            <Col>
+                                                <SwiperSlide key={stire.id_stiri}>
+                                                    <Card
+                                                        showcontrols={showcontrols}
+                                                        style={{ width: "90%" }}
+                                                        fotografii={stire.fotografii}
+                                                        titlu={stire.titlu}
+                                                        descriere={stire.descriere}
+                                                        data_publicarii={stire.data_publicarii}
+                                                        id_stiri={stire.id_stiri}
+                                                        onClick={() => {
+                                                            navigate("/stiri/" + stire.id_stiri);
                                                         }}
                                                     />
                                                 </SwiperSlide>
                                             </Col>
                                         ) :
-                                        // : listing.status !== pending &&
-                                        // listing.status !== pending2 &&
-                                        listing.status === 'Publicat' && (
+                                        // : stire.status !== pending &&
+                                        // stire.status !== pending2 &&
+                                        stire.status === 'Publicat' && (
                                             <Col>
-                                                <SwiperSlide key={listing.id_stiri}>
+                                                <SwiperSlide key={stire.id_stiri}>
                                                     <Card
                                                         showcontrols={showcontrols}
                                                         style={{ width: "90%" }}
-                                                        fotografii={listing.fotografii}
-                                                        titlu={listing.titlu}
-                                                        descriere={listing.descriere}
-                                                        data_publicarii={listing.data_publicarii}
-                                                        id_stiri={listing.id_stiri}
+                                                        fotografii={stire.fotografii}
+                                                        titlu={stire.titlu}
+                                                        descriere={stire.descriere}
+                                                        data_publicarii={stire.data_publicarii}
+                                                        id_stiri={stire.id_stiri}
                                                         previewDescription={previewDescription}
                                                         onClick={() => {
-                                                            navigate("/stiri/" + listing.id_stiri);
+                                                            navigate("/stiri/" + stire.id_stiri);
                                                         }}
                                                     />
                                                 </SwiperSlide>

@@ -23,10 +23,9 @@ const Card = ({
   descriere,
   hideApproval,
   id_stiri,
-  listing,
+  stire,
   pending,
   showcontrols,
-  previewDescription,
 }) => {
   const [openPopup, setOpenPopup] = useState(false);
   const { user, userId } = useAuth();
@@ -40,7 +39,7 @@ const Card = ({
 
   const [like, setLike] = useState(false);
   const { setAlert } = useStateProvider();
-  const { listings } = useStateProvider();
+  const { stiri } = useStateProvider();
   const { fetchListings } = useStateProvider();
 
   //grid view list view
@@ -189,10 +188,12 @@ const Card = ({
             <p
               // style={{ display: listView ? "block" : "none" }}
               style={{ display: "block" }}
-              className={ `${styles.cardDescription} ${ previewDescription ? styles.previewDescription : null}`}
+              className={ `${styles.cardDescription}`}
             >
-              {/* {descriere.substring(0, 500)} */}
-              {descriere}
+              {
+              descriere.substring(0, 250)
+              }
+              {/* {descriere} */}
             </p>
             {user?.role === 1 && (
               <div onClick={stopPropagation} className={styles.controls}>
@@ -240,7 +241,7 @@ const Card = ({
                     </button>
                     <button
                       className={styles.edit}
-                      onClick={() => navigate(`/edit/${listing.id_stiri}`)}
+                      onClick={() => navigate(`/edit/${stire.id_stiri}`)}
                     >
                       Edit
                     </button>

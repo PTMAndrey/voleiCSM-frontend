@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
+import useAuth from '../../hooks/useAuth';
+import useStateProvider from "../../hooks/useStateProvider";
 import Partida from '../../components/Partida/Partida';
 import Header from "./../../components/Header/Header";
 import Layout from './../../pages/Layout/Layout';
@@ -15,6 +17,21 @@ import Iframe from 'react-iframe';
 import styles from './Home.module.scss'
 
 const Home = (props) => {
+
+  const { user } = useAuth();
+
+  const { stiri } = useStateProvider();
+  const { setListView } = useStateProvider();
+
+  useEffect(() => {
+      setListView(false);
+  }, [setListView]);
+
+  const [stiriSortat, setStiriSortat] = useState([]);
+  useEffect(() => {
+    setStiriSortat(stiri?.sort((a, b) => new Date(...b.data_publicarii.split('-').reverse()) - new Date(...a.data_publicarii.split('-').reverse())));
+  },[stiri])
+  
   return (
     <>
       <Header width={props.width} />
@@ -41,11 +58,17 @@ const Home = (props) => {
           />
         </div>
 
-         {/* ################  ULTIMELE NOUTATI ################ */}
+        {/* ################  ULTIMELE NOUTATI ################ */}
 
-        <div className={styles.stiri}>
-          <Carusel titluCarousel="Ultimele noutati" previewDescription screenWidth={props.width}/>
-        </div>
+        {user?.role === 'Administrator' ?
+          <div className={styles.stiri}>
+            {console.log("stiri",stiriSortat)}
+            <Carusel stiri={stiriSortat} titluCarousel="Ultimele noutati" screenWidth={props.width} showcontrols pending={0} pending2={2} isHomePage/>
+          </div>
+          : null
+        }
+
+        
       </Layout>
     </>
   )

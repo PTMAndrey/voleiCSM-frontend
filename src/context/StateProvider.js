@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { getListings} from "../api/API";
+import { getStiri} from "../api/API";
 
 const StateContext = createContext({});
 
@@ -12,21 +12,21 @@ export const StateProvider = ({ children }) => {
      }, 2000);
    }
 
-   // listings
-  const [listings, setListings] = useState(null);
+   // stiri
+  const [stiri, setStiri] = useState(null);
   // show grid show list
   const [listView, setListView] = useState(true);
 
 
-  const fetchListings = async () => {
+  const fetchStiri= async () => {
     try {
-      const response = await getListings();
-      setListings(response.listings);
-      console.log(response.listings);
+      const response = await getStiri();
+      setStiri(response.stiri);
+      console.log(response.stiri);
     } catch (error) {}
   };
   useEffect(() => {
-    fetchListings();
+    fetchStiri();
     console.log("stateprovider");
     // fetchMessages();
   }, []);
@@ -35,8 +35,8 @@ export const StateProvider = ({ children }) => {
   value={{
     alert,
     setAlert,
-    listings,
-    setListings,
+    stiri,
+    setStiri,
     listView,
     setListView,
   }}
