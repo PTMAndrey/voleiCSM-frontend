@@ -25,30 +25,26 @@ const Navigation = (props) => {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Noutati</Nav.Link>
-                  <Nav.Link href="#action2">Calendar meciuri</Nav.Link>
+                <Nav className={`justify-content-end flex-grow-1 pe-3`}>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/stiri" >Noutăți</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action2">Calendar meciuri</Nav.Link>
                   <NavDropdown
                     title="Personal"
-                    id={`offcanvasNavbarDropdown-expand-${props.expand}`}
+                    id={`offcanvasNavbarDropdown-expand-${props.expand} `}
                   >
                     <NavDropdown.Item href="#action3">Pagina 1</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Pagina 2
-                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#action4"> Pagina 2</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Pagina 5
-                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#action5">Pagina 5</NavDropdown.Item>
                   </NavDropdown>
                   
-                  <Nav.Link href="#action6">Volei juvenil</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action6">Volei juvenil</Nav.Link>
                   
-                  <Nav.Link href="#action7">Parteneri</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action7">Parteneri</Nav.Link>
                   
-                  <Nav.Link href="#action8">Detalii</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action8">Detalii</Nav.Link>
                   
-                  <Nav.Link href="#action9">Conectare</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action9">Conectare</Nav.Link>
                 </Nav>
                 {/* <Form className="d-flex">
                   <Form.Control

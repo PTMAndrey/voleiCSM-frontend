@@ -14,6 +14,8 @@ export const StateProvider = ({ children }) => {
 
    // stiri
   const [stiri, setStiri] = useState(null);
+  const [stiriOrdonate, setStiriOrdonate] = useState([]);
+
   // show grid show list
   const [listView, setListView] = useState(true);
 
@@ -25,11 +27,16 @@ export const StateProvider = ({ children }) => {
       console.log(response.stiri);
     } catch (error) {}
   };
+  
   useEffect(() => {
     fetchStiri();
     console.log("stateprovider");
     // fetchMessages();
   }, []);
+
+  useEffect(() => {
+    setStiriOrdonate(stiri?.sort((a, b) => new Date(...b.data_publicarii.split('-').reverse()) - new Date(...a.data_publicarii.split('-').reverse())));
+  }, [stiri])
 
   return <StateContext.Provider
   value={{
@@ -37,6 +44,8 @@ export const StateProvider = ({ children }) => {
     setAlert,
     stiri,
     setStiri,
+    stiriOrdonate,
+    setStiriOrdonate,
     listView,
     setListView,
   }}

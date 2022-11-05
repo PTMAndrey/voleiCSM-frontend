@@ -14,6 +14,8 @@ import Popup from "../../pages/Home/Popup";
 import useStateProvider from "../../hooks/useStateProvider";
 // import FavoriteErrorModal from "../../pages/Details/FavoriteErrorModal";
 import { useNavigate } from "react-router-dom";
+import useWindowDimensions from "../../hooks/useWindowDimensions"
+
 const Card = ({
   onClick,
   style,
@@ -22,11 +24,13 @@ const Card = ({
   data_publicarii,
   descriere,
   hideApproval,
-  id_stiri,
+  id_stire,
   stire,
-  pending,
+  isHomePage,
   showcontrols,
 }) => {
+
+  const { width } = useWindowDimensions();
   const [openPopup, setOpenPopup] = useState(false);
   const { user, userId } = useAuth();
   const { favorites, setFavorites } = useStateProvider();
@@ -151,22 +155,22 @@ const Card = ({
     setOpenPopup(!openPopup);
   };
   return (
-    <div className={styles.cards}>
-      <div onClick={onClick} className={styles.card}>
+    <div className={styles.cards} >
+      <div onClick={onClick} className={`${styles.card} ${styles.bgCardBlue} `}>
         {/* <div className={styles.hover}>asdasdasd</div> */}
         <div
           style={style}
-          className={`${listView ? styles.listCardContent : styles.cardContent
+          className={`${(!listView && !isHomePage) ? styles.listCardContent : styles.cardContent
             }`}
         >
-          <div onClick={stopPropagation}>
+          {/* <div onClick={stopPropagation}>
             <button
               className={`${listView ? styles.heartList : styles.heartCard}`}
             // onClick={handleFavorites}
             >
-              {/* {!like ? <Heart /> : <HeartFilled className={styles.heartFill} />} */}
+              {!like ? <Heart /> : <HeartFilled className={styles.heartFill} />}
             </button>
-          </div>
+          </div> */}
 
           <div className={styles.imageDiv}>
             <img
@@ -188,10 +192,10 @@ const Card = ({
             <p
               // style={{ display: listView ? "block" : "none" }}
               style={{ display: "block" }}
-              className={ `${styles.cardDescription}`}
+              className={`${styles.cardDescription}`}
             >
               {
-              descriere.substring(0, 250)
+                descriere.substring(0, 500)
               }
               {/* {descriere} */}
             </p>
@@ -205,7 +209,7 @@ const Card = ({
                     Approve
                   </button>
                 )}
-                {pending === 0 ? (
+                {1 ? (
                   <button
                     className={styles.delete}
                     onClick={() => togglePopup()}
@@ -253,39 +257,41 @@ const Card = ({
         </div>
       </div>
       {/* POPUP delete */}
-      {openPopup && (
-        <Popup
-          setOpenPopup={setOpenPopup}
-          openPopup={openPopup}
-          content={
-            <div className={styles.popup}>
-              <h3 className={styles.titlePopup}>Delete listing</h3>
-              <p className={styles.descriptionPopup}>
-                You cannot recover the listing after deleting it.
-              </p>
-              <div className={styles.butonsPopup}>
-                <button
-                  className={styles.deletePopup}
-                // onClick={(e) => handleDelete(e)}
-                >
-                  Delete
-                </button>
-                <button
-                  className={styles.backPopup}
-                  onClick={() => setOpenPopup(!openPopup)}
-                >
-                  Back
-                </button>
+      {
+        openPopup && (
+          <Popup
+            setOpenPopup={setOpenPopup}
+            openPopup={openPopup}
+            content={
+              <div className={styles.popup}>
+                <h3 className={styles.titlePopup}>Delete listing</h3>
+                <p className={styles.descriptionPopup}>
+                  You cannot recover the listing after deleting it.
+                </p>
+                <div className={styles.butonsPopup}>
+                  <button
+                    className={styles.deletePopup}
+                  // onClick={(e) => handleDelete(e)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className={styles.backPopup}
+                    onClick={() => setOpenPopup(!openPopup)}
+                  >
+                    Back
+                  </button>
+                </div>
               </div>
-            </div>
-          }
-        />
-      )}
+            }
+          />
+        )
+      }
       {/* <FavoriteErrorModal
         showNotification={showNotification}
         setShowNotification={setShowNotification}
       /> */}
-    </div>
+    </div >
   );
 };
 

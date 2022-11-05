@@ -1,21 +1,29 @@
 @import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 
 .headerSwiper {
   display: flex;
   justify-content: space-between;
   margin: 10px 0px 20px 0px;
+
   h5 {
     font-size: $font-h5;
     font-weight: 700;
     color: $color-white;
   }
+
   @media screen and(max-width:380px) {
-    h5{
+    h5 {
       font-weight: 300;
       font-size: $font-body-tiny;
     }
+    
+    &{
+      flex-direction: column;
+    }
   }
 }
+
 .seeEverything {
   border: 1px solid $color-gray-100;
   height: 175px;
@@ -40,6 +48,7 @@
       fill: white;
     }
   }
+
   .text {
     text-align: center;
     color: blue !important;
@@ -47,6 +56,22 @@
     font-size: $font-body-small;
   }
 }
+
 .ahref {
   text-decoration: none;
+}
+
+.swiperDirection {
+  display: flex;
+  flex-direction: column;
+
+  @include responsive_W550px {
+    flex-direction: row;
+  }
+
+}
+
+.centrareStire{
+  display: flex;
+  justify-content: center;
 }

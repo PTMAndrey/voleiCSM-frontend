@@ -3,12 +3,16 @@ import {
   Routes,
   Route,
   Outlet,
-} from "react-router-dom";
+  useLocation
+} from 'react-router-dom';
+import { useLayoutEffect } from 'react';
 
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Footer from './components/Footer/Footer';
 import Home from "./pages/Home/Home";
-import Layout from './pages/Layout/Layout'
+import Stiri from "./components/Stiri/Stiri.jsx";
+// import Details from './components/Details/Details.jsx';
+import Layout from './pages/Layout/Layout.jsx'
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Alert from "./components/Alert/Alert";
@@ -20,19 +24,20 @@ function App() {
   const { alert } = useStateProvider();
   return (
     <Router>
-      <Routes>
-        <Route
-          element={
-            <>
-              <Navigation expand={width >= 750 ? "md" : false} />
-              <ProtectedRoute />
-              <Footer />
-            </>
-          }
-        >
+      <Wrapper>
+        <Routes>
+          <Route
+            element={
+              <>
+                <Navigation expand={width >= 750 ? "md" : false} />
+                <ProtectedRoute />
+                <Footer />
+              </>
+            }
+          >
 
-          {/* protected routes */}
-          {/* <Route path="/add" element={<AddEdit />} />
+            {/* protected routes */}
+            {/* <Route path="/add" element={<AddEdit />} />
           <Route path="/add/preview" element={<Preview />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/my-account">
@@ -42,38 +47,55 @@ function App() {
             <Route path="messages" element={<MyAccount />} />
           </Route>
           <Route path="/edit/:id" element={<AddEdit />} /> */}
-        </Route>
+          </Route>
 
-        <Route
-          element={
-            <>
-              <Navigation expand={width >= 750 ? "sm" : false} />
-              <Outlet />
-              <Footer />
-            </>
-          }
-        >
-          {/* public routes */}
-          <Route path="/" element={<Home />} />
+          <Route
+            element={
+              <>
+                <Navigation expand={width >= 750 ? "sm" : false} />
+                <Outlet />
+                <Footer />
+              </>
+            }
+          >
+            {/* public routes */}
+            <Route path="/" element={<Home />} />
 
-          {/* <Route path="/listing" element={<Listing />} />
-            <Route path="/listing/:id" element={<Details />} />
-            <Route path="/favorites" element={<Favorites />} /> */}
+            <Route path="/stiri" element={
+              <Layout>
+                <Stiri
+                  showcontrols={false}
+                  bgCardBlue
+                  admin
+                />
+              </Layout>
+            } />
+            {/* <Route path="/stiri/:id" element={<Details />} /> */}
+            {/*<Route path="/favorites" element={<Favorites />} /> */}
 
-          <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />
+            <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />
 
-        </Route>
+          </Route>
 
-        {/* onboarding routes */}
-        {/* <Route path="/login" element={<Onboarding />} />
+          {/* onboarding routes */}
+          {/* <Route path="/login" element={<Onboarding />} />
         <Route path="/register" element={<Onboarding />} />
         <Route path="/forgot-password" element={<Onboarding />} />
         <Route path="/reset-password" element={<Onboarding />} /> */}
 
-      </Routes>
-      {alert && <Alert message={alert.message} type={alert.type} />}
+        </Routes>
+        {alert && <Alert message={alert.message} type={alert.type} />}
+      </Wrapper>
     </Router>
   );
 }
 
 export default App;
+
+const Wrapper = ({ children }) => {
+  const location = useLocation();
+  useLayoutEffect(() => {
+    window.scrollTo(0,0);
+  }, [location.pathname]);
+  return children
+} 

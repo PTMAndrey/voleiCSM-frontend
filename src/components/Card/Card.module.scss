@@ -1,7 +1,15 @@
 @import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 
 .cards {
   width: 100%;
+  background-color: #1B1D49;
+  border-radius: 12px;
+}
+
+.bgCardBlue {
+  // background-color: #1B1D49;
+  // border-radius: 12px;
 }
 
 .cardContent {
@@ -36,6 +44,33 @@
     padding: 7px;
     margin: 0px;
   }
+
+  @include responsive_W550px {
+    flex-direction: column;
+    height: 300px;
+  }
+}
+
+.homeListCardContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  height: 40%;
+  border: 1px solid $color-gray-100;
+  width: 100%;
+  padding: 15px;
+  margin: 0px 0px 30px 0px;
+
+  p {
+    padding: 7px;
+    margin: 0px;
+  }
+
+  @include responsive_W550px {
+    flex-direction: column;
+    height: 300px;
+  }
 }
 
 .cardImg {
@@ -43,6 +78,7 @@
   height: 166px;
   width: 100%;
   object-fit: cover;
+
 }
 
 .ListCardImg {
@@ -50,16 +86,16 @@
   aspect-ratio: 16/9;
   width: 451px;
   object-fit: cover;
-  min-width: 151px;
+  min-width: 50px;
+
+  @include responsive_W550px{
+    width: 70px;
+  }
 }
 
 .contentCard {
   margin-right: 0px 5px;
-  width: 80%;
-
-  @media (max-width: 750px) {
-    width: 50%;
-  }
+  width: 100%;
 
   p {
     padding: 8px 12px;
@@ -70,7 +106,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-right: 30px;
+  // padding-right: 30px;
 }
 
 .col {
@@ -107,8 +143,7 @@
   height: 150px;
   overflow: hidden;
 
-  @media (max-width: 550px) {
-    
+  @include responsive_W550px{
     height: 50px;
     text-overflow: ellipsis;
     white-space: nowrap;

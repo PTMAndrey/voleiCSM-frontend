@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useAuth from '../../hooks/useAuth';
 import useStateProvider from "../../hooks/useStateProvider";
@@ -16,30 +16,26 @@ import Iframe from 'react-iframe';
 
 import styles from './Home.module.scss'
 
-const Home = (props) => {
+const Home = (props, { showcontrols }) => {
 
   const { user } = useAuth();
 
-  const { stiri } = useStateProvider();
-  const { setListView } = useStateProvider();
+  const { stiriOrdonate } = useStateProvider();
 
-  useEffect(() => {
-      setListView(false);
-  }, [setListView]);
 
-  const [stiriSortat, setStiriSortat] = useState([]);
-  useEffect(() => {
-    setStiriSortat(stiri?.sort((a, b) => new Date(...b.data_publicarii.split('-').reverse()) - new Date(...a.data_publicarii.split('-').reverse())));
-  },[stiri])
-  
+  // const [stiriSortat, setStiriSortat] = useState([]);
+  // useEffect(() => {
+  //   setStiriSortat(stiri?.sort((a, b) => new Date(...b.data_publicarii.split('-').reverse()) - new Date(...a.data_publicarii.split('-').reverse())));
+  // }, [stiri])
+
   return (
     <>
-      <Header width={props.width} />
+      <Header screenWidth={props.screenWidth} />
       <Layout>
 
         {/* ################  MECIURI ################ */}
 
-        <Partida echipa1={"C.S.M. SUCEAVA"} echipa2={"CSA STEAUA BUCURESTI"} timeline={"Urmatorul meci"} locatie={'Sala de sport “Dumitru Bernicu”'} data={'22 octombrie 2022'} />
+        <Partida echipa1={"C.S.M. SUCEAVA"} echipa2={"CSA STEAUA BUCURESTI"} timeline={"Următorul meci"} locatie={'Sala de sport “Dumitru Bernicu”'} data={'22 octombrie 2022'} />
 
         <Partida echipa1={"CSA STEAUA BUCURESTI"} echipa2={"C.S.M. SUCEAVA"} timeline={"Ultimul meci"} scorCSM={1} scorAdversar={2} locatie={'Sala de sport “Dumitru Bernicu”'} data={'22 octombrie 2022'} />
 
@@ -60,15 +56,13 @@ const Home = (props) => {
 
         {/* ################  ULTIMELE NOUTATI ################ */}
 
-        {user?.role === 'Administrator' ?
-          <div className={styles.stiri}>
-            {console.log("stiri",stiriSortat)}
-            <Carusel stiri={stiriSortat} titluCarousel="Ultimele noutati" screenWidth={props.width} showcontrols pending={0} pending2={2} isHomePage/>
-          </div>
-          : null
-        }
+        <div className={styles.stiri}>
+          <Carusel stiri={stiriOrdonate} titluCarousel="Ultimele noutati" screenWidth={props.screenWidth} showcontrols isHomePage />
+        </div>
 
         
+
+
       </Layout>
     </>
   )
