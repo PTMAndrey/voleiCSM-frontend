@@ -15,6 +15,9 @@ import useStateProvider from "../../hooks/useStateProvider";
 // import FavoriteErrorModal from "../../pages/Details/FavoriteErrorModal";
 import { useNavigate } from "react-router-dom";
 import useWindowDimensions from "../../hooks/useWindowDimensions"
+import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
+
+import Button from "../Button/Button";
 
 const Card = ({
   onClick,
@@ -24,7 +27,7 @@ const Card = ({
   data_publicarii,
   descriere,
   hideApproval,
-  id_stire,
+  id_stiri,
   stire,
   isHomePage,
   showcontrols,
@@ -54,22 +57,22 @@ const Card = ({
   }
   //#region COMMENTED REGION
   // //delete announce
-  // const handleDelete = async () => {
-  //   try {
-  //     // const response = await deleteListingById(listingId);
-  //     // if (response.status === 200) {
-  //       togglePopup();
-  //       fetchListings();
-  //       setAlert({ type: "success", message: "Deleted" });
-  //     // }
-  //   } catch (error) {
-  //     togglePopup();
-  //     setAlert({
-  //       type: "danger",
-  //       message: "Something went wrong",
-  //     });
-  //   }
-  // };
+  const handleDelete = async () => {
+    try {
+      // const response = await deleteListingById(listingId);
+      // if (response.status === 200) {
+        togglePopup();
+        fetchListings();
+        setAlert({ type: "success", message: "Deleted" });
+      // }
+    } catch (error) {
+      togglePopup();
+      setAlert({
+        type: "danger",
+        message: "Something went wrong",
+      });
+    }
+  };
 
   //Approve announce
 
@@ -185,13 +188,13 @@ const Card = ({
               className={`${styles.listTitleAndLocation} ${!listView && styles.col
                 }`}
             >
-              <p className={styles.cardTitle}>{titlu}</p>
               <p className={styles.cardDataPublicarii}>{data_publicarii}</p>
+              <p className={styles.cardTitle}>{titlu}</p>
             </div>
 
             <p
               // style={{ display: listView ? "block" : "none" }}
-              style={{ display: "block" }}
+              style={{ display: "block", color: "darkgray " }}
               className={`${styles.cardDescription}`}
             >
               {
@@ -199,60 +202,38 @@ const Card = ({
               }
               {/* {descriere} */}
             </p>
-            {user?.role === 1 && (
+            <p className="text-white">#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
+            <div className={styles.citesteMaiMult}>
+              <span onClick={() => navigate(`/stiri/${stire.id_stiri}`)}>
+                <Button
+                  icon={<ArrowRight />}
+                  position="right"
+                  iconColor="white"
+                  variant="transparent"
+                  label="Citeste mai mult"
+                />
+              </span>
+            </div>
+
+            {(user?.role !== null) && (
               <div onClick={stopPropagation} className={styles.controls}>
-                {hideApproval && (
-                  <button
-                    // onClick={() => handleApprove(listing.id_stiri)}
-                    className={styles.approve}
-                  >
-                    Approve
-                  </button>
-                )}
-                {1 ? (
+                <>
+                <button
+                      className={styles.edit}
+                      onClick={() => {console.log(`${id_stiri}`)}}//navigate(`/edit/${stire.id_stiri}`)}
+                    >
+                      Modifică
+                    </button>
                   <button
                     className={styles.delete}
                     onClick={() => togglePopup()}
                   >
-                    <span>Delete</span>
+                    <span>Șterge</span>
                   </button>
-                ) : (
-                  <button
-                    className={styles.delete}
-                  // onClick={() => handleDecline(listing.id_stiri)}
-                  >
-                    <span>Decline</span>
-                  </button>
-                )}
-                <button
-                  className={styles.edit}
-                // onClick={() => navigate(`/edit/${listing.id_stiri}`)}
-                >
-                  Edit
-                </button>
+                </>
               </div>
             )}
 
-            {user?.role === 0 && (
-              <div onClick={stopPropagation} className={styles.controls}>
-                {!showcontrols && (
-                  <div>
-                    <button
-                      className={styles.delete}
-                      onClick={() => togglePopup()}
-                    >
-                      <span>Delete</span>
-                    </button>
-                    <button
-                      className={styles.edit}
-                      onClick={() => navigate(`/edit/${stire.id_stiri}`)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -264,22 +245,22 @@ const Card = ({
             openPopup={openPopup}
             content={
               <div className={styles.popup}>
-                <h3 className={styles.titlePopup}>Delete listing</h3>
+                <h3 className={styles.titlePopup}>Ștergere știre</h3>
                 <p className={styles.descriptionPopup}>
-                  You cannot recover the listing after deleting it.
+                 Această acțiune este permanentă și nu poate fi anulată.
                 </p>
                 <div className={styles.butonsPopup}>
                   <button
                     className={styles.deletePopup}
                   // onClick={(e) => handleDelete(e)}
                   >
-                    Delete
+                    Șterge
                   </button>
                   <button
                     className={styles.backPopup}
                     onClick={() => setOpenPopup(!openPopup)}
                   >
-                    Back
+                    Anulează
                   </button>
                 </div>
               </div>

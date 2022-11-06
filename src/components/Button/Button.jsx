@@ -10,6 +10,7 @@ const Button = ({
   position,
   disabled,
   onClick,
+  iconColor,
 }) => {
   return (
     <button
@@ -17,21 +18,25 @@ const Button = ({
       disabled={disabled}
       className={`${styles.button} ${styles[variant]} ${styles[position]} ${className}`}
     >
-      {icon}
+      {
+        iconColor === "black" ?  <span>{icon}</span>: <span style={{ fill:`${iconColor}`, stroke:`${iconColor}`,strokeWidth:"2"}}> {icon}</span>
+      }
+
       {label}
     </button>
   );
 };
 
 Button.propTypes = {
-  variant: PropTypes.oneOf(["primary", "secondary", "tertiary", "destructive"])
-    .isRequired,
+  variant: PropTypes.oneOf(["primary", "secondary", "tertiary", "destructive","transparent"]).isRequired,
+  
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   position: PropTypes.oneOf(["left", "right", "none"]),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   className: PropTypes.string,
+  iconColor: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -39,8 +44,9 @@ Button.defaultProps = {
   label: "Button",
   position: "none",
   disabled: false,
-  onClick: () => {},
+  onClick: () => { },
   className: "",
+  iconColor: "black",
 };
 
 export default Button;

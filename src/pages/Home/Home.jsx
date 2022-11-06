@@ -42,7 +42,7 @@ const Home = (props, { showcontrols }) => {
         {/* ################  CLASAMENT ################ */}
 
         <Title title="Clasament" />
-        <a href="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i" className={styles.butonClasament}><img src={butonClasament} alt="Clasament oficial" /></a>
+        <a href="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i" target="_blank" rel="noreferrer" className={styles.butonClasament}><img src={butonClasament} alt="Clasament oficial" /></a>
         <div className={styles.frameCampionat}>
           <Iframe url="https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i"
             width="100%"

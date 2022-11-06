@@ -74,7 +74,7 @@ const Carusel = ({
                                             titlu={stire.titlu}
                                             descriere={stire.descriere}
                                             data_publicarii={stire.data_publicarii}
-                                            id_stire={stire.id_stiri}
+                                            id_stiri={stire.id_stiri}
                                             isHomePage
                                             onClick={() => {
                                                 navigate("/stiri/" + stire.id_stiri);
@@ -103,7 +103,7 @@ const Carusel = ({
                                             titlu={stire.titlu}
                                             descriere={stire.descriere}
                                             data_publicarii={stire.data_publicarii}
-                                            id_stire={stire.id_stiri}
+                                            id_stiri={stire.id_stiri}
                                             isHomePage
                                             onClick={() => {
                                                 navigate("/stiri/" + stire.id_stiri);

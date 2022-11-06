@@ -5,6 +5,10 @@
   width: 100%;
   background-color: #1B1D49;
   border-radius: 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .bgCardBlue {
@@ -88,7 +92,7 @@
   object-fit: cover;
   min-width: 50px;
 
-  @include responsive_W550px{
+  @include responsive_W550px {
     width: 70px;
   }
 }
@@ -143,7 +147,7 @@
   height: 150px;
   overflow: hidden;
 
-  @include responsive_W550px{
+  @include responsive_W550px {
     height: 50px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -165,34 +169,13 @@
   position: relative;
 }
 
-.heartList {
-  position: absolute;
-  top: 17px;
-  right: 7px;
-  padding: 5px;
-  border-radius: 50%;
-  fill: $color-gray-300;
-}
 
-.heartCard {
-  z-index: 1;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: #1c1c1e33;
-  padding: 5px;
-  border-radius: 50%;
-  fill: white;
-
-  &:hover {
-    background-color: $color-gray-400;
-    transition: all 0.1s ease-in-out;
-  }
-}
-
-.heartFill {
-  fill: red !important;
-  color: black !important;
+.citesteMaiMult {
+  display: flex;
+  justify-content: right;
+  right: 0;
+  margin-right: 10px;
+  color: white;
 }
 
 .controls {
@@ -209,18 +192,27 @@
     padding: 10px;
     background-color: red;
     border-radius: 8px;
-    color: white;
+    color: $color-white;
+
+    &:hover {
+      background-color: $color-white;
+      color: red;
+      box-sizing: border-box;
+    }
   }
 
   .edit {
     padding: 10px;
+    background-color: $color-white;
     color: $color-primary-500;
     font-weight: $font-semibold;
     font-size: $font-body-small;
     border-radius: 8px;
 
     &:hover {
-      background-color: $color-primary-100;
+      background-color: $color-primary-500;
+      color: $color-white;
+      box-sizing: border-box;
     }
   }
 }
