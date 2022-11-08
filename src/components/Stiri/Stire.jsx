@@ -1,7 +1,9 @@
 import Card from "../../components/Card/Card";
 import { useNavigate } from "react-router-dom";
 import useStateProvider from "../../hooks/useStateProvider";
-import { Fragment } from "react";
+import { Fragment, useState, useMemo } from "react";
+import Pagination from "../Paginare/Paginare";
+
 
 const Stire = ({
     admin,
@@ -9,17 +11,27 @@ const Stire = ({
     showcontrols,
 }) => {
     const navigate = useNavigate();
-    const { stiriOrdonate } = useStateProvider();
+    const { stiriOrdonate, pageSize } = useStateProvider();
 
     //grid view list view
     const { listView } = useStateProvider();
+
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const currentTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * pageSize;
+        const lastPageIndex = firstPageIndex + pageSize;
+        return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, pageSize, stiriOrdonate]);
+
     return (
         <div>
-            {stiriOrdonate?.map(
+            {currentTableData?.map(
                 (stire, index) =>
                     // stire.status !== pending &&
                     // stire.status !== pending2 && (
-                        stire.status === 'Publicat' && (
+                    stire.status === 'Publicat' && (
                         <Fragment key={`${stire.id_stiri}_${index}`}>
                             {
                                 <Card
@@ -42,6 +54,15 @@ const Stire = ({
                         </Fragment>
                     )
             )}
+            <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={stiriOrdonate?.length}
+                pageSize={pageSize}
+                onPageChange={page => setCurrentPage(page)}
+            />
+            <p className="text-white">Eu mapez toate stirile si de aia unele pagini din pagination sunt goale. trebuie sa creat variabile pentru fiecare tip de stire / publicata / programata / draft<br/>
+            Ar fi o idee sa pot modifica asta din Carusel. Am la linia 97 o conditionare. Daca transmit o variabila cred ca ar merge</p>
         </div>
     );
 };

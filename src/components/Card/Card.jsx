@@ -10,7 +10,7 @@ import useAuth from "../../hooks/useAuth";
 //   getFavorite,
 // } from "../../api/API";
 import setAlert from "../../components/Alert/Alert";
-import Popup from "../../pages/Home/Popup";
+import Popup from "../../pages/PaginaPrincipala/Popup";
 import useStateProvider from "../../hooks/useStateProvider";
 // import FavoriteErrorModal from "../../pages/Details/FavoriteErrorModal";
 import { useNavigate } from "react-router-dom";

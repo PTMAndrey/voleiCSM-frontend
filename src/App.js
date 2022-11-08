@@ -9,7 +9,7 @@ import { useLayoutEffect } from 'react';
 
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Footer from './components/Footer/Footer';
-import Home from "./pages/Home/Home";
+import PaginaPrincipala from "./pages/PaginaPrincipala/PaginaPrincipala";
 import Stiri from "./components/Stiri/Stiri.jsx";
 // import Details from './components/Details/Details.jsx';
 import Layout from './pages/Layout/Layout.jsx'
@@ -59,7 +59,7 @@ function App() {
             }
           >
             {/* public routes */}
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<PaginaPrincipala />} />
 
             <Route path="/stiri" element={
               <Layout>

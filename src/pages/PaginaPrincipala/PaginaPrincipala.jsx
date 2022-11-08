@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import useStateProvider from "../../hooks/useStateProvider";
 import Partida from '../../components/Partida/Partida';
-import Header from "./../../components/Header/Header";
-import Layout from './../../pages/Layout/Layout';
+import Header from "../../components/Header/Header";
+import Layout from '../Layout/Layout';
 import Title from '../../components/Title/Title';
 import Stiri from '../../components/Stiri/Stiri';
 
@@ -14,9 +14,9 @@ import butonClasament from './../../assets/images/butonClasament.svg';
 
 import Iframe from 'react-iframe';
 
-import styles from './Home.module.scss'
+import styles from './PaginaPrincipala.module.scss'
 
-const Home = (props, { showcontrols }) => {
+const PaginaPrincipala = (props, { showcontrols }) => {
 
   const { user } = useAuth();
 
@@ -68,4 +68,4 @@ const Home = (props, { showcontrols }) => {
   )
 }
 
-export default Home
+export default PaginaPrincipala
