@@ -3,10 +3,9 @@ import Header100 from "../../assets/images/Header.svg";
 import styles from "./Header.module.scss";
 
 
-const Header = ({width}) => {
+const Header = ({screenWidth}) => {
   return (
     <>
-    {width }
       <header style={{ backgroundImage: `url('${Header100}')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '600px', width: '100%', display:'block'}}>
         <div className={styles.siteBanner}>
           <div className='d-flex justify-content-center align-items-center h-100 pt-5'>
