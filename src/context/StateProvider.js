@@ -18,6 +18,7 @@ export const StateProvider = ({ children }) => {
   // stiri
   const [stiri, setStiri] = useState(null);
   const [stiriOrdonate, setStiriOrdonate] = useState([]);
+  const [stiriDropdown, setStiriDropdown] = useState("");
   // const [stiriPublicate, setStiriPublicate] = useState([]);
   // const [stiriDraft, setStiriDraft] = useState([]);
   let stiriPublicate = [];
@@ -69,6 +70,8 @@ export const StateProvider = ({ children }) => {
       stiriDraft,
       // setStiriPublicate,
       // setStiriDraft,
+      stiriDropdown,
+      setStiriDropdown,
       listView,
       setListView,
       pageSize,

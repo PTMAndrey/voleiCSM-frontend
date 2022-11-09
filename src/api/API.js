@@ -19,8 +19,8 @@ export const getUserById = async (id) => {
       email: "email@email.com",
       password: "1234",
       // role: null,
-      // role: 'Administrator',
-      role: 'CreatorContinut',
+      role: 'Administrator',
+      // role: 'CreatorContinut',
     },
     response: 200,
   };

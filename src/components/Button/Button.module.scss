@@ -30,11 +30,12 @@
 }
 
 .primary {
-  background-color: $color-primary-400;
+  background-color: $color-dark-blue-background;
   color: $color-white;
 
   &:hover {
-    background-color: $color-primary-500;
+    background-color: $color-primary-600;
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.9),
   }
 
   &:active {

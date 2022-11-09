@@ -63,11 +63,7 @@ function App() {
 
             <Route path="/stiri" element={
               <Layout>
-                <Stiri
-                  showcontrols={false}
-                  bgCardBlue
-                  admin
-                />
+                <Stiri />
               </Layout>
             } />
             {/* <Route path="/stiri/:id" element={<Details />} /> */}

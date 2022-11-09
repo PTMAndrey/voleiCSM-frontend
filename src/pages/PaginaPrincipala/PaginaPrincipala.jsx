@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import useAuth from '../../hooks/useAuth';
 import useStateProvider from "../../hooks/useStateProvider";
 import Partida from '../../components/Partida/Partida';
 import Header from "../../components/Header/Header";
 import Layout from '../Layout/Layout';
 import Title from '../../components/Title/Title';
-import Stiri from '../../components/Stiri/Stiri';
 
 import Carusel from '../../components/Carusel/Carusel';
 
@@ -17,8 +15,6 @@ import Iframe from 'react-iframe';
 import styles from './PaginaPrincipala.module.scss'
 
 const PaginaPrincipala = (props, { showcontrols }) => {
-
-  const { user } = useAuth();
 
   const { stiriOrdonate } = useStateProvider();
 
