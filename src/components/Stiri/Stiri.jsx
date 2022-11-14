@@ -7,19 +7,13 @@ import Button from '../Button/Button';
 
 import useAuth from '../../hooks/useAuth';
 
-const Stiri = ({
-  title,
-  admin,
-  hideApproval,
-  showcontrols,
-}) => {
+const Stiri = () => {
   // view
   const { setListView } = useStateProvider();
-  const { stiriDropdown, setStiriDropdown } = useStateProvider();
-  console.log(stiriDropdown?.value, 'stiri dropdown');
+  const { setLabelStiriDropdown } = useStateProvider();
 
   const Programare = [
-    { value: "Toate", label: "Toate știrile" },
+    { value: "", label: "Toate știrile" },
     { value: "Publicat", label: "Știri publicate" },
     { value: "Programat", label: "Știri programate" },
     { value: "Draft", label: "Știri draft" },
@@ -47,19 +41,16 @@ const Stiri = ({
                 className={styles.addStire}
               />
               <DropdownComponent
-                title="Toate știrile"
+                title="Stiri"
                 options={Programare}
+                clearable={true}
                 onChange={(e) => {
-                  setStiriDropdown(e);
+                  setLabelStiriDropdown(e);
                 }}
               ></DropdownComponent>
             </div>
           }
-          <Stire
-            showcontrols={showcontrols}
-            hideApproval={hideApproval}
-            admin={admin}
-          />
+          <Stire/>
         </div>
 
       </div>

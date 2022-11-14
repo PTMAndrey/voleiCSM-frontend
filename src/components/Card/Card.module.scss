@@ -5,7 +5,7 @@
   width: 100%;
   background-color: #1B1D49;
   border-radius: 12px;
-
+  min-width: 120px;
   &:hover {
     cursor: pointer;
   }
@@ -51,7 +51,7 @@
 
   @include responsive_W550px {
     flex-direction: column;
-    height: 300px;
+    // height: 300px;
   }
 }
 
@@ -181,37 +181,24 @@
 .controls {
   border-top: 1px solid $color-gray-100;
   display: flex;
-  justify-content: end;
+  justify-content: space-around;
   width: 100%;
-
-  button {
-    margin: 10px;
-  }
-
+  padding:10px 0;
+  font-size: 20px;
+  
   .delete {
-    padding: 10px;
-    background-color: red;
-    border-radius: 8px;
-    color: $color-white;
-
+    fill:white !important;
     &:hover {
-      background-color: $color-white;
-      color: red;
+      background-color: $color-primary-500;
       box-sizing: border-box;
     }
   }
 
   .edit {
-    padding: 10px;
-    background-color: $color-white;
-    color: $color-primary-500;
-    font-weight: $font-semibold;
-    font-size: $font-body-small;
-    border-radius: 8px;
+    fill:white !important;
 
     &:hover {
       background-color: $color-primary-500;
-      color: $color-white;
       box-sizing: border-box;
     }
   }

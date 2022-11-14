@@ -5,6 +5,10 @@
   display: flex;
   flex-direction: column;
   margin-top:-50px;
+  @include responsive_W550px{
+    justify-content: center;
+    // flex-direction: row;
+  }
 }
 .title {
   font-size: $font-h3;

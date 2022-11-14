@@ -3,7 +3,12 @@ axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers = {
   "Content-Type": "application/json",
   Accept: "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
 };
+
+// access control axios
+// axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 
 // get user by id
 export const getUserById = async (id) => {
@@ -29,97 +34,126 @@ export const getUserById = async (id) => {
   //   }
 };
 
-export const getStiri = async () => {
+export const getStiri = async (status) => {
   try {
-    // const response = await axios.get("/listing");
-    // return response.data;
+    const response = await axios.get("/stiri?status="+status);
 
-    return {
-      stiri:[ {
-        id_stiri:'111',
-        titlu:'Meci 1 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ############## Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus?',
-        status:'Publicat',
-        data_publicarii:'20-10-2021',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'222',
-        titlu:'Meci 2 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Publicat',
-        data_publicarii:'18-10-2022',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'333',
-        titlu:'Meci 3 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Publicat',
-        data_publicarii:'01-11-2019',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'444',
-        titlu:'Meci 4 Programat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Programat',
-        data_publicarii:'05-11-2022',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'555',
-        titlu:'Meci 5 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Publicat',
-        data_publicarii:'16-10-2022',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'666',
-        titlu:'Meci 6 Draft',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Draft',
-        data_publicarii:'',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'777',
-        titlu:'Meci 7 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Publicat',
-        data_publicarii:'09-11-2022',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'888',
-        titlu:'Meci 8 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Publicat',
-        data_publicarii:'12-11-2022',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        {
-        id_stiri:'999',
-        titlu:'Meci 9 Publicat',
-        descriere:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-        status:'Publicat',
-        data_publicarii:'07-11-2022',
-        fotografii:'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-        video:'',
-        },
-        ],
-        response: 200,
-    }
+    // console.log(response.data,"api stiri");
+    return response.data;
+
+    // return {
+    //   stiri: [{
+    //     id: '111',
+    //     titlu: 'Meci 1 Publicat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ############## Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus?',
+    //     status: 'Publicat',
+    //     dataPublicarii: '20-10-2021',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '222',
+    //     titlu: 'Meci 2 Publicat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Publicat',
+    //     dataPublicarii: '18-10-2022',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '333',
+    //     titlu: 'Meci 3 Publicat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Publicat',
+    //     dataPublicarii: '01-11-2019',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '444',
+    //     titlu: 'Meci 4 Programat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Programat',
+    //     dataPublicarii: '05-11-2022',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '555',
+    //     titlu: 'Meci 5 Publicat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Publicat',
+    //     dataPublicarii: '16-10-2022',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '666',
+    //     titlu: 'Meci 6 Draft',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Draft',
+    //     dataPublicarii: '',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '777',
+    //     titlu: 'Meci 7 Draft',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Draft',
+    //     dataPublicarii: '09-11-2022',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '888',
+    //     titlu: 'Meci 8 Publicat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Publicat',
+    //     dataPublicarii: '12-11-2022',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   {
+    //     id: '999',
+    //     titlu: 'Meci 9 Publicat',
+    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
+    //     status: 'Publicat',
+    //     dataPublicarii: '07-11-2022',
+    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
+    //     video: '',
+    //   },
+    //   ],
+    //   response: 200,
+    // }
   } catch (error) {
     console.error(error);
   }
+};
+
+
+export const getListingById =  (id) => {
+  // try {
+  //   const response = await axios.get("/listing/" + id);
+  //   return response;
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  // stiri.map((stire, index) => {
+  //   if (index === id)
+  //     return stire;
+  // })
+  return 1;
+};
+
+export const deleteFavoriteById = async (userId, listingId) => {
+  return 1;
+  // try {
+  //   const response = await axios.delete(
+  //     "/favorite/" + userId + "/" + listingId
+  //   );
+  //   return response;
+  // } catch (error) {
+  //   console.log(error);
+  // }
 };

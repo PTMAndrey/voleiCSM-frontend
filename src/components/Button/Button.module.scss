@@ -18,14 +18,27 @@
   }
 
   @media screen and(max-width: 750px) {
-    width:100%;
     padding: 5px;
+    // new added - used for 'Citeste mai mult ->' in homepage
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+
+    .displayNone {
+      display: none;
+    }
   }
+
   @media screen and(max-width: 380px) {
     padding: 1px 3px;
-    width:70%;
-    font-size:$font-body-tiny;
+    width: 70%;
+    font-size: $font-body-tiny;
     font-weight: $font-tiny;
+    .label{
+      margin-left:80%;
+    }
   }
 }
 
@@ -105,6 +118,7 @@
     background-color: $color-alert-200;
   }
 }
+
 .transparent {
   background-color: transparent;
   color: $color-white;
@@ -125,6 +139,7 @@
 
 .left {
   fill: currentColor;
+
   svg {
     margin-right: 8px;
   }

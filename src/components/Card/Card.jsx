@@ -16,38 +16,30 @@ import useStateProvider from "../../hooks/useStateProvider";
 import { useNavigate } from "react-router-dom";
 import useWindowDimensions from "../../hooks/useWindowDimensions"
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
+import { RiEdit2Fill } from 'react-icons/ri';
+import { RiDeleteBinFill } from 'react-icons/ri';
 
 import Button from "../Button/Button";
 
 const Card = ({
   onClick,
   style,
-  fotografii,
-  titlu,
-  data_publicarii,
-  descriere,
-  hideApproval,
-  id_stiri,
-  stire,
+  data,
   isHomePage,
-  showcontrols,
 }) => {
 
   const { width } = useWindowDimensions();
   const [openPopup, setOpenPopup] = useState(false);
   const { user, userId } = useAuth();
-  const { favorites, setFavorites } = useStateProvider();
-  const [showNotification, setShowNotification] = useState(false);
-  const [favourites, setFavourites] = useState([]);
+
   const navigate = useNavigate();
   // useEffect(() => {
   //   if (userId !== null) getFavorite(userId).then((res) => setFavourites(res));
   // }, [userId]);
 
-  const [like, setLike] = useState(false);
   const { setAlert } = useStateProvider();
-  const { stiri } = useStateProvider();
-  const { fetchListings } = useStateProvider();
+  const { stiri, statusStiri } = useStateProvider();
+  const { fetchStiribyStatus } = useStateProvider();
 
   //grid view list view
   const { listView } = useStateProvider();
@@ -55,15 +47,14 @@ const Card = ({
   function stopPropagation(e) {
     e.stopPropagation();
   }
-  //#region COMMENTED REGION
   // //delete announce
   const handleDelete = async () => {
     try {
       // const response = await deleteListingById(listingId);
       // if (response.status === 200) {
-        togglePopup();
-        fetchListings();
-        setAlert({ type: "success", message: "Deleted" });
+      togglePopup();
+      fetchStiribyStatus();
+      setAlert({ type: "success", message: "Deleted" });
       // }
     } catch (error) {
       togglePopup();
@@ -74,6 +65,7 @@ const Card = ({
     }
   };
 
+  //#region COMMENTED REGION
   //Approve announce
 
   // const handleApprove = async (id) => {
@@ -159,7 +151,7 @@ const Card = ({
   };
   return (
     <div className={styles.cards} >
-      <div onClick={onClick} className={`${styles.card} ${styles.bgCardBlue} `}>
+      <div onClick={onClick} className={`${styles.card}`}>
         {/* <div className={styles.hover}>asdasdasd</div> */}
         <div
           style={style}
@@ -176,11 +168,19 @@ const Card = ({
           </div> */}
 
           <div className={styles.imageDiv}>
-            <img
-              src={fotografii}
-              alt="Stiri"
-              className={`${listView ? styles.ListCardImg : styles.cardImg}`}
-            />
+            {data?.imaginiURL[0] === null || data?.imaginiURL === undefined || data?.imaginiURL === "" ?
+              <img
+                // src={imgStireDefault}
+                alt="Stiri"
+                className={`${listView ? styles.ListCardImg : styles.cardImg}`}
+              />
+              :
+              <img
+                src={data?.imaginiURL[0]}
+                alt="Stiri"
+                className={`${listView ? styles.ListCardImg : styles.cardImg}`}
+              />
+            }
           </div>
 
           <div className={styles.contentCard}>
@@ -188,8 +188,8 @@ const Card = ({
               className={`${styles.listTitleAndLocation} ${!listView && styles.col
                 }`}
             >
-              <p className={styles.cardDataPublicarii}>{data_publicarii}</p>
-              <p className={styles.cardTitle}>{titlu}</p>
+              <p className={styles.cardDataPublicarii}>{data?.dataPublicarii}</p>
+              <p className={styles.cardTitle}>{data?.titlu}</p>
             </div>
 
             <p
@@ -198,19 +198,19 @@ const Card = ({
               className={`${styles.cardDescription}`}
             >
               {
-                descriere.substring(0, 500)
+                data?.descriere.substring(0, 500)
               }
               {/* {descriere} */}
             </p>
-            <p className="text-white">#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
+            <p className="text-white" style={{ fontSize: '12px' }}>#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
             <div className={styles.citesteMaiMult}>
-              <span onClick={() => navigate(`/stiri/${stire.id_stiri}`)}>
+              <span onClick={() => navigate(`/stiri/${data?.id}`)}>
                 <Button
                   icon={<ArrowRight />}
                   position="right"
                   iconColor="white"
                   variant="transparent"
-                  label="Citeste mai mult"
+                  label="Citește mai mult"
                 />
               </span>
             </div>
@@ -218,18 +218,21 @@ const Card = ({
             {(user?.role !== null) && (
               <div onClick={stopPropagation} className={styles.controls}>
                 <>
-                <button
+                  {/* <button
                       className={styles.edit}
-                      onClick={() => {console.log(`${id_stiri}`)}}//navigate(`/edit/${stire.id_stiri}`)}
+                      onClick={() => {console.log(`${data?.id}`)}}//navigate(`/edit/${stireid}`)}
                     >
                       Modifică
-                    </button>
-                  <button
+                    </button> */}
+                  <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`) }} />
+                  {/* navigate(`/edit/${stireid}`)} */}
+                  {/* <button
                     className={styles.delete}
                     onClick={() => togglePopup()}
                   >
                     <span>Șterge</span>
-                  </button>
+                  </button> */}
+                  <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
                 </>
               </div>
             )}
@@ -247,7 +250,7 @@ const Card = ({
               <div className={styles.popup}>
                 <h3 className={styles.titlePopup}>Ștergere știre</h3>
                 <p className={styles.descriptionPopup}>
-                 Această acțiune este permanentă și nu poate fi anulată.
+                  Această acțiune este permanentă și nu poate fi anulată.
                 </p>
                 <div className={styles.butonsPopup}>
                   <button

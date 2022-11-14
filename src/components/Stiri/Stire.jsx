@@ -1,68 +1,99 @@
 import Card from "../../components/Card/Card";
 import { useNavigate } from "react-router-dom";
 import useStateProvider from "../../hooks/useStateProvider";
-import { Fragment, useState, useMemo } from "react";
-import Pagination from "../Paginare/Paginare";
+import { Fragment, useState, useMemo, useEffect } from "react";
+import Paginare from "../Paginare/Paginare";
 
 
-const Stire = ({
-    admin,
-    hideApproval,
-    showcontrols,
-}) => {
+const Stire = () => {
     const navigate = useNavigate();
-    const { stiriOrdonate, pageSize } = useStateProvider();
+    const { pageSize, stiriOrdonate, labelStiriDropdown } = useStateProvider();
 
     //grid view list view
     const { listView } = useStateProvider();
 
-    // pagination
+    // pagination - current page with the content displayed
     const [currentPage, setCurrentPage] = useState(1);
+    // const [lastPage, setLastPage] = useState(1);
+
+
+    // useEffect(() => {
+    //     console.log('iohivgjcf');
+    //     if (Number(currentPage) > Number(lastPage)) {
+    //         console.log('effect cp', currentPage, "lp ", lastPage);
+    //         setCurrentPage(1);
+    //     }
+    // }, [currentPage, lastPage])
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * pageSize;
         const lastPageIndex = firstPageIndex + pageSize;
-        return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage, pageSize, stiriOrdonate]);
+
+        console.log(firstPageIndex, '%%%%', lastPageIndex);
+
+        if (labelStiriDropdown === null) {
+            if( stiriOrdonate?.length < lastPageIndex && ( lastPageIndex - stiriOrdonate?.length) > 0)
+            return stiriOrdonate?.slice(firstPageIndex, lastPageIndex - ( lastPageIndex - stiriOrdonate?.length) );
+        else
+            return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
+        }
+
+        // if (labelStiriDropdown.value === '') {
+        //     setCurrentLength(stiriOrdonate.length);
+        //     return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
+        // }
+        // if (labelStiriDropdown.value === 'Publicat') {
+        //     setCurrentLength(stiriPublicate.length);
+        //     return stiriPublicate?.slice(firstPageIndex, lastPageIndex);
+        // }
+        // if (labelStiriDropdown.value === 'Programat') {
+        //     setCurrentLength(stiriProgramate.length);
+        //     return stiriProgramate?.slice(firstPageIndex, lastPageIndex);
+        // }
+        // if (labelStiriDropdown.value === 'Draft') {
+        //     setCurrentLength(stiriDraft.length);
+        //     return stiriDraft?.slice(firstPageIndex, lastPageIndex);
+        // }
+
+
+    }, [currentPage, pageSize, labelStiriDropdown, stiriOrdonate]);
 
     return (
-        <div>
-            {currentTableData?.map(
-                (stire, index) =>
-                    // stire.status !== pending &&
-                    // stire.status !== pending2 && (
-                    stire.status === 'Publicat' && (
-                        <Fragment key={`${stire.id_stiri}_${index}`}>
-                            {
-                                <Card
-                                    key={index}
-                                    listView={!listView}
-                                    admin={admin}
-                                    hideApproval={hideApproval}
-                                    stire={stire}
-                                    showcontrols={!showcontrols}
-                                    fotografii={stire.fotografii}
-                                    titlu={stire.titlu}
-                                    descriere={stire.descriere}
-                                    data_publicarii={stire.data_publicarii}
-                                    id_stiri={stire.id_stiri}
-                                    onClick={() => {
-                                        navigate("/stiri/" + stire.id);
-                                    }}
-                                />
-                            }
-                        </Fragment>
-                    )
-            )}
-            <Pagination
+        <div> {
+            <Paginare
+                data={stiriOrdonate}
                 className="pagination-bar"
-                currentPage={currentPage}
                 totalCount={stiriOrdonate?.length}
                 pageSize={pageSize}
+                currentPage={currentPage}
+                // lastPage={lastPage}
                 onPageChange={page => setCurrentPage(page)}
+                // onLastPageChange={lastPage => setLastPage(lastPage)}
             />
-            <p className="text-white">Eu mapez toate stirile si de aia unele pagini din pagination sunt goale. trebuie sa creat variabile pentru fiecare tip de stire / publicata / programata / draft<br/>
-            Ar fi o idee sa pot modifica asta din Carusel. Am la linia 97 o conditionare. Daca transmit o variabila cred ca ar merge</p>
+        }
+            {/* {console.log("currentTABLEDATA", currentTableData)} */}
+            {currentTableData?.map(
+                (stire, index) =>
+                // stire.status !== pending &&
+                // stire.status !== pending2 && (
+                // stire.status === labelStiriDropdown.value && (
+                (
+                <Fragment key={`${stire?.id}_${index}`}>
+                    {
+                        <Card
+                            key={`${stire?.id}_${index+Math.random()}`}
+                            // listView={!listView}
+                            data={stire}
+                            onClick={() => {
+                                navigate("/stiri/" + stire?.id);
+                                console.log(stire, "---");
+                            }}
+                        />
+                    }
+                </Fragment>
+                )
+            )}
+
         </div>
     );
 };

@@ -14,15 +14,9 @@ import Iframe from 'react-iframe';
 
 import styles from './PaginaPrincipala.module.scss'
 
-const PaginaPrincipala = (props, { showcontrols }) => {
+const PaginaPrincipala = (props) => {
 
-  const { stiriOrdonate } = useStateProvider();
-
-
-  // const [stiriSortat, setStiriSortat] = useState([]);
-  // useEffect(() => {
-  //   setStiriSortat(stiri?.sort((a, b) => new Date(...b.data_publicarii.split('-').reverse()) - new Date(...a.data_publicarii.split('-').reverse())));
-  // }, [stiri])
+  const { stiriPublicate } = useStateProvider();
 
   return (
     <>
@@ -53,10 +47,10 @@ const PaginaPrincipala = (props, { showcontrols }) => {
         {/* ################  ULTIMELE NOUTATI ################ */}
 
         <div className={styles.stiri}>
-          <Carusel stiri={stiriOrdonate} titluCarousel="Ultimele noutati" screenWidth={props.screenWidth} showcontrols isHomePage />
+          <Carusel data={stiriPublicate} titluCarousel="Ultimele noutăți" screenWidth={props.screenWidth} showcontrols isHomePage />
         </div>
 
-        
+
 
 
       </Layout>
