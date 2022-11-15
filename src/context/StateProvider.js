@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useMemo } from "react";
+import { createContext, useState, useEffect } from "react";
 import { getStiri } from "../api/API";
 
 const StateContext = createContext({});
@@ -18,18 +18,10 @@ export const StateProvider = ({ children }) => {
   const [stiriPublicate, setStiriPublicate] = useState([]);
   const [stiriOrdonate, setStiriOrdonate] = useState([]);
   const [labelStiriDropdown, setLabelStiriDropdown] = useState(null);
-    // status stiri 'TOATE' ; 'PUBLICAT' ; 'PROGRAMAT' ; 'DRAFT' -- folosit in noutati la dropdown 
-  const [statusStiri, setStatusStiri] = useState('TOATE');
-    // paginare stiri
+  // status stiri 'TOATE' ; 'PUBLICAT' ; 'PROGRAMAT' ; 'DRAFT' -- folosit in noutati la dropdown 
+  const [statusStiri, setStatusStiri] = useState('PUBLICAT');
+  // paginare stiri
   let pageSize = 4;
-
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // let stiriPublicate = [];
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // let stiriProgramate = [];
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // let stiriDraft = [];
-
 
   // show grid show list
   const [listView, setListView] = useState(true);
@@ -39,7 +31,9 @@ export const StateProvider = ({ children }) => {
     try {
       const response = await getStiri(statusStiri);
       setStiri(response);
-      console.log("SP stiri",response);
+      setStiriOrdonate(response?.sort((a, b) => new Date(...b.dataPublicarii.split('-').reverse()) - new Date(...a.dataPublicarii.split('-').reverse())));
+
+      // console.log("SP stiri",response);
     } catch (error) { }
   };
 
@@ -52,13 +46,17 @@ export const StateProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchStiribyStatus(); // pentru pagina Noutati - stiri
     fetchStiriPublicate(); // pentru pagina principala - noutati
   }, []);
 
   useEffect(() => {
-    setStiriOrdonate(stiri?.sort((a, b) => new Date(...b.dataPublicarii.split('-').reverse()) - new Date(...a.dataPublicarii.split('-').reverse())));
-  },[stiri]);
+    fetchStiribyStatus(); // pentru pagina Noutati - stiri
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // useEffect(() => {
+  //   setStiriOrdonate(stiri?.sort((a, b) => new Date(...b.dataPublicarii.split('-').reverse()) - new Date(...a.dataPublicarii.split('-').reverse())));
+  // },[stiri]);
 
 
 
@@ -101,6 +99,8 @@ export const StateProvider = ({ children }) => {
       setStatusStiri,
       stiriPublicate,
       setStiriPublicate,
+      fetchStiribyStatus,
+
 
       // stiriPublicate,
       // stiriProgramate,

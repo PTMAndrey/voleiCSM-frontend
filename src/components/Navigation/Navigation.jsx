@@ -11,7 +11,7 @@ import useWindowDimensions from "../../hooks/useWindowDimensions"
 const Navigation = (props) => {
   const { width } = useWindowDimensions();
   return (
-        <Navbar key={props.expand} bg="light" expand={props.expand} responsive className={`mb-3 border-bottom ${width <= 750 && styles.stickyNav}`}>
+        <Navbar key={props.expand} bg="light" expand={props.expand} className={`mb-3 border-bottom ${width <= 750 && styles.stickyNav}`}>
           <Container fluid>
             <Navbar.Brand href="/"><img src={LogoCSM} className={styles.logoNavbar} alt="C.S.M. SUCEAVA - VOLEI" /></Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${props.expand}`} />

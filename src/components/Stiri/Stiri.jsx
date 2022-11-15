@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from "./Stiri.module.scss";
 import Stire from "./Stire.jsx";
 import DropdownComponent from "../Dropdown/Dropdown";
@@ -10,19 +10,24 @@ import useAuth from '../../hooks/useAuth';
 const Stiri = () => {
   // view
   const { setListView } = useStateProvider();
-  const { setLabelStiriDropdown } = useStateProvider();
+  const { statusStiri, setStatusStiri, fetchStiribyStatus } = useStateProvider();
 
   const Programare = [
-    { value: "", label: "Toate știrile" },
-    { value: "Publicat", label: "Știri publicate" },
-    { value: "Programat", label: "Știri programate" },
-    { value: "Draft", label: "Știri draft" },
-  ];
+    { value: 'PUBLICAT', label: "Știri publicate" },
+    { value: 'PROGRAMAT', label: "Știri programate" },
+    { value: 'DRAFT', label: "Știri draft" },
+    { value: 'TOATE', label: "Toate știrile" },
+];
   useEffect(() => {
     setListView(false);
   }, [setListView]);
 
   const { user } = useAuth();
+  
+  useEffect(()=>{
+    fetchStiribyStatus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[statusStiri]);
 
   return (
     <div className={styles.containerStiri}>
@@ -30,9 +35,17 @@ const Stiri = () => {
         <h3 className={styles.title}>Noutăți</h3>
       </div>
       <div className={styles.stiriBody}>
+
         <div className={styles.leftSide}>
-          <br /><br /><br /><br /><br /><br /><br />
+          <p>T1</p>
+          <p>T1</p>
+          <p>T1</p>
+          <p>T1</p>
+          <p>T1</p>
+          <p>T1</p>
+          <p>T1</p>
         </div>
+
         <div className={styles.rightSide}>
           {user?.role != null &&
             <div className={styles.dropdownStiri}>
@@ -41,11 +54,13 @@ const Stiri = () => {
                 className={styles.addStire}
               />
               <DropdownComponent
-                title="Stiri"
+                title="Știri publicate"
                 options={Programare}
                 clearable={true}
                 onChange={(e) => {
-                  setLabelStiriDropdown(e);
+                  e === null ?
+                    setStatusStiri('PUBLICAT') :
+                  setStatusStiri(e.value);
                 }}
               ></DropdownComponent>
             </div>

@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Card.module.scss";
 import useAuth from "../../hooks/useAuth";
-// import {
-//   addFavorite,
-//   approveListing,
-//   declineListing,
-//   deleteFavoriteById,
-//   deleteListingById,
-//   getFavorite,
-// } from "../../api/API";
-import setAlert from "../../components/Alert/Alert";
 import Popup from "../../pages/PaginaPrincipala/Popup";
 import useStateProvider from "../../hooks/useStateProvider";
-// import FavoriteErrorModal from "../../pages/Details/FavoriteErrorModal";
 import { useNavigate } from "react-router-dom";
-import useWindowDimensions from "../../hooks/useWindowDimensions"
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { RiEdit2Fill } from 'react-icons/ri';
 import { RiDeleteBinFill } from 'react-icons/ri';
@@ -28,18 +17,16 @@ const Card = ({
   isHomePage,
 }) => {
 
-  const { width } = useWindowDimensions();
   const [openPopup, setOpenPopup] = useState(false);
-  const { user, userId } = useAuth();
+  const { user } = useAuth();
 
   const navigate = useNavigate();
   // useEffect(() => {
   //   if (userId !== null) getFavorite(userId).then((res) => setFavourites(res));
   // }, [userId]);
 
-  const { setAlert } = useStateProvider();
-  const { stiri, statusStiri } = useStateProvider();
-  const { fetchStiribyStatus } = useStateProvider();
+  // const { setAlert } = useStateProvider();
+  // const { fetchStiribyStatus } = useStateProvider();
 
   //grid view list view
   const { listView } = useStateProvider();
@@ -48,22 +35,22 @@ const Card = ({
     e.stopPropagation();
   }
   // //delete announce
-  const handleDelete = async () => {
-    try {
-      // const response = await deleteListingById(listingId);
-      // if (response.status === 200) {
-      togglePopup();
-      fetchStiribyStatus();
-      setAlert({ type: "success", message: "Deleted" });
-      // }
-    } catch (error) {
-      togglePopup();
-      setAlert({
-        type: "danger",
-        message: "Something went wrong",
-      });
-    }
-  };
+  // const handleDelete = async () => {
+  //   try {
+  //     // const response = await deleteListingById(listingId);
+  //     // if (response.status === 200) {
+  //     togglePopup();
+  //     fetchStiribyStatus();
+  //     setAlert({ type: "success", message: "Deleted" });
+  //     // }
+  //   } catch (error) {
+  //     togglePopup();
+  //     setAlert({
+  //       type: "danger",
+  //       message: "Something went wrong",
+  //     });
+  //   }
+  // };
 
   //#region COMMENTED REGION
   //Approve announce
@@ -151,7 +138,7 @@ const Card = ({
   };
   return (
     <div className={styles.cards} >
-      <div onClick={onClick} className={`${styles.card}`}>
+      <div onClick={onClick}>
         {/* <div className={styles.hover}>asdasdasd</div> */}
         <div
           style={style}

@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import { usePagination, DOTS } from './usePagination';
 import styles from './Paginare.module.scss';
-import useStateProvider from "../../hooks/useStateProvider";
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi';
 
 const Paginare = props => {
@@ -12,11 +11,9 @@ const Paginare = props => {
     const {
         data,
         onPageChange,
-        // onLastPageChange,
         totalCount,
         siblingCount = 1,
         currentPage,
-        // lastPage,
         pageSize,
         className
     } = props;
@@ -48,12 +45,12 @@ const Paginare = props => {
     let lastPage = 0;
     if ((paginationRange || []).length > 0)
         lastPage = paginationRange[paginationRange.length - 1];
-    else
-        console.log("[Paginare] Array `paginationRange` empty;");
+    // else
+    //     console.log("[Paginare] Array `paginationRange` empty;");
 
-    console.log("\n----\ncurrentPage ", currentPage);
+    // console.log("\n----\ncurrentPage ", currentPage);
 
-    console.log('totalC ', totalCount, 'pageS', pageSize, 'sibling', siblingCount, 'currentP', currentPage, '\n-------\n');
+    // console.log('totalC ', totalCount, 'pageS', pageSize, 'sibling', siblingCount, 'currentP', currentPage, '\n-------\n');
 
     return (
         <ul
@@ -61,7 +58,7 @@ const Paginare = props => {
         >
             {/* Left navigation arrow */}
             <li
-                className={classnames(`${styles.paginationItem}`, {
+                className={classnames(` ${styles.paginationItem}`, {
                     disabled: currentPage === 1
                 })}
                 onClick={onPrevious}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {} from 'react';
 
 import useStateProvider from "../../hooks/useStateProvider";
 import Partida from '../../components/Partida/Partida';
