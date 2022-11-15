@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {} from 'react';
 
-import useAuth from '../../hooks/useAuth';
 import useStateProvider from "../../hooks/useStateProvider";
 import Partida from '../../components/Partida/Partida';
 import Header from "../../components/Header/Header";
 import Layout from '../Layout/Layout';
 import Title from '../../components/Title/Title';
-import Stiri from '../../components/Stiri/Stiri';
 
 import Carusel from '../../components/Carusel/Carusel';
 
@@ -16,17 +14,9 @@ import Iframe from 'react-iframe';
 
 import styles from './PaginaPrincipala.module.scss'
 
-const PaginaPrincipala = (props, { showcontrols }) => {
+const PaginaPrincipala = (props) => {
 
-  const { user } = useAuth();
-
-  const { stiriOrdonate } = useStateProvider();
-
-
-  // const [stiriSortat, setStiriSortat] = useState([]);
-  // useEffect(() => {
-  //   setStiriSortat(stiri?.sort((a, b) => new Date(...b.data_publicarii.split('-').reverse()) - new Date(...a.data_publicarii.split('-').reverse())));
-  // }, [stiri])
+  const { stiriPublicate } = useStateProvider();
 
   return (
     <>
@@ -57,10 +47,10 @@ const PaginaPrincipala = (props, { showcontrols }) => {
         {/* ################  ULTIMELE NOUTATI ################ */}
 
         <div className={styles.stiri}>
-          <Carusel stiri={stiriOrdonate} titluCarousel="Ultimele noutati" screenWidth={props.screenWidth} showcontrols isHomePage />
+          <Carusel data={stiriPublicate} titluCarousel="Ultimele noutăți" screenWidth={props.screenWidth} showcontrols isHomePage />
         </div>
 
-        
+
 
 
       </Layout>

@@ -1,8 +1,12 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+.stickyNav {
+    position: sticky;
+    top: 0;
+  }
 .logoNavbar {
-    max-width: 112px;
+    max-width: 100px;
     aspect-ratio: 1;
 }
 .onHover{

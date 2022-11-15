@@ -16,7 +16,7 @@ import useWindowDimensions from "../../hooks/useWindowDimensions"
 
 import styles from "./Carusel.module.scss";
 const Carusel = ({
-    stiri,
+    data,
     titluCarousel,
     showcontrols,
     previewDescription,
@@ -34,6 +34,15 @@ const Carusel = ({
 
 
     const { width } = useWindowDimensions();
+
+    const getSlidesPerView = () => {
+        if (data?.length === 1)
+            return 1;
+        if (data?.length === 2)
+            return 2;
+        if (data?.length >= 3)
+            return 3;
+    }
 
     return (
         <div>
@@ -56,67 +65,58 @@ const Carusel = ({
                 {isHomePage ?
                     (
                         width < 550 ?// pagina de home si dimensiune ecran mai mica de 550px
-                        <Swiper
-                            slidesPerView={1}
-                            spaceBetween={1}
-                            slidesPerGroup={1}
-                            navigation={true}
-                            modules={[Pagination, Navigation]}
-                            className={`mySwiper ${styles.centrareStire}`}>
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={1}
+                                slidesPerGroup={1}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className={`mySwiper ${styles.centrareStire}`}>
 
-                            {stiri?.slice(0, 4).map((stire, index) => // .slice(0,4) afiseaza ultimele 3 stiri publicate
-                                stire.status === 'Publicat' && (
-                                    <SwiperSlide key={stire.id_stiri}>
+                                {data?.slice(0, 3).map((_data, index) => // .slice(0,4) afiseaza ultimele 3 stiri publicate
+                                    <SwiperSlide key={_data.id}>
                                         <Card
                                             showcontrols={showcontrols}
                                             style={{ width: "90%" }}
-                                            fotografii={stire.fotografii}
-                                            titlu={stire.titlu}
-                                            descriere={stire.descriere}
-                                            data_publicarii={stire.data_publicarii}
-                                            id_stiri={stire.id_stiri}
+                                            data={_data}
                                             isHomePage
                                             onClick={() => {
-                                                navigate("/stiri/" + stire.id_stiri);
+                                                navigate("/stiri/" + _data?.id);
                                             }}
                                         />
                                     </SwiperSlide>
-                                ))
-                            }
-                        </Swiper> :
-                        // pagina de home si dimensiune ecran mai mare decat 550px
-                        <Swiper
-                            slidesPerView={3}
-                            spaceBetween={1}
-                            slidesPerGroup={1}
-                            navigation={true}
-                            modules={[Pagination, Navigation]}
-                            className='mySwiper'>
+                                )
+                                }
+                            </Swiper> :
+                            
+                            // pagina de home si dimensiune ecran mai mare decat 550px
+                            <Swiper
+                                slidesPerView={data?.length === 1 ? 1 : data?.length === 2 ? 2 : 3 }
+                                spaceBetween={1}
+                                slidesPerGroup={1}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className='mySwiper'>
 
-                            {stiri?.slice(0, 4).map((stire, index) =>
-                                stire.status === 'Publicat' && (
-                                    <SwiperSlide key={stire.id_stiri}>
+                                {data?.slice(0, 3).map((_data, index) =>
+                                    <SwiperSlide key={_data.id}>
                                         <Card
                                             showcontrols={showcontrols}
                                             style={{ width: "90%" }}
-                                            fotografii={stire.fotografii}
-                                            titlu={stire.titlu}
-                                            descriere={stire.descriere}
-                                            data_publicarii={stire.data_publicarii}
-                                            id_stiri={stire.id_stiri}
+                                            data = {_data}
                                             isHomePage
                                             onClick={() => {
-                                                navigate("/stiri/" + stire.id_stiri);
+                                                navigate("/stiri/" + _data?.id);
                                             }}
                                         />
                                     </SwiperSlide>
-                                ))
-                            }
-                        </Swiper>
+                                )
+                                }
+                            </Swiper>
                     )
                     : null
-                    
-                    
+
+
                 }
 
 
@@ -136,17 +136,17 @@ const Carusel = ({
                                 all
                                     ? (
                                         // to be determined when to use this
-                                        <SwiperSlide key={stire.id_stiri}>
+                                        <SwiperSlide key={stireid}>
                                             <Card
                                                 showcontrols={showcontrols}
                                                 style={{ width: "90%" }}
-                                                fotografii={stire.fotografii}
-                                                titlu={stire.titlu}
-                                                descriere={stire.descriere}
-                                                data_publicarii={stire.data_publicarii}
-                                                id_stiri={stire.id_stiri}
+                                                imaginiURL={stire?.imaginiURL}
+                                                titlu={stire?.titlu}
+                                                descriere={stire?.descriere}
+                                                dataPublicarii={stire?.dataPublicarii}
+                                                id={stire?.id}
                                                 onClick={() => {
-                                                    navigate("/stiri/" + stire.id_stiri);
+                                                    navigate("/stiri/" + stire?.id);
                                                 }}
                                             />
                                         </SwiperSlide>
@@ -154,18 +154,18 @@ const Carusel = ({
                                     // : stire.status !== pending &&
                                     // stire.status !== pending2 &&
                                     stire.status === 'Publicat' && ( // afisez
-                                        <SwiperSlide key={stire.id_stiri}>
+                                        <SwiperSlide key={stireid}>
                                             <Card
                                                 showcontrols={showcontrols}
                                                 style={{ width: "90%" }}
-                                                fotografii={stire.fotografii}
-                                                titlu={stire.titlu}
-                                                descriere={stire.descriere}
-                                                data_publicarii={stire.data_publicarii}
-                                                id_stiri={stire.id_stiri}
+                                                imaginiURL={stire?.imaginiURL}
+                                                titlu={stire?.titlu}
+                                                descriere={stire?.descriere}
+                                                dataPublicarii={stire?.dataPublicarii}
+                                                id={stire?.id}
                                                 previewDescription={previewDescription}
                                                 onClick={() => {
-                                                    navigate("/stiri/" + stire.id_stiri);
+                                                    navigate("/stiri/" + stire?.id);
                                                 }}
                                             />
                                         </SwiperSlide>

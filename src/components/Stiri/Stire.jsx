@@ -2,68 +2,70 @@ import Card from "../../components/Card/Card";
 import { useNavigate } from "react-router-dom";
 import useStateProvider from "../../hooks/useStateProvider";
 import { Fragment, useState, useMemo } from "react";
-import Pagination from "../Paginare/Paginare";
+import Paginare from "../Paginare/Paginare";
 
 
-const Stire = ({
-    admin,
-    hideApproval,
-    showcontrols,
-}) => {
+const Stire = () => {
     const navigate = useNavigate();
-    const { stiriOrdonate, pageSize } = useStateProvider();
+    const { pageSize, stiriOrdonate } = useStateProvider();
 
     //grid view list view
-    const { listView } = useStateProvider();
+    // const { listView } = useStateProvider();
 
-    // pagination
+    // pagination - current page with the content displayed
     const [currentPage, setCurrentPage] = useState(1);
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * pageSize;
         const lastPageIndex = firstPageIndex + pageSize;
-        return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
+
+        if (stiriOrdonate?.length < lastPageIndex && (lastPageIndex - stiriOrdonate?.length) > 0)
+            return stiriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - stiriOrdonate?.length));
+        else
+            return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
+
     }, [currentPage, pageSize, stiriOrdonate]);
 
     return (
-        <div>
+        <>
+            {currentTableData.length > 1 &&
+                <Paginare
+                    data={stiriOrdonate}
+                    className="pagination-bar pt-3"
+                    totalCount={stiriOrdonate?.length}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={page => setCurrentPage(page)}
+                />
+            }
+
             {currentTableData?.map(
                 (stire, index) =>
-                    // stire.status !== pending &&
-                    // stire.status !== pending2 && (
-                    stire.status === 'Publicat' && (
-                        <Fragment key={`${stire.id_stiri}_${index}`}>
-                            {
-                                <Card
-                                    key={index}
-                                    listView={!listView}
-                                    admin={admin}
-                                    hideApproval={hideApproval}
-                                    stire={stire}
-                                    showcontrols={!showcontrols}
-                                    fotografii={stire.fotografii}
-                                    titlu={stire.titlu}
-                                    descriere={stire.descriere}
-                                    data_publicarii={stire.data_publicarii}
-                                    id_stiri={stire.id_stiri}
-                                    onClick={() => {
-                                        navigate("/stiri/" + stire.id);
-                                    }}
-                                />
-                            }
-                        </Fragment>
-                    )
+                (
+                    <Fragment key={`${stire?.id}_${index}`}>
+                        {
+                            <Card
+                                key={`${stire?.id}_${index + Math.random()}`}
+                                className="mt-5"
+                                data={stire}
+                                onClick={() => {
+                                    navigate("/stiri/" + stire?.id);
+                                }}
+                            />
+                        }
+                    </Fragment>
+                )
             )}
-            <Pagination
-                className="pagination-bar"
-                currentPage={currentPage}
+            <Paginare
+                data={stiriOrdonate}
+                className="pagination-bar pt-3"
                 totalCount={stiriOrdonate?.length}
                 pageSize={pageSize}
+                currentPage={currentPage}
                 onPageChange={page => setCurrentPage(page)}
             />
-            <p className="text-white">Eu mapez toate stirile si de aia unele pagini din pagination sunt goale. trebuie sa creat variabile pentru fiecare tip de stire / publicata / programata / draft<br/>
-            Ar fi o idee sa pot modifica asta din Carusel. Am la linia 97 o conditionare. Daca transmit o variabila cred ca ar merge</p>
-        </div>
+
+        </>
     );
 };
 

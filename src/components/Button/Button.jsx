@@ -19,10 +19,10 @@ const Button = ({
       className={`${styles.button} ${styles[variant]} ${styles[position]} ${className}`}
     >
       {
-        iconColor === "black" ?  <span>{icon}</span>: <span style={{ fill:`${iconColor}`, stroke:`${iconColor}`,strokeWidth:"2"}}> {icon}</span>
+        iconColor === "black" ?  <span className={styles.displayNone}>{icon}</span>: <span className={styles.displayNone} style={{ fill:`${iconColor}`, stroke:`${iconColor}`,strokeWidth:"2"}}> {icon}</span>
       }
 
-      {label}
+      <span className={styles.label}>{label}</span>
     </button>
   );
 };
