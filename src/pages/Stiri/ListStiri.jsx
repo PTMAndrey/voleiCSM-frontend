@@ -2,10 +2,10 @@ import Card from "../../components/Card/Card";
 import { useNavigate } from "react-router-dom";
 import useStateProvider from "../../hooks/useStateProvider";
 import { Fragment, useState, useMemo } from "react";
-import Paginare from "../Paginare/Paginare";
+import Paginare from "../../components/Paginare/Paginare";
 
 
-const Stire = () => {
+const ListStiri = () => {
     const navigate = useNavigate();
     const { pageSize, stiriOrdonate } = useStateProvider();
 
@@ -69,4 +69,4 @@ const Stire = () => {
     );
 };
 
-export default Stire
+export default ListStiri

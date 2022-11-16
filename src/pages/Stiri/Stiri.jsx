@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import styles from "./Stiri.module.scss";
-import Stire from "./Stire.jsx";
-import DropdownComponent from "../Dropdown/Dropdown";
+import ListStiri from "./ListStiri.jsx";
+import DropdownComponent from "../../components/Dropdown/Dropdown";
 import useStateProvider from "../../hooks/useStateProvider";
-import Button from '../Button/Button';
+import Button from '../../components/Button/Button';
 
 import useAuth from '../../hooks/useAuth';
 
@@ -65,7 +65,7 @@ const Stiri = () => {
               ></DropdownComponent>
             </div>
           }
-          <Stire/>
+          <ListStiri/>
         </div>
 
       </div>

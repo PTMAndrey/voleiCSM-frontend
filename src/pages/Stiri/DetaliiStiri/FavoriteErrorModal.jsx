@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import styles from "./Details.module.scss";
 import { useNavigate } from "react-router-dom";
 import idea from "../../assets/images/idea.png";
-import Button from "../../components/Button/Button";
+import Button from "../../../components/Button/Button";
 
 const FavoriteErrorModal = ({ showNotification, setShowNotification }) => {
   const navigate = useNavigate();

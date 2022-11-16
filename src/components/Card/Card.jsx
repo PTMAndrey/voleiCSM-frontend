@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
 import { RiEdit2Fill } from 'react-icons/ri';
 import { RiDeleteBinFill } from 'react-icons/ri';
+import { deleteStireById } from '../../api/API'
 
 import Button from "../Button/Button";
 
@@ -25,8 +26,8 @@ const Card = ({
   //   if (userId !== null) getFavorite(userId).then((res) => setFavourites(res));
   // }, [userId]);
 
-  // const { setAlert } = useStateProvider();
-  // const { fetchStiribyStatus } = useStateProvider();
+  const { setAlert } = useStateProvider();
+  const { statusStiri, fetchStiribyStatus } = useStateProvider();
 
   //grid view list view
   const { listView } = useStateProvider();
@@ -35,22 +36,22 @@ const Card = ({
     e.stopPropagation();
   }
   // //delete announce
-  // const handleDelete = async () => {
-  //   try {
-  //     // const response = await deleteListingById(listingId);
-  //     // if (response.status === 200) {
-  //     togglePopup();
-  //     fetchStiribyStatus();
-  //     setAlert({ type: "success", message: "Deleted" });
-  //     // }
-  //   } catch (error) {
-  //     togglePopup();
-  //     setAlert({
-  //       type: "danger",
-  //       message: "Something went wrong",
-  //     });
-  //   }
-  // };
+  const handleDelete = async () => {
+    try {
+      const response = await deleteStireById(data?.id);
+      if (response.status === 200) {
+        togglePopup();
+        fetchStiribyStatus();
+        setAlert({ type: "success", message: "Deleted" });
+      }
+    } catch (error) {
+      togglePopup();
+      setAlert({
+        type: "danger",
+        message: "Something went wrong",
+      });
+    }
+  };
 
   //#region COMMENTED REGION
   //Approve announce
@@ -242,7 +243,11 @@ const Card = ({
                 <div className={styles.butonsPopup}>
                   <button
                     className={styles.deletePopup}
-                  // onClick={(e) => handleDelete(e)}
+                    onClick={(e) => {
+                      handleDelete(e);
+                      console.log(data?.id);
+                    }
+                  }
                   >
                     Șterge
                   </button>
