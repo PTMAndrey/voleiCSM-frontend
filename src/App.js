@@ -10,8 +10,8 @@ import { useLayoutEffect } from 'react';
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Footer from './components/Footer/Footer';
 import PaginaPrincipala from "./pages/PaginaPrincipala/PaginaPrincipala";
-import Stiri from "./components/Stiri/Stiri.jsx";
-// import Details from './components/Details/Details.jsx';
+import Stiri from "./pages/Stiri/Stiri.jsx";
+// import DetaliiStiri from './pages/DetaliiStiri/DetaliiStiri.jsx';
 import Layout from './pages/Layout/Layout.jsx'
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import ProtectedRoute from "./routes/ProtectedRoutes";
@@ -66,7 +66,7 @@ function App() {
                 <Stiri />
               </Layout>
             } />
-            {/* <Route path="/stiri/:id" element={<Details />} /> */}
+            {/* <Route path="/stiri/:id" element={<DetaliiStiri />} /> */}
             {/*<Route path="/favorites" element={<Favorites />} /> */}
 
             <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />

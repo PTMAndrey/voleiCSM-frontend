@@ -5,15 +5,11 @@
   width: 100%;
   background-color: #1B1D49;
   border-radius: 12px;
-
+  min-width: 120px;
+  margin-bottom: 15px;
   &:hover {
     cursor: pointer;
   }
-}
-
-.bgCardBlue {
-  // background-color: #1B1D49;
-  // border-radius: 12px;
 }
 
 .cardContent {
@@ -42,7 +38,7 @@
   border: 1px solid $color-gray-100;
   width: 100%;
   padding: 15px;
-  margin: 0px 0px 30px 0px;
+  // margin: 0px 0px 30px 0px;
 
   p {
     padding: 7px;
@@ -51,7 +47,7 @@
 
   @include responsive_W550px {
     flex-direction: column;
-    height: 300px;
+    // height: 300px;
   }
 }
 
@@ -144,7 +140,7 @@
   font-size: 12px;
   line-height: 20px;
   min-height: 50px;
-  height: 150px;
+  height: 70px;
   overflow: hidden;
 
   @include responsive_W550px {
@@ -181,37 +177,24 @@
 .controls {
   border-top: 1px solid $color-gray-100;
   display: flex;
-  justify-content: end;
+  justify-content: space-around;
   width: 100%;
-
-  button {
-    margin: 10px;
-  }
-
+  padding:10px 0;
+  font-size: 20px;
+  
   .delete {
-    padding: 10px;
-    background-color: red;
-    border-radius: 8px;
-    color: $color-white;
-
+    fill:white !important;
     &:hover {
-      background-color: $color-white;
-      color: red;
+      background-color: $color-primary-500;
       box-sizing: border-box;
     }
   }
 
   .edit {
-    padding: 10px;
-    background-color: $color-white;
-    color: $color-primary-500;
-    font-weight: $font-semibold;
-    font-size: $font-body-small;
-    border-radius: 8px;
+    fill:white !important;
 
     &:hover {
       background-color: $color-primary-500;
-      color: $color-white;
       box-sizing: border-box;
     }
   }
@@ -249,21 +232,40 @@
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
+  @include responsive_W550px{
+    flex-direction:column;
+    & button {
+      margin:10px 0 7px 0;
+      
+    }
+  }
 }
 
 .deletePopup {
+  cursor:pointer;
   padding: 5px 20px;
   background-color: $color-alert-400;
   border-radius: 5px;
   font-weight: 600;
   color: $color-white;
+  border:1px solid;
+  &:hover{
+    color: $color-alert-700;
+    background-color: $color-white;
+    border:1px solid $color-alert-400;
+  }
 }
 
 .backPopup {
+  cursor:pointer;
   padding: 5px 20px;
   background-color: transparent;
   border: 1px solid $color-primary-500;
   color: $color-primary-500;
   border-radius: 5px;
   font-weight: 600;
+  &:hover{
+    background-color: $color-primary-500;
+    color:$color-white;
+  }
 }

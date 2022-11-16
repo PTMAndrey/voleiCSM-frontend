@@ -6,11 +6,12 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import LogoCSM from '../../assets/images/logo csm.svg';
 import styles from './Navigation.module.scss';
-
+import useWindowDimensions from "../../hooks/useWindowDimensions"
 
 const Navigation = (props) => {
+  const { width } = useWindowDimensions();
   return (
-        <Navbar key={props.expand} bg="light" expand={props.expand} className="mb-3 border-bottom">
+        <Navbar key={props.expand} bg="light" expand={props.expand} className={`mb-3 border-bottom ${width <= 750 && styles.stickyNav}`}>
           <Container fluid>
             <Navbar.Brand href="/"><img src={LogoCSM} className={styles.logoNavbar} alt="C.S.M. SUCEAVA - VOLEI" /></Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${props.expand}`} />
@@ -21,7 +22,7 @@ const Navigation = (props) => {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${props.expand}`}>
-                <Nav.Link href="/"><img src={LogoCSM} className={styles.logoNabvar} alt="C.S.M. SUCEAVA - VOLEI" /></Nav.Link>
+                <Nav.Link href="/"><img src={LogoCSM} className={styles.logoNavbar} alt="C.S.M. SUCEAVA - VOLEI" /></Nav.Link>
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>

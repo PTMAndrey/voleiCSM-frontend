@@ -1,17 +1,26 @@
 @import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 
 ul {
     display: flex;
 }
 
 .paginationContainer {
-    display: flex;
     list-style-type: none;
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
+    flex-direction: row;
+    padding:0;
 
+    // @include responsive_W550px {
+    //     flex-direction: column;
+    // }
+
+    .displayNone {
+        display: none;
+    }
     .paginationItem {
         height: 32px;
         display: flex;
@@ -27,6 +36,16 @@ ul {
         font-size: 13px;
         background-color: $color-white;
         min-width: 32px;
+
+        @include responsive_W550px {
+            // letter-spacing: 0.01071em;
+            height: 20px;
+            border-radius: 16px;
+            line-height: 1;
+            font-size: 13px;
+            background-color: $color-white;
+            min-width: 15px;
+        }
 
         &.dots:hover {
             // background-color: $color-white;
@@ -44,7 +63,8 @@ ul {
             color: $color-white;
 
         }
-        &.activePage{
+
+        &.activePage {
             background-color: $color-gray-300;
         }
 

@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -11,6 +13,7 @@ code {
   top: 0;
   left: 0;
   z-index: 2;
+  
 }
 
 .box {
@@ -26,4 +29,9 @@ code {
   padding: 20px;
   border: 1px solid #999;
   overflow: auto;
+  @include responsive_W550px{
+    padding:1px;
+    width:200px;
+    height: 350px;
+  }
 }

@@ -21,10 +21,10 @@ const Option = (props) => {
 };
 
 const Programare = [
-    { value: "Toate stirile", label: "Toate * știrile" },
-    { value: "Stiri publicate", label: "Știri publicate" },
-    { value: "Stiri programate", label: "Știri programate" },
-    { value: "Stiri draft", label: "Știri draft" },
+    { value: 'PUBLICAT', label: "Știri publicate" },
+    { value: 'PROGRAMAT', label: "Știri programate" },
+    { value: 'DRAFT', label: "Știri draft" },
+    { value: 'TOATE', label: "Toate știrile" },
 ];
 
 const Dropdown = ({
@@ -114,7 +114,7 @@ const Dropdown = ({
             controlShouldRenderValue={multi ? false : true}
             onChange={onChange}
             isSearchable={searchable ? true : false}
-            isClearable
+            isClearable={clearable ? true : false}
         />
     );
 };
@@ -136,7 +136,7 @@ Dropdown.defaultProps = {
     multi: false,
     options: Programare,
     searchable: false,
-    clearable: true,
+    clearable: false,
 };
 
 export default Dropdown;

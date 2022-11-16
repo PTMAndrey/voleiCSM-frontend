@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from "./Stiri.module.scss";
-import Stire from "./Stire.jsx";
-import DropdownComponent from "../Dropdown/Dropdown";
+import ListStiri from "./ListStiri.jsx";
+import DropdownComponent from "../../components/Dropdown/Dropdown";
 import useStateProvider from "../../hooks/useStateProvider";
-import Button from '../Button/Button';
+import Button from '../../components/Button/Button';
+
+import FiltreStiri from './FiltreStiri/FiltreStiri'
 
 import useAuth from '../../hooks/useAuth';
 
-const Stiri = ({
-  title,
-  admin,
-  hideApproval,
-  showcontrols,
-}) => {
+const Stiri = () => {
   // view
   const { setListView } = useStateProvider();
-  const { stiriDropdown, setStiriDropdown } = useStateProvider();
-  console.log(stiriDropdown?.value, 'stiri dropdown');
+  const { statusStiri, setStatusStiri, fetchStiribyStatus } = useStateProvider();
 
   const Programare = [
-    { value: "Toate", label: "Toate știrile" },
-    { value: "Publicat", label: "Știri publicate" },
-    { value: "Programat", label: "Știri programate" },
-    { value: "Draft", label: "Știri draft" },
-  ];
+    { value: 'PUBLICAT', label: "Știri publicate" },
+    { value: 'PROGRAMAT', label: "Știri programate" },
+    { value: 'DRAFT', label: "Știri draft" },
+    { value: 'TOATE', label: "Toate știrile" },
+];
   useEffect(() => {
     setListView(false);
   }, [setListView]);
 
   const { user } = useAuth();
+  
+  useEffect(()=>{
+    fetchStiribyStatus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[statusStiri]);
 
   return (
     <div className={styles.containerStiri}>
@@ -36,9 +37,11 @@ const Stiri = ({
         <h3 className={styles.title}>Noutăți</h3>
       </div>
       <div className={styles.stiriBody}>
+
         <div className={styles.leftSide}>
-          <br /><br /><br /><br /><br /><br /><br />
+          <FiltreStiri/>
         </div>
+
         <div className={styles.rightSide}>
           {user?.role != null &&
             <div className={styles.dropdownStiri}>
@@ -47,19 +50,18 @@ const Stiri = ({
                 className={styles.addStire}
               />
               <DropdownComponent
-                title="Toate știrile"
+                title="Știri publicate"
                 options={Programare}
+                clearable={true}
                 onChange={(e) => {
-                  setStiriDropdown(e);
+                  e === null ?
+                    setStatusStiri('PUBLICAT') :
+                  setStatusStiri(e.value);
                 }}
               ></DropdownComponent>
             </div>
           }
-          <Stire
-            showcontrols={showcontrols}
-            hideApproval={hideApproval}
-            admin={admin}
-          />
+          <ListStiri/>
         </div>
 
       </div>
