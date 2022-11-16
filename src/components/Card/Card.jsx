@@ -245,7 +245,6 @@ const Card = ({
                     className={styles.deletePopup}
                     onClick={(e) => {
                       handleDelete(e);
-                      console.log(data?.id);
                     }
                   }
                   >

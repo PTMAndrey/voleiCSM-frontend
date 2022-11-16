@@ -5,6 +5,8 @@ import DropdownComponent from "../../components/Dropdown/Dropdown";
 import useStateProvider from "../../hooks/useStateProvider";
 import Button from '../../components/Button/Button';
 
+import FiltreStiri from './FiltreStiri/FiltreStiri'
+
 import useAuth from '../../hooks/useAuth';
 
 const Stiri = () => {
@@ -37,13 +39,7 @@ const Stiri = () => {
       <div className={styles.stiriBody}>
 
         <div className={styles.leftSide}>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
+          <FiltreStiri/>
         </div>
 
         <div className={styles.rightSide}>

@@ -1,0 +1,24 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.containerFiltre{
+    display:flex;
+    flex-direction: column;
+    align-items:flex-start;
+    background-color:rgba(13, 4, 11, 0.2);
+    padding:10px;
+    margin:20px 0;
+
+    .titlu{
+        color: $color-dark-blue;
+        font-weight: $font-bold;
+    }
+}
+
+.tipDeStiri{
+
+}
+
+.calendarStiri{
+
+}
