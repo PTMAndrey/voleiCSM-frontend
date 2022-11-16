@@ -6,13 +6,13 @@ ul {
 }
 
 .paginationContainer {
-    display: flex;
     list-style-type: none;
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
     flex-direction: row;
+    padding:0;
 
     // @include responsive_W550px {
     //     flex-direction: column;
@@ -21,7 +21,6 @@ ul {
     .displayNone {
         display: none;
     }
-
     .paginationItem {
         height: 32px;
         display: flex;

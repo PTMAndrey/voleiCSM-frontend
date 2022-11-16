@@ -23,8 +23,8 @@ export const getUserById = async (id) => {
       token: "tkn123",
       email: "email@email.com",
       password: "1234",
-      role: null,
-      // role: 'Administrator',
+      // role: null,
+      role: 'Administrator',
       // role: 'CreatorContinut',
     },
     response: 200,
@@ -36,9 +36,7 @@ export const getUserById = async (id) => {
 
 export const getStiri = async (status) => {
   try {
-    const response = await axios.get("/stiri?status="+status);
-
-    // console.log(response.data,"api stiri");
+    const response = await axios.get("/stiri?status=" + status);
     return response.data;
 
     // return {
@@ -131,8 +129,16 @@ export const getStiri = async (status) => {
   }
 };
 
+export const deleteStireById = async (id) => {
+  try {
+    const response = await axios.delete("/stiri/" + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const getListingById =  (id) => {
+export const getListingById = (id) => {
   // try {
   //   const response = await axios.get("/listing/" + id);
   //   return response;
@@ -144,16 +150,4 @@ export const getListingById =  (id) => {
   //     return stire;
   // })
   return 1;
-};
-
-export const deleteFavoriteById = async (userId, listingId) => {
-  return 1;
-  // try {
-  //   const response = await axios.delete(
-  //     "/favorite/" + userId + "/" + listingId
-  //   );
-  //   return response;
-  // } catch (error) {
-  //   console.log(error);
-  // }
 };

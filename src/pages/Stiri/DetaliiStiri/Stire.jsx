@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import styles from "./DetaliiStiri.module.scss";
+import styles from "./Stire.module.scss";
 
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import Button from "../../components/Button/Button";
-import PhotosModal from "../../components/Modal/PhotosModal";
+import Button from "../../../components/Button/Button";
+import PhotosModal from "../../../components/Modal/PhotosModal";
 import FavoriteErrorModal from "./FavoriteErrorModal";
 import { ReactComponent as GridDense } from "../../assets/icons/grid-dense.svg";
 import { ReactComponent as Share } from "../../assets/icons/share.svg";
 
-import { deleteFavoriteById, getListingById} from "../../api/API";
+import { deleteFavoriteById, getListingById} from "../../../api/API";
 
 import { useParams } from "react-router-dom";
 
 import moment from "moment";
-import useAuth from "../../hooks/useAuth";
-import useStateProvider from "../../hooks/useStateProvider";
-import TextArea from "../../components/Input/TextArea";
+import useAuth from "../../../hooks/useAuth";
+import useStateProvider from "../../../hooks/useStateProvider";
+import TextArea from "../../../components/Input/TextArea";
 
 // map to render
 const Map = ({ center }) => {
@@ -41,7 +41,7 @@ const Map = ({ center }) => {
   );
 };
 
-const DetaliiStiri = () => {
+const Stire = () => {
   // states for the details page
   const { favorites } = useStateProvider();
   const [showModal, setShowModal] = useState(false);
@@ -304,4 +304,4 @@ const DetaliiStiri = () => {
   );
 };
 
-export default DetaliiStiri;
+export default Stire;

@@ -10,7 +10,7 @@ import { useLayoutEffect } from 'react';
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Footer from './components/Footer/Footer';
 import PaginaPrincipala from "./pages/PaginaPrincipala/PaginaPrincipala";
-import Stiri from "./components/Stiri/Stiri.jsx";
+import Stiri from "./pages/Stiri/Stiri.jsx";
 // import DetaliiStiri from './pages/DetaliiStiri/DetaliiStiri.jsx';
 import Layout from './pages/Layout/Layout.jsx'
 import NotFound from "./pages/NotFound/NotFound.jsx";
