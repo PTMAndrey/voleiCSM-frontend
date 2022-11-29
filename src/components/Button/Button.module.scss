@@ -1,8 +1,16 @@
 @import "../../styles/variables.scss";
 
+.noBorder {
+  border: none;
+}
+
+.border {
+  border: 2px solid #E4BA48;
+}
+
 .button {
   padding: 11px 13px;
-  border-radius: 8px;
+  // border-radius: 8px;
   font-size: $font-button;
   font-weight: $font-semibold;
   cursor: pointer;
@@ -25,25 +33,28 @@
     justify-content: center;
     align-items: center;
     font-size: 10px;
+    
+    .displayNone {
+      display: none;
+    }
+
+  }
+
+  @media screen and(max-width: 380px) {
+
+    padding: 1px 3px;
+    // width: 0%;
+    font-size: $font-body-tiny;
+    font-weight: $font-tiny;
 
     .displayNone {
       display: none;
     }
   }
-
-  @media screen and(max-width: 380px) {
-    padding: 1px 3px;
-    width: 70%;
-    font-size: $font-body-tiny;
-    font-weight: $font-tiny;
-    .label{
-      margin-left:80%;
-    }
-  }
 }
 
 .primary {
-  background-color: $color-dark-blue-background;
+  background-color: $color-dark-blue;
   color: $color-white;
 
   &:hover {

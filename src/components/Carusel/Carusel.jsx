@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
 import "./swipper.scss";
@@ -15,24 +15,24 @@ import useStateProvider from "../../hooks/useStateProvider";
 import useWindowDimensions from "../../hooks/useWindowDimensions"
 
 import styles from "./Carusel.module.scss";
+import { useMemo } from 'react';
 const Carusel = ({
     data,
     titluCarousel,
     showcontrols,
-    previewDescription,
-    screenWidth,
-    isHomePage,
-    all,
 }) => {
 
     const navigate = useNavigate();
+    let { id } = useParams();
+    if (id === undefined)
+        id = 'someID';
+
 
     const { setListView } = useStateProvider();
     useEffect(() => {
         setListView(false);
     }, [setListView]);
-
-
+   
     const { width } = useWindowDimensions();
 
     const getSlidesPerView = () => {
@@ -62,62 +62,59 @@ const Carusel = ({
 
                 {/* ############## IN HOME PAGE ############## */}
 
-                {isHomePage ?
-                    (
-                        width < 550 ?// pagina de home si dimensiune ecran mai mica de 550px
-                            <Swiper
-                                slidesPerView={1}
-                                spaceBetween={1}
-                                slidesPerGroup={1}
-                                navigation={true}
-                                modules={[Pagination, Navigation]}
-                                className={`mySwiper ${styles.centrareStire}`}>
+                {width < 550 ?// pagina de home si dimensiune ecran mai mica de 550px
+                    <Swiper
+                        slidesPerView={1}
+                        spaceBetween={1}
+                        slidesPerGroup={1}
+                        navigation={true}
+                        modules={[Pagination, Navigation]}
+                        className={`mySwiper ${styles.centrareStire}`}>
 
-                                {data?.slice(0, 3).map((_data, index) => // .slice(0,4) afiseaza ultimele 3 stiri publicate
-                                    <SwiperSlide key={_data.id}>
-                                        <Card
-                                            showcontrols={showcontrols}
-                                            style={{ width: "90%" }}
-                                            data={_data}
-                                            isHomePage
-                                            onClick={() => {
-                                                navigate("/stiri/" + _data?.id);
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                )
-                                }
-                            </Swiper> :
-                            
-                            // pagina de home si dimensiune ecran mai mare decat 550px
-                            <Swiper
-                                slidesPerView={data?.length === 1 ? 1 : data?.length === 2 ? 2 : 3 }
-                                spaceBetween={1}
-                                slidesPerGroup={1}
-                                navigation={true}
-                                modules={[Pagination, Navigation]}
-                                className='mySwiper'>
+                        {data?.slice(0, 3).map((_data) => // .slice(0,4) afiseaza ultimele 3 stiri publicate
+                            <SwiperSlide key={_data.id}>
+                                <Card
+                                    showcontrols={showcontrols}
+                                    style={{ width: "90%" }}
+                                    data={_data}
+                                    isHomePage
+                                    onClick={() => {
+                                        navigate("/stiri/" + _data?.id);
+                                    }}
+                                />
+                            </SwiperSlide>
+                        )
+                        }
+                    </Swiper>
+                    :
+                    // pagina de home si dimensiune ecran mai mare decat 550px
+                    <Swiper
+                        slidesPerView={3}
+                        spaceBetween={1}
+                        slidesPerGroup={1}
+                        navigation={true}
+                        modules={[Pagination, Navigation]}
+                        className='mySwiper'>
 
-                                {data?.slice(0, 3).map((_data, index) =>
-                                    <SwiperSlide key={_data.id}>
-                                        <Card
-                                            showcontrols={showcontrols}
-                                            style={{ width: "90%" }}
-                                            data = {_data}
-                                            isHomePage
-                                            onClick={() => {
-                                                navigate("/stiri/" + _data?.id);
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                )
-                                }
-                            </Swiper>
-                    )
-                    : null
-
+                        {data?.slice(0, 3).map(_data =>
+                            <SwiperSlide key={_data.id}>
+                                <Card
+                                    showcontrols={showcontrols}
+                                    style={{ width: "90%", backgroundColor: "#1B1D49" }}
+                                    data={_data}
+                                    isHomePage
+                                    onClick={() => {
+                                        navigate("/stiri/" + _data?.id);
+                                    }}
+                                />
+                            </SwiperSlide>
+                        )
+                        }
+                    </Swiper>
 
                 }
+
+
 
 
                 {/* ############## IS NOT HOME PAGE ############## */}

@@ -5,11 +5,13 @@ import DropdownComponent from "../../components/Dropdown/Dropdown";
 import useStateProvider from "../../hooks/useStateProvider";
 import Button from '../../components/Button/Button';
 
+import FiltreStiri from './FiltreStiri/FiltreStiri'
+
 import useAuth from '../../hooks/useAuth';
 
 const Stiri = () => {
   // view
-  const { setListView } = useStateProvider();
+  const { setListView, stiriOrdonate } = useStateProvider();
   const { statusStiri, setStatusStiri, fetchStiribyStatus } = useStateProvider();
 
   const Programare = [
@@ -17,17 +19,17 @@ const Stiri = () => {
     { value: 'PROGRAMAT', label: "Știri programate" },
     { value: 'DRAFT', label: "Știri draft" },
     { value: 'TOATE', label: "Toate știrile" },
-];
+  ];
   useEffect(() => {
     setListView(false);
   }, [setListView]);
 
   const { user } = useAuth();
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     fetchStiribyStatus();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[statusStiri]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusStiri]);
 
   return (
     <div className={styles.containerStiri}>
@@ -37,18 +39,17 @@ const Stiri = () => {
       <div className={styles.stiriBody}>
 
         <div className={styles.leftSide}>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
-          <p>T1</p>
+          {stiriOrdonate.length === 0 ?
+            <FiltreStiri enableFilters={false} />
+            :
+            <FiltreStiri enableFilters={true} />
+          }
         </div>
 
         <div className={styles.rightSide}>
           {user?.role != null &&
             <div className={styles.dropdownStiri}>
+
               <Button
                 label="Adaugă știre"
                 className={styles.addStire}
@@ -60,12 +61,16 @@ const Stiri = () => {
                 onChange={(e) => {
                   e === null ?
                     setStatusStiri('PUBLICAT') :
-                  setStatusStiri(e.value);
+                    setStatusStiri(e.value);
                 }}
               ></DropdownComponent>
+
             </div>
           }
-          <ListStiri/>
+          {stiriOrdonate.length < 1 &&
+            <h2 style={{ marginTop: '25px' }}>Momentan nu există știri {statusStiri.toLowerCase() ==='draft' ? statusStiri.toLowerCase() : statusStiri.toLowerCase() !== 'toate' ? statusStiri.toLowerCase()+'e' : null} </h2>
+          }
+          <ListStiri />
         </div>
 
       </div>

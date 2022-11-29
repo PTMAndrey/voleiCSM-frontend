@@ -5,11 +5,14 @@ import Popup from "../../pages/PaginaPrincipala/Popup";
 import useStateProvider from "../../hooks/useStateProvider";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
+import { ReactComponent as StiriDefaultImage } from "../../assets/icons/Stiri-Default.svg";
 import { RiEdit2Fill } from 'react-icons/ri';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import { deleteStireById } from '../../api/API'
 
 import Button from "../Button/Button";
+import moment from "moment";
+import 'moment/locale/ro';
 
 const Card = ({
   onClick,
@@ -27,7 +30,7 @@ const Card = ({
   // }, [userId]);
 
   const { setAlert } = useStateProvider();
-  const { statusStiri, fetchStiribyStatus } = useStateProvider();
+  const { fetchStiribyStatus } = useStateProvider();
 
   //grid view list view
   const { listView } = useStateProvider();
@@ -140,34 +143,20 @@ const Card = ({
   return (
     <div className={styles.cards} >
       <div onClick={onClick}>
-        {/* <div className={styles.hover}>asdasdasd</div> */}
         <div
           style={style}
           className={`${(!listView && !isHomePage) ? styles.listCardContent : styles.cardContent
             }`}
         >
-          {/* <div onClick={stopPropagation}>
-            <button
-              className={`${listView ? styles.heartList : styles.heartCard}`}
-            // onClick={handleFavorites}
-            >
-              {!like ? <Heart /> : <HeartFilled className={styles.heartFill} />}
-            </button>
-          </div> */}
 
-          <div className={styles.imageDiv}>
-            {data?.imaginiURL[0] === null || data?.imaginiURL === undefined || data?.imaginiURL === "" ?
-              <img
-                // src={imgStireDefault}
-                alt="Stiri"
-                className={`${listView ? styles.ListCardImg : styles.cardImg}`}
-              />
-              :
+          <div className={styles.imagesDiv}>
+            {data?.imagini !== null ?
               <img
                 src={data?.imaginiURL[0]}
                 alt="Stiri"
                 className={`${listView ? styles.ListCardImg : styles.cardImg}`}
               />
+              : <StiriDefaultImage className={`${listView ? styles.ListCardImg : styles.cardImg}`} />
             }
           </div>
 
@@ -176,7 +165,10 @@ const Card = ({
               className={`${styles.listTitleAndLocation} ${!listView && styles.col
                 }`}
             >
-              <p className={styles.cardDataPublicarii}>{data?.dataPublicarii}</p>
+              <p className={styles.cardDataPublicarii}>
+                {/* {moment(data?.dataPublicarii).format("DD MMMM YYYY HH:mm")} */}
+                {moment(data?.dataPublicarii,'DD-MM-YYYY HH:mm').format("DD MMMM YYYY HH:mm")}
+              </p>
               <p className={styles.cardTitle}>{data?.titlu}</p>
             </div>
 
@@ -190,7 +182,9 @@ const Card = ({
               }
               {/* {descriere} */}
             </p>
+
             <p className="text-white" style={{ fontSize: '12px' }}>#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
+
             <div className={styles.citesteMaiMult}>
               <span onClick={() => navigate(`/stiri/${data?.id}`)}>
                 <Button
@@ -199,6 +193,7 @@ const Card = ({
                   iconColor="white"
                   variant="transparent"
                   label="Citește mai mult"
+                  border={false}
                 />
               </span>
             </div>
@@ -245,9 +240,8 @@ const Card = ({
                     className={styles.deletePopup}
                     onClick={(e) => {
                       handleDelete(e);
-                      console.log(data?.id);
                     }
-                  }
+                    }
                   >
                     Șterge
                   </button>

@@ -14,6 +14,7 @@ const ListStiri = () => {
 
     // pagination - current page with the content displayed
     const [currentPage, setCurrentPage] = useState(1);
+    console.log("ordonate????",stiriOrdonate);
 
     const currentTableData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * pageSize;
@@ -56,14 +57,17 @@ const ListStiri = () => {
                     </Fragment>
                 )
             )}
-            <Paginare
-                data={stiriOrdonate}
-                className="pagination-bar pt-3"
-                totalCount={stiriOrdonate?.length}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={page => setCurrentPage(page)}
-            />
+            {currentTableData.length > 0 &&
+                <Paginare
+                    data={stiriOrdonate}
+                    className="pagination-bar pt-3"
+                    totalCount={stiriOrdonate?.length}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={page => setCurrentPage(page)}
+                />
+            }
+
 
         </>
     );

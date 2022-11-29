@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import styles from "./Details.module.scss";
+import styles from "./Stire.module.scss";
 import { useNavigate } from "react-router-dom";
-import idea from "../../assets/images/idea.png";
+// import idea from "../../assets/images/idea.png";
 import Button from "../../../components/Button/Button";
 
 const FavoriteErrorModal = ({ showNotification, setShowNotification }) => {
@@ -17,7 +17,8 @@ const FavoriteErrorModal = ({ showNotification, setShowNotification }) => {
     >
       <Modal.Body>
         <div className={styles.favError}>
-          <img src={idea} alt="User not logged" />
+          {/* <img src={idea} alt="User not logged" /> */}
+          <img src="" alt="User not logged" />
           <h5 className={styles.errorTitle}>Log in to add your favourites</h5>
           <p className={styles.paragraph}>
             You can add, view, or edit your favourites once you've logged in.

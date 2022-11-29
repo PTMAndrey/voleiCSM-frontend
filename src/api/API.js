@@ -37,6 +37,7 @@ export const getUserById = async (id) => {
 export const getStiri = async (status) => {
   try {
     const response = await axios.get("/stiri?status=" + status);
+    console.log(response.data)
     return response.data;
 
     // return {
@@ -138,16 +139,11 @@ export const deleteStireById = async (id) => {
   }
 };
 
-export const getListingById = (id) => {
-  // try {
-  //   const response = await axios.get("/listing/" + id);
-  //   return response;
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  // stiri.map((stire, index) => {
-  //   if (index === id)
-  //     return stire;
-  // })
-  return 1;
+export const getStireById = async (id) => {
+  try {
+    const response = await axios.get("/stiri/" + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 };
