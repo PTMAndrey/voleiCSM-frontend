@@ -1,4 +1,4 @@
-import React, {} from 'react';
+import React, { } from 'react';
 
 import useStateProvider from "../../hooks/useStateProvider";
 import Partida from '../../components/Partida/Partida';
@@ -45,10 +45,11 @@ const PaginaPrincipala = (props) => {
         </div>
 
         {/* ################  ULTIMELE NOUTATI ################ */}
-
-        <div className={styles.stiri}>
-          <Carusel data={stiriPublicate} titluCarousel="Ultimele noutăți" screenWidth={props.screenWidth} showcontrols isHomePage />
-        </div>
+        {stiriPublicate.length > 0 &&
+          <div className={styles.stiri}>
+            <Carusel data={stiriPublicate} titluCarousel="Ultimele noutăți" screenWidth={props.screenWidth} showcontrols isHomePage />
+          </div>
+        }
 
 
 

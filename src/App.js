@@ -11,13 +11,13 @@ import Navigation from "./components/Navigation/Navigation.jsx";
 import Footer from './components/Footer/Footer';
 import PaginaPrincipala from "./pages/PaginaPrincipala/PaginaPrincipala";
 import Stiri from "./pages/Stiri/Stiri.jsx";
-// import DetaliiStiri from './pages/DetaliiStiri/DetaliiStiri.jsx';
 import Layout from './pages/Layout/Layout.jsx'
 import NotFound from "./pages/NotFound/NotFound.jsx";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Alert from "./components/Alert/Alert";
 import useStateProvider from "./hooks/useStateProvider";
 import useWindowDimensions from "./hooks/useWindowDimensions"
+import Stire from './pages/Stiri/DetaliiStiri/Stire.jsx';
 
 function App() {
   const { width } = useWindowDimensions();
@@ -66,7 +66,7 @@ function App() {
                 <Stiri />
               </Layout>
             } />
-            {/* <Route path="/stiri/:id" element={<DetaliiStiri />} /> */}
+            <Route path="/stiri/:id" exact element={<Layout><Stire /></Layout>} />
             {/*<Route path="/favorites" element={<Favorites />} /> */}
 
             <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />

@@ -11,12 +11,13 @@ const Button = ({
   disabled,
   onClick,
   iconColor,
+  border,
 }) => {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`${styles.button} ${styles[variant]} ${styles[position]} ${className}`}
+      className={`${styles.button} ${styles[variant]} ${styles[position]} ${className} ${border ? styles.border : styles.noBorder}`}
     >
       {
         iconColor === "black" ?  <span className={styles.displayNone}>{icon}</span>: <span className={styles.displayNone} style={{ fill:`${iconColor}`, stroke:`${iconColor}`,strokeWidth:"2"}}> {icon}</span>
@@ -37,6 +38,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   iconColor: PropTypes.string,
+  border: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -47,6 +49,7 @@ Button.defaultProps = {
   onClick: () => { },
   className: "",
   iconColor: "black",
+  border: true,
 };
 
 export default Button;

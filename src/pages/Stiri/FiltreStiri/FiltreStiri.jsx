@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './FiltreStiri.module.scss'
 
-const FiltreStiri = () => {
+const FiltreStiri = (props) => {
     return (
         <div className={styles.containerFiltre}>
             <h5 className={styles.titlu}>Filtre</h5>

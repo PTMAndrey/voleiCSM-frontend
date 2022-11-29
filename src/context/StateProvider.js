@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { getStiri } from "../api/API";
+import parse from 'date-fns/parse'
 
 const StateContext = createContext({});
 
@@ -31,7 +32,8 @@ export const StateProvider = ({ children }) => {
     try {
       const response = await getStiri(statusStiri);
       setStiri(response);
-      setStiriOrdonate(response?.sort((a, b) => new Date(...b.dataPublicarii.split('-').reverse()) - new Date(...a.dataPublicarii.split('-').reverse())));
+
+      setStiriOrdonate(sortData(response));
 
       // console.log("SP stiri",response);
     } catch (error) { }
@@ -40,18 +42,27 @@ export const StateProvider = ({ children }) => {
   const fetchStiriPublicate = async () => {
     try {
       const response = await getStiri("PUBLICAT");
-      setStiriPublicate(response?.sort((a, b) => new Date(...b.dataPublicarii.split('-').reverse()) - new Date(...a.dataPublicarii.split('-').reverse())));
+      setStiriPublicate(sortData(response));
+
       // console.log("SP stiriPublicate",response);
     } catch (error) { }
   };
 
+  const sortData = (response) => {
+    const format = 'd-M-y H:m'
+    const parseDate = d => parse(d, format, new Date())
+
+    return(response?.sort((a, b) => parseDate(b.dataPublicarii) - parseDate(a.dataPublicarii)));
+
+  }
+
   useEffect(() => {
-    fetchStiriPublicate(); // pentru pagina principala - noutati
+    fetchStiriPublicate(); // pentru carusel
   }, []);
 
   useEffect(() => {
     fetchStiribyStatus(); // pentru pagina Noutati - stiri
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // useEffect(() => {

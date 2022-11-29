@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./PhotosModal.module.scss";
 import Modal from "react-bootstrap/Modal";
 
+import { ReactComponent as LeftChevron } from "../../assets/icons/chevron-left.svg";
 import { ReactComponent as Share } from "../../assets/icons/share.svg";
 
 const PhotosModal = ({ showModal, setShowModal, images }) => {
@@ -13,19 +14,19 @@ const PhotosModal = ({ showModal, setShowModal, images }) => {
       onHide={() => setShowModal(false)}
     >
       <Modal.Title className={styles.modalTitle}>
-        {/* <LeftChevron
+        <LeftChevron
           className={styles.chevron}
           onClick={() => setShowModal(false)}
-        /> */}
+        />
         <div className={styles.rightButtons}>
           <div className={styles.share}>
             <Share />
             <h5>Share</h5>
           </div>
-          <div className={styles.save}>
-            {/* <Heart /> */}x
+          {/* <div className={styles.save}>
+            {<Heart />}
             <h5>Save</h5>
-          </div>
+          </div> */}
         </div>
       </Modal.Title>
 
