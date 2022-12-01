@@ -137,9 +137,9 @@ export const getStiriByFilter = async (stire) => {
       response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&numarZile=" + stire.numarZile);
     else
       if (stire.perioadaSpecifica.firstDay !== '' && stire.perioadaSpecifica.lastDay !== '')
-        response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&perioadaSpecifica=" + stire.perioadaSpecifica.firstDay + '%20' + stire.perioadaSpecifica.lastDay);
+        response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&perioadaSpecifica=" + stire.perioadaSpecifica.firstDay + ' ' + stire.perioadaSpecifica.lastDay);
       else
-        if (stire.numarZile !== '')
+        if (stire.dataSpecifica !== '')
           response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&dataSpecifica=" + stire.dataSpecifica);
         else
           response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire);

@@ -22,7 +22,7 @@ const PaginaPrincipala = (props) => {
     <>
       <Header screenWidth={props.screenWidth} />
       <Layout>
-
+        <input type="text"></input>
         {/* ################  MECIURI ################ */}
 
         <Partida echipa1={"C.S.M. SUCEAVA"} echipa2={"CSA STEAUA BUCURESTI"} timeline={"Următorul meci"} locatie={'Sala de sport “Dumitru Bernicu”'} data={'22 octombrie 2022'} />

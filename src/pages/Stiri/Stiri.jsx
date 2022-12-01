@@ -33,9 +33,6 @@ const Stiri = () => {
 
   const { pageSize } = useStateProvider();
 
-  //grid view list view
-  // const { listView } = useStateProvider();
-
   // pagination - current page with the content displayed
   const [currentPage, setCurrentPage] = useState(1);
   console.log("ordonate????",stiriOrdonate);
@@ -59,11 +56,7 @@ const Stiri = () => {
       <div className={styles.stiriBody}>
 
         <div className={styles.leftSide}>
-          {stiriOrdonate?.length === 0 ?
-            <FiltreStiri enableFilters={false} />
-            :
-            <FiltreStiri enableFilters={true} />
-          }
+            <FiltreStiri/>
         </div>
 
         <div className={styles.rightSide}>

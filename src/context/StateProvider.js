@@ -21,8 +21,6 @@ export const StateProvider = ({ children }) => {
   const [stiriPublicate, setStiriPublicate] = useState([]);
   const [stiriOrdonate, setStiriOrdonate] = useState([]);
   const [labelStiriDropdown, setLabelStiriDropdown] = useState(null);
-  // status stiri 'TOATE' ; 'PUBLICAT' ; 'PROGRAMAT' ; 'DRAFT' -- folosit in noutati la dropdown 
-  // const [statusStiri, setStatusStiri] = useState('PUBLICAT'); -- used before filtruStiri exist
   // paginare stiri
   let pageSize = 4;
 
@@ -84,8 +82,6 @@ export const StateProvider = ({ children }) => {
       setStiri,
       stiriOrdonate,
       setStiriOrdonate,
-      // statusStiri,
-      // setStatusStiri,
       stiriPublicate,
       setStiriPublicate,
       fetchStiribyFilter,
