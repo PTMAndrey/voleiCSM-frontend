@@ -18,7 +18,8 @@ import Alert from "./components/Alert/Alert";
 import useStateProvider from "./hooks/useStateProvider";
 import useWindowDimensions from "./hooks/useWindowDimensions"
 import Stire from './pages/Stiri/DetaliiStiri/Stire.jsx';
-
+import "react-calendar/dist/Calendar.css";
+import "./App.scss";
 function App() {
   const { width } = useWindowDimensions();
   const { alert } = useStateProvider();

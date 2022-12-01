@@ -30,7 +30,7 @@ const Card = ({
   // }, [userId]);
 
   const { setAlert } = useStateProvider();
-  const { fetchStiribyStatus } = useStateProvider();
+  const { fetchStiribyFilter } = useStateProvider();
 
   //grid view list view
   const { listView } = useStateProvider();
@@ -44,7 +44,7 @@ const Card = ({
       const response = await deleteStireById(data?.id);
       if (response.status === 200) {
         togglePopup();
-        fetchStiribyStatus();
+        fetchStiribyFilter();
         setAlert({ type: "success", message: "Deleted" });
       }
     } catch (error) {

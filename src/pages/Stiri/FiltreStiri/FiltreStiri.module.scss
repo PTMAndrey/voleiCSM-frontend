@@ -1,24 +1,40 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
 
-.containerFiltre{
-    display:flex;
+.containerFiltre {
+    display: flex;
     flex-direction: column;
-    align-items:flex-start;
-    background-color:rgba(13, 4, 11, 0.2);
-    padding:10px;
-    margin:20px 0;
+    align-items: flex-start;
 
-    .titlu{
+    background-color: rgba(13, 4, 11, 0.2);
+    padding: 15px;
+    margin: 20px 0;
+
+    .titlu {
         color: $color-dark-blue;
         font-weight: $font-bold;
     }
 }
 
-.tipDeStiri{
+.filtruStiri {
+    display: flex;
+    justify-items: flex-start;
+    flex-direction: column;
+    background-color: $color-dark-blue;
+    color: $color-white;
+    border: 3px solid $color-yellow;
+    width: 100%;
+    padding: 15px;
+    margin: 20px auto;
+    &h5{
+        font-weight: $font-bold;
+    }
 
-}
-
-.calendarStiri{
-
+    >form {
+        margin-top:10px;
+        margin-left: 20px;
+    }
+    label, input{
+        cursor: pointer;
+    }
 }
