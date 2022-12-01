@@ -34,10 +34,10 @@ export const getUserById = async (id) => {
   //   }
 };
 
-export const getStiri = async (status) => {
+export const getStiriByStatus = async (status) => {
   try {
     const response = await axios.get("/stiri?status=" + status);
-    console.log(response.data)
+    // console.log(response.data)
     return response.data;
 
     // return {
@@ -125,6 +125,28 @@ export const getStiri = async (status) => {
     //   ],
     //   response: 200,
     // }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStiriByFilter = async (stire) => {
+  try {
+    let response;
+    if (stire.numarZile !== '')
+      response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&numarZile=" + stire.numarZile);
+    else
+      if (stire.perioadaSpecifica.firstDay !== '' && stire.perioadaSpecifica.lastDay !== '')
+        response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&perioadaSpecifica=" + stire.perioadaSpecifica.firstDay + '%20' + stire.perioadaSpecifica.lastDay);
+      else
+        if (stire.numarZile !== '')
+          response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire + "&dataSpecifica=" + stire.dataSpecifica);
+        else
+          response = await axios.get("/stiri/filtru?status=" + stire.status + '&tipStire=' + stire.tipStire);
+
+    console.log("stiri filter",response.data)
+    return response.data;
+
   } catch (error) {
     console.error(error);
   }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import styles from "./Stiri.module.scss";
 import ListStiri from "./ListStiri.jsx";
 import DropdownComponent from "../../components/Dropdown/Dropdown";
@@ -12,7 +12,7 @@ import useAuth from '../../hooks/useAuth';
 const Stiri = () => {
   // view
   const { setListView, stiriOrdonate } = useStateProvider();
-  const { statusStiri, setStatusStiri, fetchStiribyStatus } = useStateProvider();
+  const {fetchStiribyFilter, filtruStiri, setFiltruStiri} = useStateProvider();
 
   const Programare = [
     { value: 'PUBLICAT', label: "Știri publicate" },
@@ -27,9 +27,29 @@ const Stiri = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    fetchStiribyStatus();
+    fetchStiribyFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [statusStiri]);
+  }, [filtruStiri]);
+
+  const { pageSize } = useStateProvider();
+
+  //grid view list view
+  // const { listView } = useStateProvider();
+
+  // pagination - current page with the content displayed
+  const [currentPage, setCurrentPage] = useState(1);
+  console.log("ordonate????",stiriOrdonate);
+
+  const currentTableData = useMemo(() => {
+      const firstPageIndex = (currentPage - 1) * pageSize;
+      const lastPageIndex = firstPageIndex + pageSize;
+
+      if (stiriOrdonate?.length < lastPageIndex && (lastPageIndex - stiriOrdonate?.length) > 0)
+          return stiriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - stiriOrdonate?.length));
+      else
+          return stiriOrdonate?.slice(firstPageIndex, lastPageIndex);
+
+  }, [currentPage, pageSize, stiriOrdonate]);
 
   return (
     <div className={styles.containerStiri}>
@@ -39,7 +59,7 @@ const Stiri = () => {
       <div className={styles.stiriBody}>
 
         <div className={styles.leftSide}>
-          {stiriOrdonate.length === 0 ?
+          {stiriOrdonate?.length === 0 ?
             <FiltreStiri enableFilters={false} />
             :
             <FiltreStiri enableFilters={true} />
@@ -47,7 +67,7 @@ const Stiri = () => {
         </div>
 
         <div className={styles.rightSide}>
-          {user?.role != null &&
+          {user?.role !== null &&
             <div className={styles.dropdownStiri}>
 
               <Button
@@ -60,17 +80,17 @@ const Stiri = () => {
                 clearable={true}
                 onChange={(e) => {
                   e === null ?
-                    setStatusStiri('PUBLICAT') :
-                    setStatusStiri(e.value);
+                    setFiltruStiri({...filtruStiri, status:'PUBLICAT'}) :
+                    setFiltruStiri({...filtruStiri, status:e.value});
                 }}
               ></DropdownComponent>
 
             </div>
           }
-          {stiriOrdonate.length < 1 &&
-            <h2 style={{ marginTop: '25px' }}>Momentan nu există știri {statusStiri.toLowerCase() ==='draft' ? statusStiri.toLowerCase() : statusStiri.toLowerCase() !== 'toate' ? statusStiri.toLowerCase()+'e' : null} </h2>
+          {stiriOrdonate?.length < 1 &&
+            <h2 style={{ marginTop: '25px' }}>Momentan nu există știri care să îndeplinească filtrele selectate</h2>
           }
-          <ListStiri />
+          <ListStiri currentTableData={currentTableData} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </div>
 
       </div>
