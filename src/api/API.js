@@ -1,8 +1,7 @@
 import axios from "axios";
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
+  'Content-Type': 'multipart/form-data',
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
 };
@@ -164,6 +163,27 @@ export const deleteStireById = async (id) => {
 export const getStireById = async (id) => {
   try {
     const response = await axios.get("/stiri/" + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addStire = async (stire) => {
+  try {
+    const response = await axios.post("/stiri", stire, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }},);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateStire = async (data) => {
+  try {
+    const response = await axios.post("/stiri/" + data.id, data);
     return response;
   } catch (error) {
     console.error(error);

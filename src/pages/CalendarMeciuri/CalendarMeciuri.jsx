@@ -7,7 +7,7 @@ import DropdownComponent from "../../components/Dropdown/Dropdown";
 import useStateProvider from "../../hooks/useStateProvider";
 import Button from '../../components/Button/Button';
 
-import FiltreStiri from './FiltreStiri/FiltreStiri'
+import FiltreStiri from './FiltreCalendarMeciuri/FiltreStiri'
 
 import useAuth from '../../hooks/useAuth';
 

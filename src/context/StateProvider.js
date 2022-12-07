@@ -20,7 +20,6 @@ export const StateProvider = ({ children }) => {
   const [stiri, setStiri] = useState(null);
   const [stiriPublicate, setStiriPublicate] = useState([]);
   const [stiriOrdonate, setStiriOrdonate] = useState([]);
-  const [labelStiriDropdown, setLabelStiriDropdown] = useState(null);
   // paginare stiri
   let pageSize = 4;
 
@@ -73,6 +72,8 @@ export const StateProvider = ({ children }) => {
 
 
 
+  // preview
+  const [preview, setPreview] = useState({});
 
   return <StateContext.Provider
     value={{
@@ -85,15 +86,15 @@ export const StateProvider = ({ children }) => {
       stiriPublicate,
       setStiriPublicate,
       fetchStiribyFilter,
+      pageSize,
 
       filtruStiri,
       setFiltruStiri,
 
-      labelStiriDropdown,
-      setLabelStiriDropdown,
+      preview,
+      setPreview,
       listView,
       setListView,
-      pageSize,
     }}
   >{children}</StateContext.Provider>;
 };

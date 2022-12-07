@@ -198,25 +198,11 @@ const Card = ({
               </span>
             </div>
 
-            {(user?.role !== null) && (
+            {user?.role && (
               <div onClick={stopPropagation} className={styles.controls}>
-                <>
-                  {/* <button
-                      className={styles.edit}
-                      onClick={() => {console.log(`${data?.id}`)}}//navigate(`/edit/${stireid}`)}
-                    >
-                      Modifică
-                    </button> */}
-                  <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`) }} />
-                  {/* navigate(`/edit/${stireid}`)} */}
-                  {/* <button
-                    className={styles.delete}
-                    onClick={() => togglePopup()}
-                  >
-                    <span>Șterge</span>
-                  </button> */}
+                  <RiEdit2Fill className={styles.edit} onClick={() => {  console.log(`${data?.id}`); navigate(`/edit/${data?.id}`);}} />
+
                   <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
-                </>
               </div>
             )}
 

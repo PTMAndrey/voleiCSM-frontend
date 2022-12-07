@@ -12,11 +12,12 @@
 }
 .onHover{
     padding: 5px;
+    border:0.1px solid transparent;
 }
 .onHover:hover {
     color: gray !important;
     border-bottom: 0.1px solid $color-yellow;
-    animation: _border 1s linear;
+    animation: 1s linear;
 }
 @keyframes _border {
     0% {

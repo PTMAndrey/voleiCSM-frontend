@@ -9,15 +9,22 @@ import { useLayoutEffect } from 'react';
 
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Footer from './components/Footer/Footer';
+import Alert from "./components/Alert/Alert";
+
 import PaginaPrincipala from "./pages/PaginaPrincipala/PaginaPrincipala";
 import Stiri from "./pages/Stiri/Stiri.jsx";
 import Layout from './pages/Layout/Layout.jsx'
 import NotFound from "./pages/NotFound/NotFound.jsx";
+import Stire from './pages/Stiri/DetaliiStiri/Stire.jsx';
+import AddEdit from './pages/AddEdit/AddEdit';
+import Preview from './pages/AddEdit/Preview';
+import Confirmation from './pages/Confirmation/Confirmation';
+
 import ProtectedRoute from "./routes/ProtectedRoutes";
-import Alert from "./components/Alert/Alert";
+
 import useStateProvider from "./hooks/useStateProvider";
 import useWindowDimensions from "./hooks/useWindowDimensions"
-import Stire from './pages/Stiri/DetaliiStiri/Stire.jsx';
+
 import "react-calendar/dist/Calendar.css";
 import "./App.scss";
 function App() {
@@ -38,16 +45,17 @@ function App() {
           >
 
             {/* protected routes */}
-            {/* <Route path="/add" element={<AddEdit />} />
-          <Route path="/add/preview" element={<Preview />} />
+            <Route path="/stire-add" element={<AddEdit />} />
+            <Route path="/stire-add/preview" element={<Preview />} />
           <Route path="/confirmation" element={<Confirmation />} />
-          <Route path="/my-account">
-            <Route path="profile" element={<MyAccount />} />
-            <Route path="security" element={<MyAccount />} />
-            <Route path="notifications" element={<MyAccount />} />
-            <Route path="messages" element={<MyAccount />} />
-          </Route>
-          <Route path="/edit/:id" element={<AddEdit />} /> */}
+           {/*<Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/my-account">
+              <Route path="profile" element={<MyAccount />} />
+              <Route path="security" element={<MyAccount />} />
+              <Route path="notifications" element={<MyAccount />} />
+              <Route path="messages" element={<MyAccount />} />
+            </Route>*/}
+            <Route path="/edit/:id" element={<AddEdit />} /> 
           </Route>
 
           <Route
@@ -68,7 +76,6 @@ function App() {
               </Layout>
             } />
             <Route path="/stiri/:id" exact element={<Layout><Stire /></Layout>} />
-            {/*<Route path="/favorites" element={<Favorites />} /> */}
 
             <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />
 
