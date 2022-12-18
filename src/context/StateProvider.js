@@ -20,12 +20,17 @@ export const StateProvider = ({ children }) => {
   const [stiri, setStiri] = useState(null);
   const [stiriPublicate, setStiriPublicate] = useState([]);
   const [stiriOrdonate, setStiriOrdonate] = useState([]);
-  const [labelStiriDropdown, setLabelStiriDropdown] = useState(null);
   // paginare stiri
   let pageSize = 4;
+  // calendar meciuri
+  const [meciuri, setMeciuri] = useState(null);
+  const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
+
+  const [paginaCurentaStiri, setPaginaCurentaStiri] = useState(1);
+  const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
 
   // show grid show list
-  const [listView, setListView] = useState(true);
+  const [listView, setListView] = useState(false);
   // FILTRARE STIRI
   const [filtruStiri, setFiltruStiri] = useState({
     status: 'PUBLICAT',
@@ -38,18 +43,20 @@ export const StateProvider = ({ children }) => {
   const fetchStiriPublicate = async () => {
     try {
       const response = await getStiriByStatus("PUBLICAT");
-      setStiriPublicate(sortData(response));
+      response ? setStiriPublicate(sortData(response)) : setStiriPublicate(null);
 
     } catch (error) { }
   };
 
-
   const fetchStiribyFilter = async () => {
     try {
       const response = await getStiriByFilter(filtruStiri);
-      setStiri(response);
-
-      setStiriOrdonate(sortData(response));
+      if (response) {
+        setStiri(response);
+        setStiriOrdonate(sortData(response));
+        setPaginaCurentaStiri(1);
+      }
+      else { setStiri(null); setStiriOrdonate(null); }
 
     } catch (error) { }
   };
@@ -57,13 +64,14 @@ export const StateProvider = ({ children }) => {
   const sortData = (response) => {
     const format = 'd-M-y H:m'
     const parseDate = d => parse(d, format, new Date())
-
     return (response?.sort((a, b) => parseDate(b.dataPublicarii) - parseDate(a.dataPublicarii)));
 
   }
+  
 
   useEffect(() => {
-    fetchStiriPublicate(); // pentru carusel
+    fetchStiriPublicate(); // pentru carusel - pagina principala
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -73,6 +81,8 @@ export const StateProvider = ({ children }) => {
 
 
 
+  // preview
+  const [preview, setPrevizualizare] = useState({});
 
   return <StateContext.Provider
     value={{
@@ -84,16 +94,26 @@ export const StateProvider = ({ children }) => {
       setStiriOrdonate,
       stiriPublicate,
       setStiriPublicate,
+      meciuri,
+      setMeciuri,
+      meciuriOrdonate,
+      setMeciuriOrdonate,
+
+      paginaCurentaStiri,
+      setPaginaCurentaStiri,
+      paginaCurentaMeciuri,
+      setPaginaCurentaMeciuri,
+
       fetchStiribyFilter,
+      pageSize,
 
       filtruStiri,
       setFiltruStiri,
 
-      labelStiriDropdown,
-      setLabelStiriDropdown,
+      preview,
+      setPrevizualizare,
       listView,
       setListView,
-      pageSize,
     }}
   >{children}</StateContext.Provider>;
 };

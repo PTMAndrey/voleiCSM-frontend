@@ -1,0 +1,51 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.stickyNav {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+.logoNavbar {
+    max-width: 50px;
+    aspect-ratio: 1;
+}
+.onHover{
+    padding: 5px;
+    border:0.1px solid transparent;
+}
+.onHover:hover {
+    color: gray !important;
+    border-bottom: 0.1px solid $color-yellow;
+    animation: 1s linear;
+}
+@keyframes _border {
+    0% {
+        transform: scaleZ(0.5);
+        height: 60%;
+        opacity:1;
+    }
+
+    25% {
+        transform: scaleY(0.8)scaleX(0.75);
+        height:  70%;
+        opacity: 1;
+    }
+    45% {
+        height: 80%;
+        opacity: 1;
+    }
+
+    55% {
+        transform: scaleZ(0.55);
+        height: 90%;
+        opacity: 1;
+    }
+
+    100% {
+        transform: scaleZ(1.15);
+        height: 100%;
+        opacity: 1;
+
+    }
+}
