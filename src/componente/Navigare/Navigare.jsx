@@ -30,7 +30,7 @@ const Navigare = (props) => {
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/noutati" >Noutăți</Nav.Link>
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/calendar">Calendar meciuri</Nav.Link>
                   <NavDropdown
-                    title="Personal"
+                    title="Personal"className={`${styles.onHover}`}
                     id={`offcanvasNavbarDropdown-expand-${props.expand} `}
                   >
                     <NavDropdown.Item href="#action3">Pagina 1</NavDropdown.Item>

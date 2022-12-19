@@ -72,7 +72,6 @@ const PaginaPrincipala = () => {
     // getMeciRezultat();
   }, []);
 
-console.log(meciViitor[0]);
   return (
     <>
       <Header />
@@ -82,12 +81,12 @@ console.log(meciViitor[0]);
         <div className={styles.timelinePartida}>
           <h3 className={styles.borderTimeline}>Urmatorul meci</h3>
         </div>
-        <Partida meci={meciViitor[0]} />
+        <Partida data={meciViitor[0]} />
         <br /><br /><br />
         <div className={styles.timelinePartida}>
           <h3 className={styles.borderTimeline}>Ultimul meci</h3>
         </div>
-        <Partida meci={meciRezultat[0]} />
+        <Partida data={meciRezultat[0]} />
 
         {/* ################  CLASAMENT ################ */}
 
