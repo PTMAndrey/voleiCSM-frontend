@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from "react";
-import { getStiriByStatus, getStiriByFilter } from "../api/API";
+import { createContext, useState, useEffect } from 'react';
+import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter } from '../api/API';
 import parse from 'date-fns/parse'
 
 const StateContext = createContext({});
@@ -14,24 +14,18 @@ export const StateProvider = ({ children }) => {
     }, 2000);
   }
 
-
+  // numar elemente pe o pagina ( ex. noutati )
+  let pageSize = 4;
 
   // stiri 
   const [stiri, setStiri] = useState(null);
-  const [stiriPublicate, setStiriPublicate] = useState([]);
-  const [stiriOrdonate, setStiriOrdonate] = useState([]);
-  // paginare stiri
-  let pageSize = 4;
-  // calendar meciuri
-  const [meciuri, setMeciuri] = useState(null);
-  const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
-
+  const [stiriPublicate, setStiriPublicate] = useState([]); // folosit in pagina principala
+  const [stiriOrdonate, setStiriOrdonate] = useState([]); // folosit in restul aplicatiei
   const [paginaCurentaStiri, setPaginaCurentaStiri] = useState(1);
-  const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
 
   // show grid show list
   const [listView, setListView] = useState(false);
-  // FILTRARE STIRI
+  // filtru pentru stiri
   const [filtruStiri, setFiltruStiri] = useState({
     status: 'PUBLICAT',
     tipStire: 'TOATE',
@@ -40,9 +34,19 @@ export const StateProvider = ({ children }) => {
     dataSpecifica: '',
   });
 
+  // calendar meciuri
+  const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
+  const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
+  const [filtruMeciuri, setFiltruMeciuri] = useState({
+    status: 'TOATE',
+    dataSpecifica: '',
+  });
+
+
+
   const fetchStiriPublicate = async () => {
     try {
-      const response = await getStiriByStatus("PUBLICAT");
+      const response = await getStiriByStatus('PUBLICAT');
       response ? setStiriPublicate(sortData(response)) : setStiriPublicate(null);
 
     } catch (error) { }
@@ -57,6 +61,18 @@ export const StateProvider = ({ children }) => {
         setPaginaCurentaStiri(1);
       }
       else { setStiri(null); setStiriOrdonate(null); }
+
+    } catch (error) { }
+  };
+
+  const fetchMeciuribyFilter = async () => {
+    try {
+      const response = await getMeciuriByFilter(filtruMeciuri);
+      if (response) {
+        setMeciuriOrdonate(sortData(response));
+        setPaginaCurentaMeciuri(1);
+      }
+      else { setMeciuriOrdonate(null); }
 
     } catch (error) { }
   };
@@ -79,6 +95,10 @@ export const StateProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    fetchMeciuribyFilter(); // pentru pagina Noutati - stiri
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   // preview
@@ -88,32 +108,32 @@ export const StateProvider = ({ children }) => {
     value={{
       alert,
       setAlert,
+      pageSize,
+      preview,
+      setPrevizualizare,
+      listView,
+      setListView,
+
       stiri,
       setStiri,
       stiriOrdonate,
       setStiriOrdonate,
       stiriPublicate,
       setStiriPublicate,
-      meciuri,
-      setMeciuri,
-      meciuriOrdonate,
-      setMeciuriOrdonate,
-
       paginaCurentaStiri,
       setPaginaCurentaStiri,
-      paginaCurentaMeciuri,
-      setPaginaCurentaMeciuri,
-
-      fetchStiribyFilter,
-      pageSize,
-
       filtruStiri,
       setFiltruStiri,
+      fetchStiribyFilter,
 
-      preview,
-      setPrevizualizare,
-      listView,
-      setListView,
+      meciuriOrdonate,
+      setMeciuriOrdonate,
+      paginaCurentaMeciuri,
+      setPaginaCurentaMeciuri,
+      filtruMeciuri,
+      setFiltruMeciuri,
+      fetchMeciuribyFilter,
+
     }}
   >{children}</StateContext.Provider>;
 };

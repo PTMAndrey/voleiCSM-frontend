@@ -1,6 +1,19 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+.timelinePartida {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    @media screen and(max-width:600px) {
+        & {
+            justify-content: center;
+        }
+    }
+}
+
 .frameCampionat {
     border-width: 5px;
     height: 520px;

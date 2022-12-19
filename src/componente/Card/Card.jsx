@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import styles from "./Card.module.scss";
-import useAuth from "../../hooks/useAuth";
-import Popup from "../../pagini/PaginaPrincipala/Popup";
-import useStateProvider from "../../hooks/useStateProvider";
-import { useNavigate } from "react-router-dom";
-import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
-import { ReactComponent as StiriDefaultImage } from "../../assets/icons/Stiri-Default.svg";
+import React, { useState } from 'react';
+import styles from './Card.module.scss';
+import useAuth from '../../hooks/useAuth';
+import Popup from '../../pagini/PaginaPrincipala/Popup';
+import useStateProvider from '../../hooks/useStateProvider';
+import { useNavigate } from 'react-router-dom';
+import { ReactComponent as ArrowRight } from '../../assets/icons/arrow-right.svg';
+import { ReactComponent as StiriDefaultImage } from '../../assets/icons/Stiri-Default.svg';
 import { RiEdit2Fill } from 'react-icons/ri';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import { deleteStireById } from '../../api/API'
 
-import Buton from "../Buton/Buton";
-import moment from "moment";
+import Buton from '../Buton/Buton';
+import moment from 'moment';
 import 'moment/locale/ro';
 
 const Card = ({
@@ -25,9 +25,6 @@ const Card = ({
   const { user } = useAuth();
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (userId !== null) getFavorite(userId).then((res) => setFavourites(res));
-  // }, [userId]);
 
   const { setAlert } = useStateProvider();
   const { fetchStiribyFilter } = useStateProvider();
@@ -45,97 +42,16 @@ const Card = ({
       if (response.status === 200) {
         togglePopup();
         fetchStiribyFilter();
-        setAlert({ type: "success", message: "Deleted" });
+        setAlert({ type: 'success', message: 'Deleted' });
       }
     } catch (error) {
       togglePopup();
       setAlert({
-        type: "danger",
-        message: "Something went wrong",
+        type: 'danger',
+        message: 'Something went wrong',
       });
     }
   };
-
-  //#region COMMENTED REGION
-  //Approve announce
-
-  // const handleApprove = async (id) => {
-  //   try {
-  //     // const response = await approveListing(id);
-  //     // if (response.status === 200) {
-  //       setAlert({
-  //         type: "success",
-  //         message: "Approved",
-  //       });
-  //       fetchListings();
-  //     // }
-  //   } catch (error) {
-  //     console.log(error);
-  //     setAlert({
-  //       type: "danger",
-  //       message: "Something went wrong",
-  //     });
-  //   }
-  // };
-  // Decline announce
-  // const handleDecline = async (id) => {
-  //   try {
-  //     // const response = await declineListing(id);
-  //     // if (response.status === 200) {
-  //       setAlert({
-  //         type: "success",
-  //         message: "Approved",
-  //       });
-  //       fetchListings();
-  //     // }
-  //   } catch (error) {
-  //     console.log(error);
-  //     setAlert({
-  //       type: "danger",
-  //       message: "Something went wrong",
-  //     });
-  //   }
-  // };
-  // useEffect(() => {
-  //   setFavorites(favourites);
-  // }, [favourites]);
-  // //handle favorites
-  // const handleFavorites = async () => {
-  //   try {
-  //     //add fav
-  //     if (listingId && userId && like === false) {
-  //       // const response = await addFavorite(userId, listingId);
-
-  //       setLike(true);
-  //       console.log(favourites, "add ");
-  //       console.log(favorites, "add global");
-  //     }
-  //     //remove fav
-  //     if (listingId && userId && like === true) {
-  //       // const response = await deleteFavoriteById(userId, listingId);
-
-  //       setLike(false);
-  //       console.log(favourites, "delete ");
-  //       console.log(favorites, "delete glob");
-  //     } else if (userId === null) {
-  //       console.log(showNotification, "show notif");
-  //       setShowNotification(true);
-  //     }
-  //   } catch (error) {
-  //     console.log("Error: ", error);
-  //   }
-  // };
-
-
-  // //check favorites
-  // useEffect(() => {
-  //   favorites?.forEach((favorite) => {
-  //     if (favorite.id === listingId) setLike(true);
-  //   });
-  // }, [favorites]);
-  //#endregion
-
-
   //popup
   const togglePopup = (props) => {
     setOpenPopup(!openPopup);
@@ -153,7 +69,7 @@ const Card = ({
             {data?.imagini !== null ?
               <img
                 src={data?.imaginiURL[0]}
-                alt="Stiri"
+                alt='Stiri'
                 className={`${listView ? styles.ListCardImg : styles.cardImg}`}
               />
               : <StiriDefaultImage className={`${listView ? styles.ListCardImg : styles.cardImg}`} />
@@ -166,33 +82,30 @@ const Card = ({
                 }`}
             >
               <p className={styles.cardDataPublicarii}>
-                {/* {moment(data?.dataPublicarii).format("DD MMMM YYYY HH:mm")} */}
-                {moment(data?.dataPublicarii,'DD-MM-YYYY HH:mm').format("DD MMMM YYYY HH:mm")}
+                {moment(data?.dataPublicarii,'DD-MM-YYYY HH:mm').format('DD MMMM YYYY HH:mm')}
               </p>
               <p className={styles.cardTitlu}>{data?.titlu}</p>
             </div>
 
             <p
-              // style={{ display: listView ? "block" : "none" }}
-              style={{ display: "block", color: "darkgray " }}
+              style={{ display: 'block', color: 'darkgray ' }}
               className={`${styles.cardDescription}`}
             >
               {
                 data?.descriere.substring(0, 500)
               }
-              {/* {descriere} */}
             </p>
 
-            <p className="text-white" style={{ fontSize: '12px' }}>#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
+            <p className='text-white' style={{ fontSize: '12px' }}>#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
 
             <div className={styles.citesteMaiMult}>
               <span onClick={() => navigate(`/noutati/${data?.id}`)}>
                 <Buton
                   icon={<ArrowRight />}
-                  position="right"
-                  iconColor="white"
-                  variant="transparent"
-                  label="Citește mai mult"
+                  position='right'
+                  iconColor='white'
+                  variant='transparent'
+                  label='Citește mai mult'
                   border={false}
                 />
               </span>
@@ -243,10 +156,6 @@ const Card = ({
           />
         )
       }
-      {/* <FavoriteErrorModal
-        showNotification={showNotification}
-        setShowNotification={setShowNotification}
-      /> */}
     </div >
   );
 };

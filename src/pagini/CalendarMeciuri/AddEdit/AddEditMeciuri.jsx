@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import { ReactComponent as Add } from "../../assets/icons/add.svg";
+import { ReactComponent as Add } from "../../../assets/icons/add.svg";
 
 import { Container, Row, Col } from "react-bootstrap";
 import { RiDeleteBinFill } from 'react-icons/ri';
@@ -9,16 +9,16 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Calendar } from "react-calendar";
 
-import { addStire, updateStire, getStireById} from "../../api/API";
-import useStateProvider from "../../hooks/useStateProvider";
-import useAuth from "../../hooks/useAuth";
+import { addStire, updateStire, getStireById } from "../../../api/API";
+import useStateProvider from "../../../hooks/useStateProvider";
+import useAuth from "../../../hooks/useAuth";
 
-import Input from "../../componente/Input/Input";
-import Buton from "../../componente/Buton/Buton";
-import TextArea from "../../componente/TextArea/TextArea";
-import DropdownComponent from "../../componente/Dropdown/Dropdown";
+import Input from "../../../componente/Input/Input";
+import Buton from "../../../componente/Buton/Buton";
+import TextArea from "../../../componente/TextArea/TextArea";
+import DropdownComponent from "../../../componente/Dropdown/Dropdown";
 
-import styles from "./AddEdit.module.scss";
+import styles from "./AddEditMeciuri.module.scss";
 import { createReadStream } from 'fs';
 
 const AddEdit = () => {
@@ -274,52 +274,25 @@ const AddEdit = () => {
 
   return (
     <Container className={styles.addBackgroundColor}>
-      <h1 className={styles.addTitlu}>Adaugă știre</h1>
+      <h1 className={styles.addTitlu}>Adăugare meci</h1>
       <Row>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
-            <h3>Detalii *</h3>
+            <h3>Echipa 1 *</h3>
           </div>
         </Col>
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.inputs}>
             <Input
-              name="titlu"
-              id="titlu"
+              name="echipa1"
+              id="echipa1"
               value={formValue.titlu}
-              label="Titlu"
-              placeholder="Titlu"
+              label="Echipa 1"
+              placeholder="Echipa 1"
               onChange={handleChange}
               error={showErrors && checkErrors("titlu") ? true : false}
               helper={showErrors ? checkErrors("titlu") : ""}
             />
-            <Input
-              name="hashtag"
-              id="hashtag"
-              value={formValue.hashtag}
-              // placeholder="#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty"
-              placeholder="#tag"
-              label="Definire hashtaguri"
-              onChange={handleChange}
-            />
-          </div>
-        </Col>
-      </Row>
-      <Row style={{ marginTop: "40px" }}>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>{"Imagini & videoclipuri"}</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* previews */}
-          <Col
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "1rem",
-            }}
-          >
             {formValue?.imagini?.map((img, index) => (
               <div key={index} className={styles.preview}>
                 <img src={img} alt="" />
@@ -332,161 +305,138 @@ const AddEdit = () => {
 
             {/* dropzone */}
             {formValue?.imagini?.length < 9 && <Dropzone onDrop={handleDrop} />}
-          </Col>
-          {showErrors && (
-            <div>
-              <p className={styles.error}>{checkErrors("imagini")}</p>
-            </div>
-          )}
+          </div>
         </Col>
       </Row>
       <Row style={{ marginTop: "40px" }}>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
-            <h3
-              onClick={() =>
-                setFormValue({
-                  ...formValue,
-                  descriere:
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque illum recusandae molestiae consequuntur tempora, esse omnis fugiat quam harum iure?",
-                })
-              }
-            >
-              Descriere *
-            </h3>
+            <h3>Echipa 2 *</h3>
           </div>
         </Col>
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* descriere */}
-          <TextArea
-            name="descriere"
-            id="descriere"
-            label="Detalii descriere"
-            placeholder="Descriere"
-            error={(showErrors && checkErrors("descriere")) ? true : false}
-            helper={checkErrors("descriere")}
-            value={formValue.descriere}
-            onChange={handleChange}
-          />
+          <div className={styles.inputs}>
+            <Input
+              name="echipa2"
+              id="echipa2"
+              value={formValue.titlu}
+              label="Echipa 2"
+              placeholder="Echipa 2"
+              onChange={handleChange}
+              error={showErrors && checkErrors("titlu") ? true : false}
+              helper={showErrors ? checkErrors("titlu") : ""}
+            />
+            {formValue?.imagini?.map((img, index) => (
+              <div key={index} className={styles.preview}>
+                <img src={img} alt="" />
+                <RiDeleteBinFill onClick={() => {
+                  handleDelete(index);
+                }} />
+
+              </div>
+            ))}
+
+            {/* dropzone */}
+            {formValue?.imagini?.length < 9 && <Dropzone onDrop={handleDrop} />}
+          </div>
         </Col>
       </Row>
+
       <Row style={{ marginTop: "40px" }}>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
-            <h3>Publicare *</h3>
+            <h3>Detalii *</h3>
           </div>
         </Col>
         <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
 
           <div className={styles.publicare}>
-            {/* Publica acum */}
-            <div>
-              <label htmlFor="publicaAcum">
-                <input
-                  id="publicaAcum"
-                  type="radio"
-                  name="status"
-                  value="PUBLICAT"
-                  checked={formValue.status === 'PUBLICAT'}
-                  onLoad={(e) => { console.log(getCurrentData()) }}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setFormValue({ ...formValue, status: 'PUBLICAT', dataPublicarii: getCurrentData() });
-                    setDataProgramata('');
-                    setSelectedHour('');
-                    setSelectedMinute('');
-                    setShowCalendar(false);
-                  }}
-                />
-                {" "} Publică acum
-              </label>
-            </div>
+            {/* <div> */}
+            <Input
+              name="campionat"
+              id="campionat"
+              value={formValue.titlu}
+              label="Campionat"
+              placeholder="Campionat"
+              onChange={handleChange}
+              error={showErrors && checkErrors("titlu") ? true : false}
+              helper={showErrors ? checkErrors("titlu") : ""}
+            />
+             <Input
+              name="locatia"
+              id="locatia"
+              value={formValue.titlu}
+              label="Locatia"
+              placeholder="Locatia"
+              onChange={handleChange}
+              error={showErrors && checkErrors("titlu") ? true : false}
+              helper={showErrors ? checkErrors("titlu") : ""}
+            />
+              <div className={styles.alegeZiua}>
+                <div>
+                  <p>Alege zi</p>
+                  <Calendar onChange={(e) => {
+                    console.log("calendar", (e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
+                    // setFormValue({...formValue, dataPublicarii:(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear()})
+                    setDataProgramata(String(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear())
+                  }} minDate={new Date(2010, 1, 1)} />
 
-            <div>
-              <label>
-                <input
-                  id="programeaza"
-                  type="radio"
-                  name="status"
-                  value="PROGRAMAT"
-                  checked={formValue.status === 'PROGRAMAT'}
-                  onChange={(e) => { handleChange(e); setFormValue({ ...formValue, status: 'PROGRAMAT' }); setDataProgramata('') }}
-                  onClick={() => setShowCalendar(true)}
-                />
-                {" "}Programează publicarea
-              </label>
-              {showCalendar &&
-                <div className={styles.programeazaStire}>
-                  <div>
-                    <p>Alege zi</p>
-                    <Calendar onChange={(e) => {
-                      console.log("calendar", (e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
-                      // setFormValue({...formValue, dataPublicarii:(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear()})
-                      setDataProgramata(String(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear())
-                    }} minDate={new Date(2010, 1, 1)} />
-
-                    {showErrors ? checkErrors("data") : ""}
-                  </div>
-                  <div>
-                    <p>Ore</p>
-                    <DropdownComponent
-                      title="00"
-                      options={hours}
-                      clearable={true}
-                      searchable={true}
-                      onChange={(e) => {
-                        !e ? setSelectedHour('') : setSelectedHour(e.value);
-                      }}
-                      error={showErrors && checkErrors("ora") ? true : false}
-                      helper={showErrors ? checkErrors("ora") : ""}
-                    />
-                    { }
-                  </div>
-                  <div>
-                    <p>Minute</p>
-                    <DropdownComponent
-                      title="00"
-                      options={minutes}
-                      clearable={true}
-                      searchable={true}
-                      onChange={(e) => {
-                        e === null ? setSelectedMinute('') : setSelectedMinute(e.value);
-                      }}
-                      error={showErrors && checkErrors("minut") ? true : false}
-                      helper={showErrors ? checkErrors("minut") : ""}
-                    />
-                  </div>
+                  {showErrors ? checkErrors("data") : ""}
                 </div>
-              }
-            </div>
-            <div>
-              {/* Daca salveaza ca draft si nu are descriere sa pot inlocui textul cu 'draft' sau ceva asemanator
-              astfel incat sa ii permit sa puna camp gol
-              * ! sau vorbeste cu Ana sa schimbe in BD
-               */}
-              <label>
-                <input
-                  id="draft"
-                  type="radio"
-                  name="status"
-                  value="DRAFT"
-                  checked={formValue.status === 'DRAFT'}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setFormValue({ ...formValue, status: 'DRAFT', dataPublicarii: getCurrentData() });
-                    setDataProgramata('');
-                    setSelectedHour('');
-                    setSelectedMinute('');
-                    setShowCalendar(false);
-                  }}
-                />
-                {' '} Salveaza ca draft
-              </label>
-            </div>
-
+                <div>
+                  <p>Ore</p>
+                  <DropdownComponent
+                    title="00"
+                    options={hours}
+                    clearable={true}
+                    searchable={true}
+                    onChange={(e) => {
+                      !e ? setSelectedHour('') : setSelectedHour(e.value);
+                    }}
+                    error={showErrors && checkErrors("ora") ? true : false}
+                    helper={showErrors ? checkErrors("ora") : ""}
+                  />
+                  { }
+                  <p>Minute</p>
+                  <DropdownComponent
+                    title="00"
+                    options={minutes}
+                    clearable={true}
+                    searchable={true}
+                    onChange={(e) => {
+                      e === null ? setSelectedMinute('') : setSelectedMinute(e.value);
+                    }}
+                    error={showErrors && checkErrors("minut") ? true : false}
+                    helper={showErrors ? checkErrors("minut") : ""}
+                  />
+                </div>
+              </div>
+            {/* </div> */}
           </div>
         </Col>
       </Row>
+      <Row style={{ marginTop: "40px" }}>
+        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+          <div className={styles.info}>
+            <h3>LIVE</h3>
+          </div>
+        </Col>
+        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+          <div className={styles.inputs}>
+            <Input
+              name="link"
+              id="link"
+              value={formValue.titlu}
+              label="Link vizualizare LIVE"
+              placeholder="LINK"
+              onChange={handleChange}
+              error={showErrors && checkErrors("titlu") ? true : false}
+              helper={showErrors ? checkErrors("titlu") : ""}
+            />
+          </div>
+        </Col>
+      </Row>
+
       <Row style={{ marginTop: "40px", marginBottom: "60px" }}>
         <Col md={{ span: 4, offset: 0 }}></Col>
         <Col md={{ span: 6, offset: 0 }}>

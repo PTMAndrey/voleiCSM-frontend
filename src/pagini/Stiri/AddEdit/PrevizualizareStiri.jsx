@@ -1,43 +1,15 @@
 import React, {  } from "react";
-import styles from "./Previzualizare.module.scss";
+import styles from "./PrevizualizareStiri.module.scss";
+import Buton  from "../../../componente/Buton/Buton";
+import { ReactComponent as GridDense } from "../../../assets/icons/grid-dense.svg";
+import { ReactComponent as Share } from "../../../assets/icons/share.svg";
+import useStateProvider from "../../../hooks/useStateProvider";
 
-// import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import Buton  from "../../componente/Buton/Buton";
-import { ReactComponent as GridDense } from "../../assets/icons/grid-dense.svg";
-import { ReactComponent as Share } from "../../assets/icons/share.svg";
-// import { ReactComponent as Heart } from "../../assets/icons/heart.svg";
-// import { ReactComponent as HeartFilled } from "../../assets/icons/heart-filled.svg";
-import useStateProvider from "../../hooks/useStateProvider";
-
-import { addStire } from "../../api/API";
+import { addStire } from "../../../api/API";
 
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-// map to render, default location is Suceava
-// const Map = ({ center }) => {
-//   const { isLoaded } = useLoadScript({
-//     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-//   });
-
-//   //const center = useMemo(() => ({ lat: 47.6635, lng: 26.2732 }), []);
-//   return isLoaded ? (
-//     <GoogleMap
-//       id="map"
-//       mapContainerStyle={{
-//         width: "inherit",
-//         height: "25rem",
-//         borderRadius: "0.75rem",
-//       }}
-//       zoom={15}
-//       center={center}
-//     >
-//       <Marker position={center} />
-//     </GoogleMap>
-//   ) : (
-//     <div>Loading...</div>
-//   );
-// };
+import useAuth from "../../../hooks/useAuth";
 
 const Previzualizare = () => {
   const { user } = useAuth();
@@ -121,15 +93,7 @@ const Previzualizare = () => {
                     : "") +
                   preview?.location[5]}
             </p>
-            {/* google maps */}
-            {/* <div className={styles.map}>
-              <Map
-                center={{
-                  lat: preview?.location ? parseFloat(preview?.location[0]) : 0,
-                  lng: preview?.location ? parseFloat(preview?.location[1]) : 0,
-                }}
-              />
-            </div> */}
+
           </div>
           {/* message seller */}
           <div className={styles.message}>

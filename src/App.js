@@ -16,8 +16,9 @@ import Stiri from "./pagini/Stiri/Stiri.jsx";
 import Layout from './pagini/Layout/Layout.jsx'
 import NotFound from "./pagini/NotFound/NotFound.jsx";
 import Stire from './pagini/Stiri/DetaliiStiri/Stire.jsx';
-import AddEdit from './pagini/AddEdit/AddEdit';
-import Previzualizare from './pagini/AddEdit/Previzualizare';
+import AddEditStiri from './pagini/Stiri/AddEdit/AddEditStiri';
+import AddEditMeciuri from './pagini/CalendarMeciuri/AddEdit/AddEditMeciuri';
+import PrevizualizareStiri from './pagini/Stiri/AddEdit/PrevizualizareStiri';
 import Confirmare from './pagini/Confirmare/Confirmare';
 import CalendarMeciuri from './pagini/CalendarMeciuri/CalendarMeciuri';
 
@@ -46,8 +47,9 @@ function App() {
           >
 
             {/* protected rute */}
-            <Route path="/add/stire" element={<AddEdit />} />
-            <Route path="/add/stire/preview" element={<Previzualizare />} />
+            <Route path="/add/stire" element={<AddEditStiri/>} />
+            <Route path="/add/stire/preview" element={<PrevizualizareStiri />} />
+            <Route path="/add/meci" element={<AddEditMeciuri/>} />
           <Route path="/confirmation" element={<Confirmare />} />
            {/*
             <Route path="/my-account">
@@ -56,7 +58,7 @@ function App() {
               <Route path="notifications" element={<MyAccount />} />
               <Route path="messages" element={<MyAccount />} />
             </Route>*/}
-            <Route path="/edit/:id" element={<AddEdit />} /> 
+            <Route path="/edit/:id" element={<AddEditStiri/>} /> 
           </Route>
 
           <Route

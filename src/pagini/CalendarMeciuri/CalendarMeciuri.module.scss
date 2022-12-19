@@ -2,7 +2,7 @@
 @import "../../styles/mixins.scss";
 
 
-.containerStiri{
+.containerMeciuri{
   display: flex;
   flex-direction: column;
   margin-top:-50px;
@@ -25,7 +25,7 @@
   }
 }
 
-.stiriBody{
+.meciuriBody{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -44,15 +44,25 @@
   flex-direction: column;
   justify-content: space-around;
 
-  & .dropdownStiri{
+  & .dropdownMeciuri{
      margin: 20px 0;
     display: flex;
     flex-direction: row;
 
-    & .addStire{
-      width:30%;
+    & .addMeciuri{
+      // width:30%;
       margin-right: 20px;
+      @include responsive_W550px{
+        margin-left:-5px;
+        margin-right: 10px;
+      }
     }
+  }
+  @media screen and (max-width:700px) {
+  width: 41%;
+  }
+  @include responsive_W550px{
+    width: 100%;
   }
 }
 .leftSide{
@@ -63,6 +73,7 @@
   height:100%;
   @include responsive_W550px{
     // width: 100%;
+    flex-direction: row;
   }
 }
 
