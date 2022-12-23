@@ -151,3 +151,43 @@ export const deleteMeciById = async (id) => {
     console.log(error);
   }
 };
+
+
+export const getPersonalByFilter = async (personal) => {
+  try {
+    let response;
+    let defaultURL = '/persoana/filtru?tipPersonal=' + personal.tipPersonal + '&divizie=' + personal.divizie;
+
+    if (personal.nume !== '')
+      defaultURL += '&nume=' + personal.nume;
+    else
+      if (personal.prenume !== '')
+        defaultURL += '&prenume' + personal.prenume;
+
+    response = await axios.get(defaultURL);
+
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePersonalById = async (id) => {
+  try {
+    const response = await axios.delete('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const getDivizii = async (id) => {
+  try {
+    const response = await axios.get('/divizii');
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};

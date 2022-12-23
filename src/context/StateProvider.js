@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter } from '../api/API';
+import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter, getPersonalByFilter, getDivizii } from '../api/API';
 import parse from 'date-fns/parse'
 
 const StateContext = createContext({});
@@ -16,6 +16,7 @@ export const StateProvider = ({ children }) => {
 
   // numar elemente pe o pagina ( ex. noutati )
   let pageSize = 4;
+  let pageSizePersonal = 9;
 
   // stiri 
   const [stiri, setStiri] = useState(null);
@@ -42,6 +43,17 @@ export const StateProvider = ({ children }) => {
     dataSpecifica: '',
   });
 
+  const [personal, setPersonal] = useState([]);
+  const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
+  const [filtruPersonal, setFiltruPersonal] = useState({
+    tipPersonal: 'JUCATOR',
+    divizie: 'A1',
+    nume: '',
+    prenume: '',
+  });
+
+
+  const [divizii, setDivizii] = useState([]);
 
 
   const fetchStiriPublicate = async () => {
@@ -77,13 +89,36 @@ export const StateProvider = ({ children }) => {
     } catch (error) { }
   };
 
+  const fetchPersonalbyFilter = async () => {
+    try {
+      const response = await getPersonalByFilter(filtruPersonal);
+      if (response) {
+        setPersonal(response);
+        setPaginaCurentaPersonal(1);
+      }
+      else { setPersonal(null); }
+
+    } catch (error) { }
+  };  
+  
+  const fetchDivizii = async () => {
+    try {
+      const response = await getDivizii();
+      if (response) {
+        setDivizii(response.data);
+      }
+      else { setDivizii(null); }
+
+    } catch (error) { }
+  };
+
   const sortData = (response) => {
     const format = 'd-M-y H:m'
     const parseDate = d => parse(d, format, new Date())
     return (response?.sort((a, b) => parseDate(b.dataPublicarii) - parseDate(a.dataPublicarii)));
 
   }
-  
+
 
   useEffect(() => {
     fetchStiriPublicate(); // pentru carusel - pagina principala
@@ -100,6 +135,15 @@ export const StateProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    fetchPersonalbyFilter(); // pentru pagina Noutati - stiri
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    fetchDivizii(); // pentru pagina Noutati - stiri
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // preview
   const [preview, setPrevizualizare] = useState({});
@@ -133,6 +177,18 @@ export const StateProvider = ({ children }) => {
       filtruMeciuri,
       setFiltruMeciuri,
       fetchMeciuribyFilter,
+
+      personal, 
+      setPersonal,
+      paginaCurentaPersonal, 
+      setPaginaCurentaPersonal,
+      filtruPersonal, 
+      setFiltruPersonal,
+      pageSizePersonal,
+      fetchPersonalbyFilter,
+
+      divizii,
+      setDivizii,
 
     }}
   >{children}</StateContext.Provider>;

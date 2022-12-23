@@ -5,7 +5,7 @@ import Buton from "../../../componente/Buton/Buton";
 import ModalPoze from "../../../componente/Modal/ModalPoze";
 import { ReactComponent as GridDense } from "../../../assets/icons/grid-dense.svg";
 import { ReactComponent as Share } from "../../../assets/icons/share.svg";
-import { ReactComponent as AvatarDefault } from "../../../assets/icons/Jucator-Default.svg";
+import { ReactComponent as AvatarDefault } from "../../../assets/images/Jucator-Default.svg";
 
 import { getStireById } from "../../../api/API";
 

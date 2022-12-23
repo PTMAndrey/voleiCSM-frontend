@@ -29,6 +29,7 @@ import useWindowDimensions from "./hooks/useWindowDimensions"
 
 import "react-calendar/dist/Calendar.css";
 import "./App.scss";
+import Personal from './pagini/Personal/Personal.jsx';
 function App() {
   const { width } = useWindowDimensions();
   const { alert } = useStateProvider();
@@ -50,7 +51,7 @@ function App() {
             <Route path="/add/stire" element={<AddEditStiri/>} />
             <Route path="/add/stire/preview" element={<PrevizualizareStiri />} />
             <Route path="/add/meci" element={<AddEditMeciuri/>} />
-          <Route path="/confirmation" element={<Confirmare />} />
+            <Route path="/confirmation" element={<Confirmare />} />
            {/*
             <Route path="/my-account">
               <Route path="profile" element={<MyAccount />} />
@@ -83,6 +84,11 @@ function App() {
             <Route path="/calendar" element={
               <Layout>
                 <CalendarMeciuri />
+              </Layout>
+            } />
+            <Route path="/personal" element={
+              <Layout>
+                <Personal/>
               </Layout>
             } />
 

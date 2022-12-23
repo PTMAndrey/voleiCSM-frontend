@@ -5,7 +5,7 @@ import Popup from '../../pagini/PaginaPrincipala/Popup';
 import useStateProvider from '../../hooks/useStateProvider';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as ArrowRight } from '../../assets/icons/arrow-right.svg';
-import { ReactComponent as StiriDefaultImage } from '../../assets/icons/Stiri-Default.svg';
+import { ReactComponent as StiriDefaultImage } from '../../assets/images/Stiri-Default.svg';
 import { RiEdit2Fill } from 'react-icons/ri';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import { deleteStireById } from '../../api/API'
