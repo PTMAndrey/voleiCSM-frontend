@@ -5,10 +5,16 @@ import styles from './Personal.module.scss';
 import Button from '../../componente/Buton/Buton';
 import DropdownComponent from '../../componente/Dropdown/Dropdown';
 import ListPersonal from './ListPersonal/ListPersonal';
+import Buton from '../../componente/Buton/Buton';
+import { useNavigate } from 'react-router-dom';
+import { userInfo } from 'os';
+import useAuth from '../../hooks/useAuth';
 
 const Personal = () => {
-
-    const { divizii, fetchPersonalbyFilter, filtruPersonal, setFiltruPersonal, personal } = useStateProvider();
+    const { user } = useAuth();
+    const { divizii, fetchPersonalbyFilter, filtruPersonal, setFiltruPersonal, personal, setPrevizualizarePersonal } = useStateProvider();
+    const navigate = useNavigate();
+    const [filtruDivizie, setFiltruDivizie] = useState('A1');
 
     // const [personal, setPersonal] = useState('jucatori');
 
@@ -91,9 +97,9 @@ const Personal = () => {
     let Divizii = [];
 
     useEffect(() => {
-        divizii.map(divizie => {
-            Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` });
-        })
+        divizii.map(divizie =>
+            Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` })
+        )
     }, [divizii, Divizii]);
 
     const handleChange = (e) => {
@@ -110,6 +116,7 @@ const Personal = () => {
     }, [filtruPersonal.tipPersonal]);
 
     const handleCautaPersoana = async () => {
+        setFiltruDivizie(filtruPersonal.divizie);
         const resp = fetchPersonalbyFilter();
     };
 
@@ -138,7 +145,8 @@ const Personal = () => {
                 <div className={styles.titluDivizie}>
                     <span className={styles.linie1} />
                     <span>
-                        <h1 className={styles.divizie}>{filtruPersonal.divizie}</h1>
+                        <h1 className={styles.divizie}>Echipa</h1>
+                        <h1 className={styles.divizie}>{filtruDivizie}</h1>
                     </span>
                     <span className={styles.linie2} />
                 </div>
@@ -148,6 +156,21 @@ const Personal = () => {
                 </div>
             </div>
             <div className={styles.bodyPersonal}>
+                <div className={styles.userAdmin}>
+                    <span>Caută după:</span>
+                    <span className={styles.linie1} />
+                    {user?.role &&
+                        <Buton
+                            label="Adaugă personal"
+                            className={styles.addPersonal}
+                            onClick={() => {
+                                setPrevizualizarePersonal({});
+                                navigate("/personal/adauga");
+                            }}
+                        />
+                    }
+
+                </div>
                 <div className={styles.filtre}>
                     <div>
                         <Input

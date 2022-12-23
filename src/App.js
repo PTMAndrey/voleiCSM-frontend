@@ -48,9 +48,13 @@ function App() {
           >
 
             {/* protected rute */}
-            <Route path="/add/stire" element={<AddEditStiri/>} />
-            <Route path="/add/stire/preview" element={<PrevizualizareStiri />} />
-            <Route path="/add/meci" element={<AddEditMeciuri/>} />
+            <Route path="/noutati/adauga" element={<AddEditStiri/>} />
+            <Route path="/edit/stire/:id" element={<AddEditStiri/>} /> 
+            <Route path="/noutati/adauga/stire/preview" element={<PrevizualizareStiri />} />
+            <Route path="/calendar/adauga" element={<AddEditMeciuri/>} />
+            <Route path="/edit/meci/:id" element={<AddEditStiri/>} /> 
+            {/* <Route path='/edit/meci/preview' element={<PrevizualizareStiri />}/> */}
+            {/* <Route path="/calendar/adauga/meci/preview" element={<AddEditMeciuri/>} /> */}
             <Route path="/confirmation" element={<Confirmare />} />
            {/*
             <Route path="/my-account">
@@ -59,7 +63,6 @@ function App() {
               <Route path="notifications" element={<MyAccount />} />
               <Route path="messages" element={<MyAccount />} />
             </Route>*/}
-            <Route path="/edit/:id" element={<AddEditStiri/>} /> 
           </Route>
 
           <Route

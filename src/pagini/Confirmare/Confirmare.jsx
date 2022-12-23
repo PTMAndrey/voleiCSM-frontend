@@ -24,7 +24,7 @@ const Confirmare = () => {
         <Buton
           variant={"secondary"}
           label="Adaugă știre nouă"
-          onClick={() => navigate("/add/stire")}
+          onClick={() => navigate("/noutati/adauga")}
         />
       </div>
     </div>

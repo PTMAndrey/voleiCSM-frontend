@@ -24,6 +24,9 @@ export const StateProvider = ({ children }) => {
   const [stiriOrdonate, setStiriOrdonate] = useState([]); // folosit in restul aplicatiei
   const [paginaCurentaStiri, setPaginaCurentaStiri] = useState(1);
 
+  // previzualizare Stiri
+  const [previzualizareStiri, setPrevizualizareStiri] = useState({});
+
   // show grid show list
   const [listView, setListView] = useState(false);
   // filtru pentru stiri
@@ -38,6 +41,8 @@ export const StateProvider = ({ children }) => {
   // calendar meciuri
   const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
   const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
+  // previzualizare Meciuri
+  const [previzualizareMeciuri, setPrevizualizareMeciuri] = useState({});
   const [filtruMeciuri, setFiltruMeciuri] = useState({
     status: 'TOATE',
     dataSpecifica: '',
@@ -45,6 +50,8 @@ export const StateProvider = ({ children }) => {
 
   const [personal, setPersonal] = useState([]);
   const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
+  // previzualizare Meciuri
+  const [previzualizarePersonal, setPrevizualizarePersonal] = useState({});
   const [filtruPersonal, setFiltruPersonal] = useState({
     tipPersonal: 'JUCATOR',
     divizie: 'A1',
@@ -54,8 +61,6 @@ export const StateProvider = ({ children }) => {
 
 
   const [divizii, setDivizii] = useState([]);
-
-
   const fetchStiriPublicate = async () => {
     try {
       const response = await getStiriByStatus('PUBLICAT');
@@ -145,16 +150,13 @@ export const StateProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // preview
-  const [preview, setPrevizualizare] = useState({});
-
   return <StateContext.Provider
     value={{
       alert,
       setAlert,
       pageSize,
-      preview,
-      setPrevizualizare,
+      previzualizareStiri,
+      setPrevizualizareStiri,
       listView,
       setListView,
 
@@ -177,15 +179,19 @@ export const StateProvider = ({ children }) => {
       filtruMeciuri,
       setFiltruMeciuri,
       fetchMeciuribyFilter,
+      previzualizareMeciuri,
+      setPrevizualizareMeciuri,
 
       personal, 
       setPersonal,
+      pageSizePersonal,
       paginaCurentaPersonal, 
       setPaginaCurentaPersonal,
       filtruPersonal, 
       setFiltruPersonal,
-      pageSizePersonal,
       fetchPersonalbyFilter,
+      previzualizarePersonal,
+      setPrevizualizarePersonal,
 
       divizii,
       setDivizii,

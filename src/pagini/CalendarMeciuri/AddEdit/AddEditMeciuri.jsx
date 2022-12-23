@@ -15,7 +15,6 @@ import useAuth from "../../../hooks/useAuth";
 
 import Input from "../../../componente/Input/Input";
 import Buton from "../../../componente/Buton/Buton";
-import TextArea from "../../../componente/TextArea/TextArea";
 import DropdownComponent from "../../../componente/Dropdown/Dropdown";
 
 import styles from "./AddEditMeciuri.module.scss";
@@ -24,7 +23,7 @@ import { createReadStream } from 'fs';
 const AddEdit = () => {
   const navigate = useNavigate();
 
-  const { preview, setPrevizualizare } = useStateProvider();
+  const { previzualizareMeciuri, setPrevizualizareMeciuri } = useStateProvider();
   const { userId } = useAuth();
 
   const { id } = useParams();
@@ -36,22 +35,18 @@ const AddEdit = () => {
   const [selectedHour, setSelectedHour] = useState('');
   const [selectedMinute, setSelectedMinute] = useState('');
 
-  // show calendar if clicked to Publica Acum
-  const [showCalendar, setShowCalendar] = useState(false);
-
-
   // form data
-  const [file, setFile] = useState(preview.file || []);
+  const [file, setFile] = useState(previzualizareMeciuri.file || []);
   const [formValue, setFormValue] = useState({
-    // file: preview.file || [],
-    titlu: preview.title || "",
+    // file: previzualizareMeciuri.file || [],
+    titlu: previzualizareMeciuri.title || "",
     autor: userId || '',
-    descriere: preview.descriere || "",
-    status: preview.status || "PUBLICAT",
-    dataPublicarii: preview.dataPublicarii || String(getCurrentData()),
-    hashtag: preview.hashtag || "",
-    imagini: preview.imagini || [],
-    videoclipuri: preview.videoclipuri || '',
+    descriere: previzualizareMeciuri.descriere || "",
+    status: previzualizareMeciuri.status || "PUBLICAT",
+    dataPublicarii: previzualizareMeciuri.dataPublicarii || String(getCurrentData()),
+    hashtag: previzualizareMeciuri.hashtag || "",
+    imagini: previzualizareMeciuri.imagini || [],
+    videoclipuri: previzualizareMeciuri.videoclipuri || '',
   });
 
   const getStire = async () => {
@@ -76,9 +71,10 @@ const AddEdit = () => {
 
   //------------------------------ useEffect
 
-  //set preview in useEffect
+  //set previzualizareMeciuri in useEffect
   useEffect(() => {
-    setPrevizualizare(formValue);
+    setPrevizualizareMeciuri(formValue);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue]);
 
   // get stire by id to edit
@@ -86,6 +82,7 @@ const AddEdit = () => {
     if (id) {
       getStire();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
 
@@ -139,7 +136,7 @@ const AddEdit = () => {
         console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmation");
-          setPrevizualizare({});
+          setPrevizualizareMeciuri({});
         }
       } catch (error) {
         console.log(error);
@@ -158,7 +155,7 @@ const AddEdit = () => {
         const response = await updateStire(formValue);
         if (response.status === 200) {
           navigate("/confirmation");
-          setPrevizualizare({});
+          setPrevizualizareMeciuri({});
         }
       } catch (error) {
         console.log(error);
@@ -173,7 +170,7 @@ const AddEdit = () => {
     }
     if (isFormValid()) {
       setShowErrors(false);
-      setPrevizualizare(formValue);
+      setPrevizualizareMeciuri(formValue);
       navigate("./preview");
     }
   };

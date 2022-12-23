@@ -1,6 +1,5 @@
-import Card from "../../componente/Card/Card";
-import useStateProvider from "../../hooks/useStateProvider";
 import React, { Fragment, useState } from "react";
+import useStateProvider from "../../hooks/useStateProvider";
 import Paginare from "../../componente/Paginare/Paginare";
 import Partida from "../../componente/Partida/Partida";
 

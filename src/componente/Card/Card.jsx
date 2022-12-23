@@ -96,7 +96,7 @@ const Card = ({
               }
             </p>
 
-            <p className='text-white' style={{ fontSize: '12px' }}>#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty</p>
+            {data.hashtag && <p className='text-white' style={{ fontSize: '12px' }}>{data.hashtag}</p>}
 
             <div className={styles.citesteMaiMult}>
               <span onClick={() => navigate(`/noutati/${data?.id}`)}>
@@ -113,7 +113,7 @@ const Card = ({
 
             {user?.role && (
               <div onClick={stopPropagation} className={styles.controls}>
-                  <RiEdit2Fill className={styles.edit} onClick={() => {  console.log(`${data?.id}`); navigate(`/edit/${data?.id}`);}} />
+                  <RiEdit2Fill className={styles.edit} onClick={() => {  console.log(`${data?.id}`); navigate(`/edit/stire/${data?.id}`);}} />
 
                   <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
               </div>

@@ -14,16 +14,16 @@ import useAuth from "../../../hooks/useAuth";
 const Previzualizare = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { preview, setPrevizualizare } = useStateProvider();
-  console.log(preview, "preview?");
+  const { previzualizareStiri, setPrevizualizareStiri } = useStateProvider();
+  console.log(previzualizareStiri, "previzualizareStiri?");
 
   // submit
   const handleSubmit = async () => {
     try {
-      const response = await addStire(preview);
+      const response = await addStire(previzualizareStiri);
       if (response.status === 200) {
         navigate("/confirmation");
-        setPrevizualizare({});
+        setPrevizualizareStiri({});
       }
     } catch (error) {
       console.log(error);
@@ -34,7 +34,7 @@ const Previzualizare = () => {
     <section className={styles.container}>
       {/* images */}
       <div className={styles.images}>
-        {preview?.images?.slice(0, 5).map((image, index) => {
+        {previzualizareStiri?.images?.slice(0, 5).map((image, index) => {
           if (index === 0) {
             return (
               <img
@@ -62,8 +62,8 @@ const Previzualizare = () => {
       {/* title */}
       <div className={styles.title}>
         <div>
-          <h5 className={styles.listingName}>{preview?.title}</h5>
-          <h4 className={styles.listingPrice}>{preview?.price} lei</h4>
+          <h5 className={styles.listingName}>{previzualizareStiri?.title}</h5>
+          <h4 className={styles.listingPrice}>{previzualizareStiri?.price} lei</h4>
         </div>
         <button className={styles.shareButon}>
           {" "}
@@ -78,20 +78,20 @@ const Previzualizare = () => {
         <div className={styles.listingDetails}>
           <div className={styles.description}>
             <h6>Description</h6>
-            <p>{preview?.description}</p>
+            <p>{previzualizareStiri?.description}</p>
           </div>
           {/* location */}
           <div className={styles.location}>
             <h6>Location</h6>
             <p>
-              {preview?.location &&
-                (preview?.location[2].length > 0
-                  ? preview?.location[2] + ", "
+              {previzualizareStiri?.location &&
+                (previzualizareStiri?.location[2].length > 0
+                  ? previzualizareStiri?.location[2] + ", "
                   : "") +
-                  (preview?.location[3].length > 0
-                    ? preview?.location[3] + " , "
+                  (previzualizareStiri?.location[3].length > 0
+                    ? previzualizareStiri?.location[3] + " , "
                     : "") +
-                  preview?.location[5]}
+                  previzualizareStiri?.location[5]}
             </p>
 
           </div>
@@ -146,7 +146,7 @@ const Previzualizare = () => {
           <Buton
             label="Edit"
             variant="secondary"
-            onClick={() => navigate("/add/stire")}
+            onClick={() => navigate("/noutati/adauga")}
           />
           <Buton label="Publish" variant="primary" onClick={handleSubmit} />
         </div>

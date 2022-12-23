@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo } from 'react';
-import { useNavigate } from "react-router-dom";
 
 import styles from "./Stiri.module.scss";
 import ListStiri from "./ListStiri.jsx";
@@ -10,14 +9,14 @@ import Buton from '../../componente/Buton/Buton';
 import FiltreStiri from './FiltreStiri/FiltreStiri'
 
 import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router';
 
 const Stiri = () => {
   // view
-  const { setListView, stiriOrdonate } = useStateProvider();
+  const { setListView, stiriOrdonate, setPrevizualizareStiri  } = useStateProvider();
   const { fetchStiribyFilter, filtruStiri, setFiltruStiri } = useStateProvider();
 
   const navigate = useNavigate();
-  const { setPrevizualizare } = useStateProvider();
 
   const Programare = [
     { value: 'PUBLICAT', label: "Știri publicate" },
@@ -74,8 +73,8 @@ const Stiri = () => {
                 label="Adaugă știre"
                 className={styles.addStire}
                 onClick={() => {
-                  setPrevizualizare({});
-                  navigate("/add/stire");
+                  setPrevizualizareStiri({});
+                  navigate("/noutati/adauga");
                 }}
               />
               <DropdownComponent
