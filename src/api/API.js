@@ -92,6 +92,7 @@ export const addStire = async (stiri) => {
 };
 
 
+
 // export const addStire = async (file, stire) => {
 //   try {
 //     const response = await axios.post('/stiri', stire, 
@@ -112,6 +113,79 @@ export const addStire = async (stiri) => {
 export const updateStire = async (data) => {
   try {
     const response = await axios.post('/stiri/' + data.id, data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMeciuriByFilter = async (meci) => {
+  try {
+    // let response;
+    // let defaultURL = '/divizii/filtru?status=' + meci.status + '&tipStire=' + meci.tipStire;
+
+    // if (meci.numarZile !== '')
+    //   defaultURL += '&numarZile=' + meci.numarZile;
+    // else
+    //   if (meci.perioadaSpecifica.firstDay !== '' && meci.perioadaSpecifica.lastDay !== '')
+    //     defaultURL += '&perioadaSpecifica=' + meci.perioadaSpecifica.firstDay + ' ' + meci.perioadaSpecifica.lastDay;
+    //   else
+    //     if (meci.dataSpecifica !== '')
+    //       defaultURL += '&dataSpecifica=' + meci.dataSpecifica;
+
+    // response = await axios.get(defaultURL);
+
+    // return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const deleteMeciById = async (id) => {
+  try {
+    const response = await axios.delete('/meciuri/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const getPersonalByFilter = async (personal) => {
+  try {
+    let response;
+    let defaultURL = '/persoana/filtru?tipPersonal=' + personal.tipPersonal + '&divizie=' + personal.divizie;
+
+    if (personal.nume !== '')
+      defaultURL += '&nume=' + personal.nume;
+    else
+      if (personal.prenume !== '')
+        defaultURL += '&prenume' + personal.prenume;
+
+    response = await axios.get(defaultURL);
+
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePersonalById = async (id) => {
+  try {
+    const response = await axios.delete('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const getDivizii = async (id) => {
+  try {
+    const response = await axios.get('/divizii');
     return response;
   } catch (error) {
     console.error(error);

@@ -6,6 +6,7 @@
     flex-direction: column;
     align-items: flex-start;
 
+    min-width:200px;
     background-color: rgba(13, 4, 11, 0.2);
     padding: 15px;
     margin: 20px 0;
@@ -27,6 +28,7 @@
     width: 100%;
     padding: 15px;
     margin: 20px auto;
+    min-width:160px;
 
     &h5 {
         font-weight: $font-bold;

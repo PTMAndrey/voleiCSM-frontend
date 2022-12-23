@@ -13,7 +13,7 @@ const ModalPoze = ({ showModal, setShowModal, images }) => {
       fullscreen={true}
       onHide={() => setShowModal(false)}
     >
-      <Modal.Titlu className={styles.modalTitlu}>
+      <Modal.Title className={styles.modalTitlu}>
         <LeftChevron
           className={styles.chevron}
           onClick={() => setShowModal(false)}
@@ -28,7 +28,7 @@ const ModalPoze = ({ showModal, setShowModal, images }) => {
             <h5>Save</h5>
           </div> */}
         </div>
-      </Modal.Titlu>
+      </Modal.Title>
 
       <Modal.Body className={styles.modalBody}>
         {images?.map((image, index) => {

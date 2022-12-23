@@ -29,33 +29,11 @@ const Navigare = (props) => {
                 <Nav className={`justify-content-end flex-grow-1 pe-3`}>
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/noutati" >Noutăți</Nav.Link>
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/calendar">Calendar meciuri</Nav.Link>
-                  <NavDropdown
-                    title="Personal"
-                    id={`offcanvasNavbarDropdown-expand-${props.expand} `}
-                  >
-                    <NavDropdown.Item href="#action3">Pagina 1</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4"> Pagina 2</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">Pagina 5</NavDropdown.Item>
-                  </NavDropdown>
-                  
-                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action6">Volei juvenil</Nav.Link>
-                  
-                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action7">Parteneri</Nav.Link>
-                  
-                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action8">Detalii</Nav.Link>
-                  
-                  <Nav.Link className={`text-black  ${styles.onHover}`} href="#action9">Conectare</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/personal">Personal</Nav.Link>              
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/parteneri">Parteneri</Nav.Link>                  
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/detalii">Detalii</Nav.Link>                  
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/conectare">Conectare</Nav.Link>
                 </Nav>
-                {/* <Form className="d-flex">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                  />
-                  <Buton variant="outline-success">Search</Buton>
-                </Form> */}
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

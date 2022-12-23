@@ -21,7 +21,6 @@ const Input = ({
 }) => {
   return (
     <div className={`${styles.container} ${error && styles.error}`}>
-      {console.log(error, helper)}
       {label && <label htmlFor={name}>{label}</label>}
       <input
         disabled={disabled}

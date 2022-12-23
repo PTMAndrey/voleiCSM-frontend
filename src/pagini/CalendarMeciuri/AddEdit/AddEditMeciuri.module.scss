@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import "../../../styles/variables.scss";
 
 .price {
   display: flex;
@@ -15,11 +15,13 @@
   display:flex;
   flex-direction: column;
   // align-items: center;
-  .programeazaStire{
+  width:100%;
+  .alegeZiua{
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-around;
     margin-bottom: 50px;
+    width:100%;
     >div{margin-top:20px;}
   }
 }

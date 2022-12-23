@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from "react";
-import { getStiriByStatus, getStiriByFilter } from "../api/API";
+import { createContext, useState, useEffect } from 'react';
+import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter, getPersonalByFilter, getDivizii } from '../api/API';
 import parse from 'date-fns/parse'
 
 const StateContext = createContext({});
@@ -14,24 +14,22 @@ export const StateProvider = ({ children }) => {
     }, 2000);
   }
 
-
+  // numar elemente pe o pagina ( ex. noutati )
+  let pageSize = 4;
+  let pageSizePersonal = 9;
 
   // stiri 
   const [stiri, setStiri] = useState(null);
-  const [stiriPublicate, setStiriPublicate] = useState([]);
-  const [stiriOrdonate, setStiriOrdonate] = useState([]);
-  // paginare stiri
-  let pageSize = 4;
-  // calendar meciuri
-  const [meciuri, setMeciuri] = useState(null);
-  const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
-
+  const [stiriPublicate, setStiriPublicate] = useState([]); // folosit in pagina principala
+  const [stiriOrdonate, setStiriOrdonate] = useState([]); // folosit in restul aplicatiei
   const [paginaCurentaStiri, setPaginaCurentaStiri] = useState(1);
-  const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
+
+  // previzualizare Stiri
+  const [previzualizareStiri, setPrevizualizareStiri] = useState({});
 
   // show grid show list
   const [listView, setListView] = useState(false);
-  // FILTRARE STIRI
+  // filtru pentru stiri
   const [filtruStiri, setFiltruStiri] = useState({
     status: 'PUBLICAT',
     tipStire: 'TOATE',
@@ -40,9 +38,32 @@ export const StateProvider = ({ children }) => {
     dataSpecifica: '',
   });
 
+  // calendar meciuri
+  const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
+  const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
+  // previzualizare Meciuri
+  const [previzualizareMeciuri, setPrevizualizareMeciuri] = useState({});
+  const [filtruMeciuri, setFiltruMeciuri] = useState({
+    status: 'TOATE',
+    dataSpecifica: '',
+  });
+
+  const [personal, setPersonal] = useState([]);
+  const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
+  // previzualizare Meciuri
+  const [previzualizarePersonal, setPrevizualizarePersonal] = useState({});
+  const [filtruPersonal, setFiltruPersonal] = useState({
+    tipPersonal: 'JUCATOR',
+    divizie: 'A1',
+    nume: '',
+    prenume: '',
+  });
+
+
+  const [divizii, setDivizii] = useState([]);
   const fetchStiriPublicate = async () => {
     try {
-      const response = await getStiriByStatus("PUBLICAT");
+      const response = await getStiriByStatus('PUBLICAT');
       response ? setStiriPublicate(sortData(response)) : setStiriPublicate(null);
 
     } catch (error) { }
@@ -61,13 +82,48 @@ export const StateProvider = ({ children }) => {
     } catch (error) { }
   };
 
+  const fetchMeciuribyFilter = async () => {
+    try {
+      const response = await getMeciuriByFilter(filtruMeciuri);
+      if (response) {
+        setMeciuriOrdonate(sortData(response));
+        setPaginaCurentaMeciuri(1);
+      }
+      else { setMeciuriOrdonate(null); }
+
+    } catch (error) { }
+  };
+
+  const fetchPersonalbyFilter = async () => {
+    try {
+      const response = await getPersonalByFilter(filtruPersonal);
+      if (response) {
+        setPersonal(response);
+        setPaginaCurentaPersonal(1);
+      }
+      else { setPersonal(null); }
+
+    } catch (error) { }
+  };  
+  
+  const fetchDivizii = async () => {
+    try {
+      const response = await getDivizii();
+      if (response) {
+        setDivizii(response.data);
+      }
+      else { setDivizii(null); }
+
+    } catch (error) { }
+  };
+
   const sortData = (response) => {
     const format = 'd-M-y H:m'
     const parseDate = d => parse(d, format, new Date())
     return (response?.sort((a, b) => parseDate(b.dataPublicarii) - parseDate(a.dataPublicarii)));
 
   }
-  
+
 
   useEffect(() => {
     fetchStiriPublicate(); // pentru carusel - pagina principala
@@ -79,41 +135,67 @@ export const StateProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    fetchMeciuribyFilter(); // pentru pagina Noutati - stiri
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
+  useEffect(() => {
+    fetchPersonalbyFilter(); // pentru pagina Noutati - stiri
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  // preview
-  const [preview, setPrevizualizare] = useState({});
+  useEffect(() => {
+    fetchDivizii(); // pentru pagina Noutati - stiri
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return <StateContext.Provider
     value={{
       alert,
       setAlert,
+      pageSize,
+      previzualizareStiri,
+      setPrevizualizareStiri,
+      listView,
+      setListView,
+
       stiri,
       setStiri,
       stiriOrdonate,
       setStiriOrdonate,
       stiriPublicate,
       setStiriPublicate,
-      meciuri,
-      setMeciuri,
-      meciuriOrdonate,
-      setMeciuriOrdonate,
-
       paginaCurentaStiri,
       setPaginaCurentaStiri,
-      paginaCurentaMeciuri,
-      setPaginaCurentaMeciuri,
-
-      fetchStiribyFilter,
-      pageSize,
-
       filtruStiri,
       setFiltruStiri,
+      fetchStiribyFilter,
 
-      preview,
-      setPrevizualizare,
-      listView,
-      setListView,
+      meciuriOrdonate,
+      setMeciuriOrdonate,
+      paginaCurentaMeciuri,
+      setPaginaCurentaMeciuri,
+      filtruMeciuri,
+      setFiltruMeciuri,
+      fetchMeciuribyFilter,
+      previzualizareMeciuri,
+      setPrevizualizareMeciuri,
+
+      personal, 
+      setPersonal,
+      pageSizePersonal,
+      paginaCurentaPersonal, 
+      setPaginaCurentaPersonal,
+      filtruPersonal, 
+      setFiltruPersonal,
+      fetchPersonalbyFilter,
+      previzualizarePersonal,
+      setPrevizualizarePersonal,
+
+      divizii,
+      setDivizii,
+
     }}
   >{children}</StateContext.Provider>;
 };

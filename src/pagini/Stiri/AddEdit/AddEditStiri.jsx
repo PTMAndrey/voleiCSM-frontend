@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import { ReactComponent as Add } from "../../assets/icons/add.svg";
+import { ReactComponent as Add } from "../../../assets/icons/add.svg";
 
 import { Container, Row, Col } from "react-bootstrap";
 import { RiDeleteBinFill } from 'react-icons/ri';
@@ -9,22 +9,22 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Calendar } from "react-calendar";
 
-import { addStire, updateStire, getStireById} from "../../api/API";
-import useStateProvider from "../../hooks/useStateProvider";
-import useAuth from "../../hooks/useAuth";
+import { addStire, updateStire, getStireById} from "../../../api/API";
+import useStateProvider from "../../../hooks/useStateProvider";
+import useAuth from "../../../hooks/useAuth";
 
-import Input from "../../componente/Input/Input";
-import Buton from "../../componente/Buton/Buton";
-import TextArea from "../../componente/TextArea/TextArea";
-import DropdownComponent from "../../componente/Dropdown/Dropdown";
+import Input from "../../../componente/Input/Input";
+import Buton from "../../../componente/Buton/Buton";
+import TextArea from "../../../componente/TextArea/TextArea";
+import DropdownComponent from "../../../componente/Dropdown/Dropdown";
 
-import styles from "./AddEdit.module.scss";
+import styles from "./AddEditStiri.module.scss";
 import { createReadStream } from 'fs';
 
-const AddEdit = () => {
+const AddEditStiri = () => {
   const navigate = useNavigate();
 
-  const { preview, setPrevizualizare } = useStateProvider();
+  const { previzualizareStiri, setPrevizualizareStiri } = useStateProvider();
   const { userId } = useAuth();
 
   const { id } = useParams();
@@ -41,17 +41,17 @@ const AddEdit = () => {
 
 
   // form data
-  const [file, setFile] = useState(preview.file || []);
+  const [file, setFile] = useState(previzualizareStiri.file || []);
   const [formValue, setFormValue] = useState({
-    // file: preview.file || [],
-    titlu: preview.title || "",
+    // file: previzualizareStiri.file || [],
+    titlu: previzualizareStiri.title || "",
     autor: userId || '',
-    descriere: preview.descriere || "",
-    status: preview.status || "PUBLICAT",
-    dataPublicarii: preview.dataPublicarii || String(getCurrentData()),
-    hashtag: preview.hashtag || "",
-    imagini: preview.imagini || [],
-    videoclipuri: preview.videoclipuri || '',
+    descriere: previzualizareStiri.descriere || "",
+    status: previzualizareStiri.status || "PUBLICAT",
+    dataPublicarii: previzualizareStiri.dataPublicarii || String(getCurrentData()),
+    hashtag: previzualizareStiri.hashtag || "",
+    imagini: previzualizareStiri.imagini || [],
+    videoclipuri: previzualizareStiri.videoclipuri || '',
   });
 
   const getStire = async () => {
@@ -64,7 +64,7 @@ const AddEdit = () => {
         imagini: response.data.imagini,
         imaginiURL: response.data.imaginiURL,
         descriere: response.data.descriere,
-        hashtag: response.data.hashtag,
+        hashtag: response.data.hashtag || "",
         status: response.data.status,
         dataPublicarii: response.data.dataPublicarii,
         videoclipuri: response.data.videoclipuri,
@@ -76,9 +76,9 @@ const AddEdit = () => {
 
   //------------------------------ useEffect
 
-  //set preview in useEffect
+  //set previzualizareStiri in useEffect
   useEffect(() => {
-    setPrevizualizare(formValue);
+    setPrevizualizareStiri(formValue);
   }, [formValue]);
 
   // get stire by id to edit
@@ -139,7 +139,7 @@ const AddEdit = () => {
         console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmation");
-          setPrevizualizare({});
+          setPrevizualizareStiri({});
         }
       } catch (error) {
         console.log(error);
@@ -158,7 +158,7 @@ const AddEdit = () => {
         const response = await updateStire(formValue);
         if (response.status === 200) {
           navigate("/confirmation");
-          setPrevizualizare({});
+          setPrevizualizareStiri({});
         }
       } catch (error) {
         console.log(error);
@@ -173,7 +173,7 @@ const AddEdit = () => {
     }
     if (isFormValid()) {
       setShowErrors(false);
-      setPrevizualizare(formValue);
+      setPrevizualizareStiri(formValue);
       navigate("./preview");
     }
   };
@@ -312,7 +312,7 @@ const AddEdit = () => {
           </div>
         </Col>
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* previews */}
+          {/* previzualizareStiris */}
           <Col
             style={{
               display: "flex",
@@ -321,7 +321,7 @@ const AddEdit = () => {
             }}
           >
             {formValue?.imagini?.map((img, index) => (
-              <div key={index} className={styles.preview}>
+              <div key={index} className={styles.previzualizareStiri}>
                 <img src={img} alt="" />
                 <RiDeleteBinFill onClick={() => {
                   handleDelete(index);
@@ -522,7 +522,7 @@ const AddEdit = () => {
   );
 };
 
-export default AddEdit;
+export default AddEditStiri;
 
 
 function Dropzone({ onDrop, accept, open }) {

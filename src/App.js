@@ -16,8 +16,9 @@ import Stiri from "./pagini/Stiri/Stiri.jsx";
 import Layout from './pagini/Layout/Layout.jsx'
 import NotFound from "./pagini/NotFound/NotFound.jsx";
 import Stire from './pagini/Stiri/DetaliiStiri/Stire.jsx';
-import AddEdit from './pagini/AddEdit/AddEdit';
-import Previzualizare from './pagini/AddEdit/Previzualizare';
+import AddEditStiri from './pagini/Stiri/AddEdit/AddEditStiri';
+import AddEditMeciuri from './pagini/CalendarMeciuri/AddEdit/AddEditMeciuri';
+import PrevizualizareStiri from './pagini/Stiri/AddEdit/PrevizualizareStiri';
 import Confirmare from './pagini/Confirmare/Confirmare';
 import CalendarMeciuri from './pagini/CalendarMeciuri/CalendarMeciuri';
 
@@ -28,6 +29,7 @@ import useWindowDimensions from "./hooks/useWindowDimensions"
 
 import "react-calendar/dist/Calendar.css";
 import "./App.scss";
+import Personal from './pagini/Personal/Personal.jsx';
 function App() {
   const { width } = useWindowDimensions();
   const { alert } = useStateProvider();
@@ -46,9 +48,14 @@ function App() {
           >
 
             {/* protected rute */}
-            <Route path="/add/stire" element={<AddEdit />} />
-            <Route path="/add/stire/preview" element={<Previzualizare />} />
-          <Route path="/confirmation" element={<Confirmare />} />
+            <Route path="/noutati/adauga" element={<AddEditStiri/>} />
+            <Route path="/edit/stire/:id" element={<AddEditStiri/>} /> 
+            <Route path="/noutati/adauga/stire/preview" element={<PrevizualizareStiri />} />
+            <Route path="/calendar/adauga" element={<AddEditMeciuri/>} />
+            <Route path="/edit/meci/:id" element={<AddEditStiri/>} /> 
+            {/* <Route path='/edit/meci/preview' element={<PrevizualizareStiri />}/> */}
+            {/* <Route path="/calendar/adauga/meci/preview" element={<AddEditMeciuri/>} /> */}
+            <Route path="/confirmation" element={<Confirmare />} />
            {/*
             <Route path="/my-account">
               <Route path="profile" element={<MyAccount />} />
@@ -56,7 +63,6 @@ function App() {
               <Route path="notifications" element={<MyAccount />} />
               <Route path="messages" element={<MyAccount />} />
             </Route>*/}
-            <Route path="/edit/:id" element={<AddEdit />} /> 
           </Route>
 
           <Route
@@ -81,6 +87,11 @@ function App() {
             <Route path="/calendar" element={
               <Layout>
                 <CalendarMeciuri />
+              </Layout>
+            } />
+            <Route path="/personal" element={
+              <Layout>
+                <Personal/>
               </Layout>
             } />
 
