@@ -160,10 +160,9 @@ export const getPersonalByFilter = async (personal) => {
 
     if (personal.nume !== '')
       defaultURL += '&nume=' + personal.nume;
-    else
+    // else
       if (personal.prenume !== '')
-        defaultURL += '&prenume' + personal.prenume;
-
+        defaultURL += '&prenume=' + personal.prenume;
     response = await axios.get(defaultURL);
 
     return response.data;
@@ -173,9 +172,73 @@ export const getPersonalByFilter = async (personal) => {
   }
 };
 
+export const getPersonalById = async (id) => {
+  try {
+    const response = await axios.get('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deletePersonalById = async (id) => {
   try {
     const response = await axios.delete('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addIstoricPosturiToId = async (id,data) => {
+  try {
+    const response = await axios.add('/istoricPosturi/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addRealizarePersonaleToId = async (id,data) => {
+  try {
+    const response = await axios.add('/realizariPersonale/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const getIstoricPosturiByPersoanaId = async (id) => {
+  try {
+    const response = await axios.get('/istoricPosturi/get/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getRealizariPersonaleByPersoanaId = async (id) => {
+  try {
+    const response = await axios.get('/realizariPersonale/get/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteIstoricPosturiById = async (id) => {
+  try {
+    const response = await axios.delete('/istoricPosturi/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteRealizarePersonalaById = async (id) => {
+  try {
+    const response = await axios.delete('/realizariPersonale/' + id);
     return response;
   } catch (error) {
     console.log(error);

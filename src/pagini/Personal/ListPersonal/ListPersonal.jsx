@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 const ListPersonal = (props) => {
   const { pageSizePersonal, paginaCurentaPersonal, setPaginaCurentaPersonal } = useStateProvider();
   const navigate = useNavigate();
+  function stopPropagation(e) {
+    e.stopPropagation();
+  }
   return (
     <>
       {props.currentTableData?.length > 1 &&
@@ -21,26 +24,27 @@ const ListPersonal = (props) => {
           onPageChange={page => setPaginaCurentaPersonal(page)}
         />
       }
-      {props.currentTableData?.length !== 0 ?
-      <div className={styles.data}>
-        <Row className={styles.dataRow}>
-          {
-            props.currentTableData.map((data, index) => (
-              <Fragment key={`${data?.id}_${index}`}>
-                <Col className={styles.dataCol} key={`${data?.id}_${index + Math.random()}`}>
-                  <CardPersonal data={data} onClick={() => {
-                    navigate("/personal/" + data?.id);
-                  }} />
-                </Col>
-              </Fragment>
-            ))
-          }
-        </Row>
-      </div>
-      :
+      {props.currentTableData?.length > 0 ?
         <div className={styles.data}>
-          <h2>Nu există personal corespunzător filtrelor aplicate.</h2>
+          <Row className={styles.dataRow}>
+            {
+              props.currentTableData?.map((data, index) => (
+                // <Fragment>
+                  <Col className={styles.dataCol} key={`${data?.id}_${index + Math.random()}`} >
+                    <CardPersonal data={data} />
+                  </Col>
+                // </Fragment>
+              ))
+            }
+          </Row>
         </div>
+        :
+        (
+          (props.currentTableData === null || props.currentTableData === undefined || props.currentTableData.length === 0) &&
+          <div className={styles.data}>
+            <h2>Nu există personal corespunzător filtrelor aplicate.</h2>
+          </div>
+        )
       }
 
       {props.currentTableData?.length > 0 &&

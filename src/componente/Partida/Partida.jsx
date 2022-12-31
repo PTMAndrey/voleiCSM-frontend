@@ -125,7 +125,7 @@ const Partida = ({ data }) => {
                 </Row>
                 {user?.role && (
                     <div onClick={stopPropagation} className={styles.controls}>
-                        <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`); navigate(`/edit/${data?.id}`); }} />
+                        <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`); navigate(`/partida/edit/${data?.id}`); }} />
 
                         <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
                     </div>
