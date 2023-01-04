@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { RiEdit2Fill } from 'react-icons/ri';
+import { MdAddCircleOutline } from 'react-icons/md';
 import { RiDeleteBinFill } from 'react-icons/ri';
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 import moment from "moment";
 import 'moment/locale/ro';
 import { ReactComponent as AvatarDefault } from "../../../assets/images/Jucator-Default.svg";
@@ -17,6 +16,9 @@ import Input from "../../../componente/Input/Input";
 import useAuth from "../../../hooks/useAuth";
 import styles from "./Persoana.module.scss";
 import Popup from "../../PaginaPrincipala/Popup";
+import AddIcon from '@mui/icons-material/Add';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 const Persoana = () => {
   const { id } = useParams();
@@ -151,37 +153,55 @@ const Persoana = () => {
             <Row className={styles.roluri}>
               <Col>
                 <div className={styles.directionRow}>
-                  <Row>
+                  <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <Col><h4>Roluri</h4></Col>
                     {user.role &&
-                      <Col>
-                        <RiEdit2Fill id='deleteRol' className={styles.edit} onClick={() => { navigate(`/personal/edit/roluri/`+persoana.id); }} />
-                      </Col>
+                      <>
+                        <Col>
+                          <div className={styles.directionRow}>
+                              <Tooltip title="Adaugă rol" placement="top" arrow onClick={() => { navigate(`/personal/adauga/roluri/` + persoana.id); }} >
+                                <IconButton className={styles.iconStyle}>
+                                  <MdAddCircleOutline id='addRol' className={styles.edit}/>
+                                </IconButton>
+                              </Tooltip>
+                              {persoana?.istoricPosturi.length > 0 &&
+                                <Tooltip title="Editează roluri" placement="top" arrow onClick={() => { navigate(`/personal/edit/roluri/` + persoana.id); }}>
+                                  <IconButton className={styles.iconStyle}>
+                                    <RiEdit2Fill id='deleteRol' className={styles.edit} />
+                                  </IconButton>
+                                </Tooltip>
+                              }
+                          </div>
+                        </Col>
+                      </>
                     }
+
                   </Row>
                 </div>
                 {persoana?.istoricPosturi.length > 0 ?
                   <>
                     <Row className={styles.rol}>
-                      <Col />
-                      <Col><p className={styles.headerRaport}>Data Inceput</p></Col>
-                      <Col><p className={styles.headerRaport}>Data Sfarsit</p></Col>
+                      <Col><p className={styles.headerRaport}>Data început</p></Col>
+                      <Col><p className={styles.headerRaport}>Data sfârșit</p></Col>
                       <Col><p className={styles.headerRaport}>Post</p></Col>
-                      <Col />
+                      <Col><p className={styles.quickActions}>Ștergere rapidă</p></Col>
                       <Col />
                     </Row>
                     {persoana?.istoricPosturi.map(istoric => (
                       <Row key={istoric.idIstoricPersoana} className={styles.rol}>
-                        <Col>
+
+
+                        <Col>{moment(istoric.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
+                        <Col>{moment(istoric.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
+                        <Col>{istoric.post}</Col> <Col>
                           {user.role &&
-                            <RiDeleteBinFill className={styles.delete} onClick={() => { setIstoricId(istoric.idIstoricPersoana); setRaportCronologic('rol'); togglePopup(); }} />
+                            <Tooltip title="Șterge rol" placement="right" arrow onClick={() => { setIstoricId(istoric.idIstoricPersoana); setRaportCronologic('rol'); togglePopup(); }}>
+                              <IconButton className={styles.iconStyle}>
+                                <RiDeleteBinFill className={styles.delete} />
+                              </IconButton>
+                            </Tooltip>
                           }
                         </Col>
-
-                        <Col>{istoric.dataInceput}</Col>
-                        <Col>{istoric.dataFinal}</Col>
-                        <Col>{istoric.post}</Col>
-                        <Col />
                         <Col />
                       </Row>
                     ))
@@ -189,49 +209,63 @@ const Persoana = () => {
                     }
                   </>
                   :
-                  <>
+                  <div>
                     <h6>Nu deține un raport cronologic în privința rolurilor anterioare</h6>
-                  </>
+                  </div>
                 }
               </Col>
             </Row>
 
             <Row className={styles.premii}>
               <Col>
-
                 <div className={styles.directionRow}>
-                  <Row>
-                    <Col><h4>Premii</h4></Col>
-
+                  <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Col><h4>Premii</h4> </Col>
                     {user.role &&
-                      <Col>
-                        <RiEdit2Fill id='deletePremiu' className={styles.edit} onClick={() => { navigate(`/personal/edit/premii/`+persoana.id); }} />
-                      </Col>
+                      <>
+                        <Col>
+                          <div className={styles.directionRow}>
+                              <Tooltip title="Adaugă premiu"placement="top" arrow>
+                                <IconButton className={styles.iconStyle} onClick={() => { navigate(`/personal/adauga/premii/` + persoana.id); }} >
+                                  <MdAddCircleOutline id='addPremiu' className={styles.edit}/>
+                                </IconButton>
+                              </Tooltip>
+                              {persoana?.realizariPersonale.length > 0 &&
+                                <Tooltip title="Editează premii" placement="top" arrow onClick={() => { navigate(`/personal/edit/premii/` + persoana.id); }} >
+                                  <IconButton className={styles.iconStyle}>
+                                    <RiEdit2Fill id='deletePremiu' title="Adauga rol" className={styles.edit}/>
+                                  </IconButton>
+                                </Tooltip>
+                              }
+                          </div>
+                        </Col>
+                      </>
                     }
                   </Row>
                 </div>
                 {persoana?.realizariPersonale.length > 0 ?
                   <div>
                     <Row className={styles.premiu}>
-                      <Col>
-                      </Col>
-
-                      <Col><p className={styles.headerRaport}>Data obtinerii</p></Col>
+                      <Col><p className={styles.headerRaport}>Data obținerii</p></Col>
                       <Col><p className={styles.headerRaport}>Denumire</p></Col>
-                      <Col />
+                      <Col><p className={styles.quickActions}>Ștergere rapidă</p></Col>
                       <Col />
                       <Col />
                     </Row>
                     {persoana.realizariPersonale.map(istoric => (
                       <Row key={istoric.idRealizariPersonale} className={styles.premiu}>
-                        <Col>
+
+                        <Col>{moment(istoric.dataObtinerii, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
+                        <Col>{istoric.denumireRezultat}</Col><Col>
                           {user.role &&
-                            <RiDeleteBinFill className={styles.delete} onClick={() => { setIstoricId(istoric.idRealizariPersonale); setRaportCronologic('premiu'); togglePopup(); }} />
+
+                            <Tooltip title="Șterge premiu"placement="right" arrow onClick={() => { setIstoricId(istoric.idRealizariPersonale); setRaportCronologic('premiu'); togglePopup(); }}>
+                              <IconButton className={styles.iconStyle}>
+                                <RiDeleteBinFill className={styles.delete} />
+                              </IconButton>
+                            </Tooltip>
                           }
                         </Col>
-                        <Col>{istoric.dataObtinerii}</Col>
-                        <Col>{istoric.denumireRezultat}</Col>
-                        <Col />
                         <Col />
                         <Col />
                       </Row>

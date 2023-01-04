@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers = {
-  'Content-Type': 'multipart/form-data',
+  // 'Content-Type': 'multipart/form-data',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
 };
@@ -192,7 +192,8 @@ export const deletePersonalById = async (id) => {
 
 export const addIstoricPosturiToId = async (id,data) => {
   try {
-    const response = await axios.add('/istoricPosturi/add/' + id,data);
+    console.log(data);
+    const response = await axios.post('/istoricPosturi/add/' + id,data);
     return response;
   } catch (error) {
     console.error(error);
@@ -201,7 +202,26 @@ export const addIstoricPosturiToId = async (id,data) => {
 
 export const addRealizarePersonaleToId = async (id,data) => {
   try {
-    const response = await axios.add('/realizariPersonale/add/' + id,data);
+    const response = await axios.post('/realizariPersonale/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateIstoricPosturiToId = async (id,data) => {
+  try {
+    console.log(data);
+    const response = await axios.put('/istoricPosturi/update/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateRealizarePersonaleToId = async (id,data) => {
+  try {
+    const response = await axios.put('/realizariPersonale/update/' + id,data);
     return response;
   } catch (error) {
     console.error(error);

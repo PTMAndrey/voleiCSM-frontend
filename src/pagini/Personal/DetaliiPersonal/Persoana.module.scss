@@ -117,6 +117,15 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.directionColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.iconStyle{
+  width:35px;
+}
 
 .raportCronologic {
   display: flex;
@@ -157,25 +166,34 @@
     padding: 20px;
     color: $color-white;
 
-    .edit {
-      fill: white !important;
-
-      &:hover {
-        // background-color: $color-primary-500;
-        box-sizing: border-box;
-        cursor: pointer;
-      }
+    .add {
+      width:200px;
+      display:flex;
+      flex-direction: row;
+      >label{margin-left:5px;}
     }
 
+    .edit,
     .delete {
       fill: white !important;
-
-      &:hover {
-        background-color: $color-primary-500;
-        box-sizing: border-box;
-        cursor: pointer;
-      }
     }
+
+    //  {
+    //   box-sizing: border-box;
+    //   cursor: pointer;
+    // }
+
+    .add:hover,
+    .edit:hover,
+    .delete:hover {
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .delete:hover {
+      background-color: $color-primary-500;
+    }
+
 
     h4 {
       padding-left: 30px;
@@ -186,10 +204,15 @@
       color: $color-yellow;
     }
 
+    .quickActions {
+      font-weight: $font-bold;
+      color: aqua;
+    }
+
     .roluri {
       display: flex;
       flex-direction: column;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
 
       .rol {
         display: flex;
@@ -213,10 +236,6 @@
         width: 100%;
         margin-bottom: 10px;
 
-        .col {
-          // display: flex !important;
-          // justify-content: center !important;
-        }
       }
     }
 

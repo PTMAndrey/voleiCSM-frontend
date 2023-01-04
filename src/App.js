@@ -63,8 +63,8 @@ function App() {
             <Route path='/personal/adauga' element={<AddEditPersonal/>}/>
             <Route path='/personal/edit/:id' element={<AddEditPersonal/>}/>
             <Route path='/personal/edit/preview' element={<AddEditPersonal/>}/>
-            <Route path='/personal/adauga/roluri' element={<AddEditRaportCronologic pagina="adaugaRoluri"/>}/>
-            <Route path='/personal/adauga/premii' element={<AddEditRaportCronologic pagina="adaugaPremii"/>}/>
+            <Route path='/personal/adauga/roluri/:id' element={<AddEditRaportCronologic pagina="adaugaRoluri"/>}/>
+            <Route path='/personal/adauga/premii/:id' element={<AddEditRaportCronologic pagina="adaugaPremii"/>}/>
             <Route path='/personal/edit/roluri/:id' element={<AddEditRaportCronologic pagina="editRoluri"/>}/>
             <Route path='/personal/edit/premii/:id' element={<AddEditRaportCronologic pagina="editPremii"/>}/>
             

@@ -8,7 +8,7 @@ const RuteProtejate = ({ role }) => {
   return isLoggedIn() ? (
     <Outlet />
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to="/" state={{ from: location }} replace />
   );
 };
 
