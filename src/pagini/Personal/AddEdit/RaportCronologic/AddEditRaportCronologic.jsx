@@ -159,21 +159,21 @@ const AddEditRaportCronologic = ({ pagina }) => {
     // }
     // if (isFormValid()) {
     //   setShowErrors(false);
-      try {
-        let response;
-        if (pagina === 'adaugaRoluri')
-          response = await addIstoricPosturiToId(id, istoricPosturi);
-        else
-          if (pagina === 'adaugaPremii')
-            response = await addRealizarePersonaleToId(id, realizariPersonale);
+    try {
+      let response;
+      if (pagina === 'adaugaRoluri')
+        response = await addIstoricPosturiToId(id, istoricPosturi);
+      else
+        if (pagina === 'adaugaPremii')
+          response = await addRealizarePersonaleToId(id, realizariPersonale);
 
-        if(response.status===200){
-          navigate('/personal/'+id);
-        }
-
-      } catch (error) {
-        console.log(error);
+      if (response.status === 200) {
+        navigate('/personal/' + id);
       }
+
+    } catch (error) {
+      console.log(error);
+    }
     // }
   };
 
@@ -183,20 +183,20 @@ const AddEditRaportCronologic = ({ pagina }) => {
     // }
     // if (isFormValid()) {
     //   setShowErrors(false);
-      try {
-        let response;
-        if (pagina === 'editRoluri')
-          response = await updateIstoricPosturiToId(id, istoricPosturi);
-        else
-          if (pagina === 'editPremii')
-            response = await updateRealizarePersonaleToId(id, realizariPersonale);
+    try {
+      let response;
+      if (pagina === 'editRoluri')
+        response = await updateIstoricPosturiToId(id, istoricPosturi);
+      else
+        if (pagina === 'editPremii')
+          response = await updateRealizarePersonaleToId(id, realizariPersonale);
 
-        if(response.status===200){
-          navigate('/personal/'+id);
-        }
-      } catch (error) {
-        console.log(error);
+      if (response.status === 200) {
+        navigate('/personal/' + id);
       }
+    } catch (error) {
+      console.log(error);
+    }
     // }
   };
 
@@ -353,11 +353,11 @@ const AddEditRaportCronologic = ({ pagina }) => {
 
   const handleStartDateClick = (idIstoricPersoana) => {
     const oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataInceput;
+
     setOldDates({ ...oldDates, [idIstoricPersoana]: oldDate });
     setDataTypeDateButton('data început');
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
   }
-
   const handleEndDateClick = (idIstoricPersoana) => {
     const oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataFinal;
     setOldDates({ ...oldDates, [idIstoricPersoana]: oldDate });
@@ -366,18 +366,12 @@ const AddEditRaportCronologic = ({ pagina }) => {
   }
 
   const handleCalendarClose = (idIstoricPersoana) => {
-    let oldDate;
     if (dataTypeDateButton === 'data început') {
-      oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataInceput;
-      changeData(idIstoricPersoana, oldDate, '', '');
+      changeData(idIstoricPersoana, oldDates[idIstoricPersoana], '', '');
     }
     else if (dataTypeDateButton === 'data final') {
-      oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataFinal;
-      changeData(idIstoricPersoana, '', oldDate, '')
+      changeData(idIstoricPersoana, '', oldDates[idIstoricPersoana], '')
     }
-
-    setOldDates({});
-    setDataTypeDateButton('');
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: false });
   }
   return (
@@ -388,8 +382,12 @@ const AddEditRaportCronologic = ({ pagina }) => {
 
             {/* ######################################### ROLURI ######################################### */}
 
-            {pagina === 'adaugaRoluri' && <>
-              <h1 className={styles.addTitlu}>Adăugare raport cronologic - Rolul</h1>
+            {(pagina === 'adaugaRoluri' || pagina === 'editRoluri') && <>
+              {pagina === 'adaugaRoluri' ?
+                <h1 className={styles.addTitlu}>Adăugare raport cronologic - Rolul</h1>
+                :
+                <h1 className={styles.addTitlu}>Editează roluri</h1>
+              }
               {istoricPosturi.map((rol, index) => (
                 <Row key={'_' + index + '_'} className='mt-4'>
                   <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
@@ -406,141 +404,95 @@ const AddEditRaportCronologic = ({ pagina }) => {
                         label='Denumire rol'
                         placeholder='Post jucator'
                         onChange={(e) => { handleChange(e, rol.idIstoricPersoana) }}
-                        error={showErrors && checkErrors('titlu') ? true : false}
-                        helper={showErrors ? checkErrors('titlu') : ''}
+                        error={showErrors && checkErrors('post') ? true : false}
+                        helper={showErrors ? checkErrors('post') : ''}
                       />
-                      <label>Data început</label>
-                      <Calendar onChange={(e) => {
-                        changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', '');
-                      }} />
-                      <div className='mt-5'>
-                        <label>Data final</label>
-                        <Calendar onChange={(e) => {
-                          changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), '');
-                        }} />
-                      </div>
+                      {pagina === 'adaugaRoluri' ?
+                        <>
+                          <label>Data început {rol.dataInceput && <strong><br />{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
+                          <Calendar onChange={(e) => {
+                            changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', '');
+                          }} />
+                          <div className='mt-5'>
+                            <label>Data final {rol.dataFinal && <strong><br />{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
+                            <Calendar onChange={(e) => {
+                              changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), '');
+                            }} />
+                          </div>
+                        </>
+                        :
+                        <>
+                          <Row>
+                            <Col>
+                              <label>Data început <br /><strong>{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
+                            </Col>
+                            <Col />
+                            <Col>
+                              <label>Data final <br /><strong>{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col>
+                              <Buton
+                                id='dataInceput'
+                                variant='primary'
+                                label='Schimbă data de început'
+                                onClick={() => {
+                                  handleStartDateClick(rol.idIstoricPersoana)
+                                }}
+                              />
+                            </Col>
+                            <Col />
+                            <Col>
+                              <Buton
+                                id='dataFinal'
+                                variant='primary'
+                                label='Schimbă data de final'
+                                onClick={() => {
+                                  handleEndDateClick(rol.idIstoricPersoana)
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                          {showCalendar[rol.idIstoricPersoana] && (
+                            <Row className='mt-5'>
+                              <label>Schimba {dataTypeDateButton}</label>
+                              <Calendar onChange={
+                                dataTypeDateButton === 'data început' ?
+                                  (e) => { changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', ''); }
+                                  :
+                                  (e) => { changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), ''); }
+                              } />
+
+                              <Buton
+                                variant='secondary'
+                                label='Anulează'
+                                onClick={() => { handleCalendarClose(rol.idIstoricPersoana); }} />
+                            </Row>
+                          )}
+                        </>
+                      }
                     </div>
                   </Col>
                   <Col>
                     {/* {istoricPosturi.length > 1 && */}
-                      <Tooltip title='Șterge rubrică' placement='right' arrow onClick={() => { setIdFieldToDelete(rol.idIstoricPersoana); togglePopup(); }}>
-                        <IconButton className={styles.iconStyle}>
-                          <RiDeleteBinFill />
-                        </IconButton>
-                      </Tooltip>
-                    
+                    <Tooltip title='Șterge rubrică' placement='right' arrow onClick={() => { setIdFieldToDelete(rol.idIstoricPersoana); togglePopup(); }}>
+                      <IconButton className={styles.iconStyle}>
+                        <RiDeleteBinFill />
+                      </IconButton>
+                    </Tooltip>
+
                   </Col>
                 </Row>
               ))}
-              <Tooltip title='Adaugă rol' placement='top' arrow className={styles.addRowButton} onClick={handleAddRow}>
-                <IconButton className={styles.iconStyle}>
-                  <MdAddCircleOutline className={styles.add} />
-                </IconButton>
-              </Tooltip>
-
-            </>
-            }
-
-            {pagina === 'editRoluri' &&
-              <>
-                <h1 className={styles.addTitlu}>Editează roluri</h1>
-                {istoricPosturi.map((rol, index) => (
-                  <Row key={rol.id + '_' + index + '_' + rol.idIstoricPersoana} className='mt-4'>
-                    <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-                      <div className={styles.info}>
-                        <h3>Rol</h3>
-                      </div>
-                    </Col>
-                    <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-                      <div className={styles.inputs}>
-                        <Input
-                          name='post'
-                          id='post'
-                          value={rol.post}
-                          label='Denumire rol'
-                          placeholder='Post jucator'
-                          onChange={(e) => { handleChange(e, rol.idIstoricPersoana) }}
-                          error={showErrors && checkErrors('titlu') ? true : false}
-                          helper={showErrors ? checkErrors('titlu') : ''}
-                        />
-                        {/* <label>Data început</label>
-                        <Calendar value={getDataSetValueCalendar(rol.dataInceput)} onChange={(e) => {
-                          changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', '');
-                        }} />
-                        <div className='mt-5'>
-                          <label>Data final</label>
-                          <Calendar value={getDataSetValueCalendar(rol.dataFinal)} onChange={(e) => {
-                            changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), '');
-                          }} />
-                        </div> */}
-                        <Row>
-                          <Col>
-                            <label>Data început <br /><strong>{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
-                          </Col>
-                          <Col />
-                          <Col>
-                            <label>Data final <br /><strong>{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
-                          </Col>
-                        </Row>
-                        <Row onClick={stopPropagation}>
-                          <Col>
-                            <Buton
-                              id='dataInceput'
-                              variant='primary'
-                              label='Schimbă data de început'
-                              onClick={() => {
-                                handleStartDateClick(rol.idIstoricPersoana)
-                              }}
-                            />
-                          </Col>
-                          <Col />
-                          <Col>
-                            <Buton
-                              id='dataFinal'
-                              variant='primary'
-                              label='Schimbă data de final'
-                              onClick={() => {
-                                handleEndDateClick(rol.idIstoricPersoana)
-                              }}
-                            />
-                          </Col>
-                        </Row>
-                        {showCalendar[rol.idIstoricPersoana] && (
-                          <Row className='mt-5'>
-                            <label>Schimba {dataTypeDateButton}</label>
-                            <Calendar onChange={
-                              dataTypeDateButton === 'data început' ?
-                                (e) => { changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', ''); setDataTypeDateButton(''); handleCalendarClose(rol.idIstoricPersoana); }
-                                :
-                                (e) => { changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), ''); setDataTypeDateButton(''); handleCalendarClose(rol.idIstoricPersoana); }
-                            } />
-
-                            <Buton
-                              variant='secondary'
-                              label='Anulează'
-                              onClick={() => { handleCalendarClose(rol.idIstoricPersoana); }} />
-                          </Row>
-                        )}
-
-                      </div>
-                    </Col>
-                    <Col>
-                      {/* <Tooltip title='Șterge rubrică rol' placement='right' arrow onClick={() => handleDeleteRow(rol.idIstoricPersoana)}> */}
-                      <Tooltip title='Șterge rubrică rol' placement='right' arrow onClick={() => { setIdFieldToDelete(rol.idIstoricPersoana); togglePopup(); }}>
-                        <IconButton className={styles.iconStyle}>
-                          <RiDeleteBinFill />
-                        </IconButton>
-                      </Tooltip>
-                    </Col>
-                  </Row>
-                ))}
+              {pagina === "adaugaRoluri" &&
                 <Tooltip title='Adaugă rol' placement='top' arrow className={styles.addRowButton} onClick={handleAddRow}>
                   <IconButton className={styles.iconStyle}>
                     <MdAddCircleOutline className={styles.add} />
                   </IconButton>
                 </Tooltip>
-
-              </>
+              }
+            </>
             }
 
             {/* ########################################################################################## */}
@@ -598,7 +550,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                           ? () => {
                             handleUpdate();
                           }
-                         : handleSubmit
+                          : handleSubmit
                       }
                     />
                   </Col>
@@ -628,7 +580,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                           idFieldToDelete ?
                             <button
                               className={styles.backPopup}
-                              onClick={() => {handleDeleteRow(idFieldToDelete);togglePopup(); setIdFieldToDelete(''); }}
+                              onClick={() => { handleDeleteRow(idFieldToDelete); togglePopup(); setIdFieldToDelete(''); }}
                             >
                               Șterge
                             </button>
@@ -642,7 +594,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                         }
                         <button
                           className={styles.deletePopup}
-                          onClick={() => {togglePopup();setIdFieldToDelete('');}}
+                          onClick={() => { togglePopup(); setIdFieldToDelete(''); }}
                         >
                           Renunț
                         </button>
