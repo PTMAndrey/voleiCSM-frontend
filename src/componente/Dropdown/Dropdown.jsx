@@ -21,10 +21,10 @@ const Option = (props) => {
 };
 
 const Programare = [
-    { value: 'PUBLICAT', label: "Știri publicate" },
-    { value: 'PROGRAMAT', label: "Știri programate" },
-    { value: 'DRAFT', label: "Știri draft" },
-    { value: 'TOATE', label: "Toate știrile" },
+    { value: 'Value1', label: "Value1" },
+    { value: 'Value2', label: "Value2" },
+    { value: 'Value3', label: "Value3" },
+    { value: 'Value4', label: "Value4" },
 ];
 
 const Dropdown = ({

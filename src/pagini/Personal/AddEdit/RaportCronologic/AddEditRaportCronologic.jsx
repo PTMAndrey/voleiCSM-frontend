@@ -15,6 +15,7 @@ import Buton from '../../../../componente/Buton/Buton';
 import styles from './AddEditRaportCronologic.module.scss';
 import useAuth from '../../../../hooks/useAuth';
 import Popup from '../../../PaginaPrincipala/Popup';
+import DropdownComponent from '../../../../componente/Dropdown/Dropdown';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -83,9 +84,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
 
   //------------------------------- HANDLERE
   const handleChange = (e, id) => {
-
     const { name, value } = e.target;
-
     if (pagina === 'editRoluri' || pagina === 'adaugaRoluri') {
       const newRows = [...istoricPosturi];
       const index = istoricPosturi.findIndex((data) => data.idIstoricPersoana === id);
@@ -100,6 +99,17 @@ const AddEditRaportCronologic = ({ pagina }) => {
         newRows[index][name] = value;
         setRealizariPersonale(newRows);
       }
+  };
+  const handleChangeDropdown = (e, id) => {
+    console.log(e);
+    const { value,label } = e;
+    if (pagina === 'editRoluri' || pagina === 'adaugaRoluri') {
+      const newRows = [...istoricPosturi];
+      const index = istoricPosturi.findIndex((data) => data.idIstoricPersoana === id);
+      newRows[index].post = value;
+      setIstoricPosturi(newRows);
+
+    }
   };
 
   const changeData = (id, data_Inceput = '', data_Final = '', data_Obtinerii = '') => {
@@ -355,25 +365,38 @@ const AddEditRaportCronologic = ({ pagina }) => {
     const oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataInceput;
 
     setOldDates({ ...oldDates, [idIstoricPersoana]: oldDate });
-    setDataTypeDateButton('data început');
+    setDataTypeDateButton('data de început');
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
   }
   const handleEndDateClick = (idIstoricPersoana) => {
     const oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataFinal;
     setOldDates({ ...oldDates, [idIstoricPersoana]: oldDate });
-    setDataTypeDateButton('data final');
+    setDataTypeDateButton('data de final');
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
   }
 
   const handleCalendarClose = (idIstoricPersoana) => {
-    if (dataTypeDateButton === 'data început') {
+    if (dataTypeDateButton === 'data de început') {
       changeData(idIstoricPersoana, oldDates[idIstoricPersoana], '', '');
     }
-    else if (dataTypeDateButton === 'data final') {
+    else if (dataTypeDateButton === 'data de final') {
       changeData(idIstoricPersoana, '', oldDates[idIstoricPersoana], '')
     }
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: false });
   }
+
+  let Posturi = [ 
+  { value: 'PRINCIPAL', label: 'PRINCIPAL' },
+  { value: 'SECUNDAR', label: 'SECUNDAR' },
+  { value: 'CENTRU', label: 'CENTRU' },
+  { value: 'OPUS', label: 'OPUS' },
+  { value: 'RIDICATOR', label: 'RIDICATOR' },
+  { value: 'LIBERO', label: 'LIBERO' },
+  { value: 'EXTREMA', label: 'EXTREMA' },
+  { value: 'ANTRENOR', label: 'ANTRENOR' },
+];
+  
+
   return (
     <>
       {user?.role ?
@@ -397,24 +420,20 @@ const AddEditRaportCronologic = ({ pagina }) => {
                   </Col>
                   <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
                     <div className={styles.inputs}>
-                      <Input
-                        name='post'
-                        id='post'
-                        value={rol.post}
-                        label='Denumire rol'
-                        placeholder='Post jucator'
-                        onChange={(e) => { handleChange(e, rol.idIstoricPersoana) }}
-                        error={showErrors && checkErrors('post') ? true : false}
-                        helper={showErrors ? checkErrors('post') : ''}
-                      />
+                      <DropdownComponent
+                            title={rol.post ? rol.post : 'Denumire post'}
+                            options={Posturi}
+                            onChange={(e) => { handleChangeDropdown(e, rol.idIstoricPersoana)}}
+                        ></DropdownComponent>
+
                       {pagina === 'adaugaRoluri' ?
                         <>
-                          <label>Data început {rol.dataInceput && <strong><br />{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
+                          <label>Data de început {rol.dataInceput && <strong><br />{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
                           <Calendar onChange={(e) => {
                             changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', '');
                           }} />
                           <div className='mt-5'>
-                            <label>Data final {rol.dataFinal && <strong><br />{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
+                            <label>Data de încheiere {rol.dataFinal && <strong><br />{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
                             <Calendar onChange={(e) => {
                               changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), '');
                             }} />
@@ -424,11 +443,11 @@ const AddEditRaportCronologic = ({ pagina }) => {
                         <>
                           <Row>
                             <Col>
-                              <label>Data început <br /><strong>{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
+                              <label>Data de început <br /><strong>{moment(rol.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
                             </Col>
                             <Col />
                             <Col>
-                              <label>Data final <br /><strong>{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
+                              <label>Data de încheiere <br /><strong>{moment(rol.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
                             </Col>
                           </Row>
                           <Row>
@@ -447,7 +466,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                               <Buton
                                 id='dataFinal'
                                 variant='primary'
-                                label='Schimbă data de final'
+                                label='Schimbă data de încheiere'
                                 onClick={() => {
                                   handleEndDateClick(rol.idIstoricPersoana)
                                 }}
@@ -458,7 +477,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                             <Row className='mt-5'>
                               <label>Schimba {dataTypeDateButton}</label>
                               <Calendar onChange={
-                                dataTypeDateButton === 'data început' ?
+                                dataTypeDateButton === 'data de început' ?
                                   (e) => { changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', ''); }
                                   :
                                   (e) => { changeData(rol.idIstoricPersoana, '', getNewDateFormat(e), ''); }
