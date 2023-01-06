@@ -43,9 +43,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
   const getIstoricPosturiPentruEdit = async () => {
     const response = await getIstoricPosturiByPersoanaId(id);
     if (response.status === 200) {
-      // if(response.data.length === 0 )
       setIstoricPosturi(response.data);
-      console.log('posturi', response.data);
     }
     else
       if (!realizariPersonale)
@@ -92,23 +90,20 @@ const AddEditRaportCronologic = ({ pagina }) => {
       setIstoricPosturi(newRows);
 
     }
-    else
-      if (pagina === 'editPremii' || pagina === 'adaugaPremii') {
-        const newRows = [...realizariPersonale];
-        const index = realizariPersonale.findIndex((data) => data.idRealizariPersonale === id);
-        newRows[index][name] = value;
-        setRealizariPersonale(newRows);
-      }
+    if (pagina === 'editPremii' || pagina === 'adaugaPremii') {
+      const newRows = [...realizariPersonale];
+      const index = realizariPersonale.findIndex((data) => data.idRealizariPersonale === id);
+      newRows[index][name] = value;
+      setRealizariPersonale(newRows);
+    }
   };
   const handleChangeDropdown = (e, id) => {
-    console.log(e);
-    const { value,label } = e;
+    const { value, label } = e;
     if (pagina === 'editRoluri' || pagina === 'adaugaRoluri') {
       const newRows = [...istoricPosturi];
       const index = istoricPosturi.findIndex((data) => data.idIstoricPersoana === id);
       newRows[index].post = value;
       setIstoricPosturi(newRows);
-
     }
   };
 
@@ -126,88 +121,58 @@ const AddEditRaportCronologic = ({ pagina }) => {
     }
     else
       if (pagina === 'editPremii' || pagina === 'adaugaPremii') {
-        const newRows = [...istoricPosturi];
-        const index = istoricPosturi.findIndex((data) => data.idIstoricPersoana === id);
+        const newRows = [...realizariPersonale];
+        const index = realizariPersonale.findIndex((data) => data.idRealizariPersonale === id);
         newRows[index].dataObtinerii = data_Obtinerii;
         setRealizariPersonale(newRows);
       }
   };
 
-  // const changeData = (id, data_Inceput = '', data_Final = '', data_Obtinerii = '') => {
-  //   if (pagina === 'editRoluri' || pagina === 'adaugaRoluri') {
-  //     const newRows = istoricPosturi.map(post => {
-  //       if (post.idIstoricPersoana === id) {
-  //         if (data_Inceput) {
-  //           return {
-  //             ...post,
-  //             dataInceput: data_Inceput,
-  //           };
-  //         } else {
-  //           return {
-  //             ...post,
-  //             dataFinal: data_Final,
-  //           };
-  //         }
-  //       }
-  //       return post;
-  //     });
-  //     console.log('newRows',newRows);
-  //     setIstoricPosturi(newRows);
-  //   } else if (pagina === 'editPremii' || pagina === 'adaugaPremii') {
-  //     const newRows = [...istoricPosturi];
-  //     const index = istoricPosturi.findIndex((data) => data.idIstoricPersoana === id);
-  //     newRows[index].dataObtinerii = data_Obtinerii;
-  //     setRealizariPersonale(newRows);
-  //   }
-  // };
-
-  console.log(istoricPosturi);
   const handleSubmit = async () => {
-    // if (!isFormValid()) {
-    //   setShowErrors(true);
-    //   console.log('Required fields must be completed!');
-    // }
-    // if (isFormValid()) {
-    //   setShowErrors(false);
-    try {
-      let response;
-      if (pagina === 'adaugaRoluri')
-        response = await addIstoricPosturiToId(id, istoricPosturi);
-      else
-        if (pagina === 'adaugaPremii')
-          response = await addRealizarePersonaleToId(id, realizariPersonale);
-
-      if (response.status === 200) {
-        navigate('/personal/' + id);
-      }
-
-    } catch (error) {
-      console.log(error);
+    if (!isFormValid()) {
+      setShowErrors(true);
     }
-    // }
+    if (isFormValid()) {
+      setShowErrors(false);
+      try {
+        let response;
+        if (pagina === 'adaugaRoluri')
+          response = await addIstoricPosturiToId(id, istoricPosturi);
+        else
+          if (pagina === 'adaugaPremii')
+            response = await addRealizarePersonaleToId(id, realizariPersonale);
+
+        if (response.status === 200) {
+          navigate('/personal/' + id);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const handleUpdate = async () => {
-    // if (!isFormValid()) {
-    //   setShowErrors(true);
-    // }
-    // if (isFormValid()) {
-    //   setShowErrors(false);
-    try {
-      let response;
-      if (pagina === 'editRoluri')
-        response = await updateIstoricPosturiToId(id, istoricPosturi);
-      else
-        if (pagina === 'editPremii')
-          response = await updateRealizarePersonaleToId(id, realizariPersonale);
-
-      if (response.status === 200) {
-        navigate('/personal/' + id);
-      }
-    } catch (error) {
-      console.log(error);
+    if (!isFormValid()) {
+      setShowErrors(true);
     }
-    // }
+    if (isFormValid()) {
+      setShowErrors(false);
+      try {
+        let response;
+        if (pagina === 'editRoluri')
+          response = await updateIstoricPosturiToId(id, istoricPosturi);
+        else
+          if (pagina === 'editPremii')
+            response = await updateRealizarePersonaleToId(id, realizariPersonale);
+
+        if (response.status === 200) {
+          navigate('/personal/' + id);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   //handle Previzualizare
@@ -226,17 +191,22 @@ const AddEditRaportCronologic = ({ pagina }) => {
 
   //-------------------------------- VALIDARI
   // check errors
-  const checkErrors = (field) => {
-    // title
-    // if (field === 'titlu') {
-    //   if (formValue.titlu.length < 10 && formValue.titlu.length > 0) {
-    //     return 'Titlul trebuie sa conțină cel puțin 10 caractere!';
-    //   } else if (formValue.titlu.length > 50) {
-    //     return 'Titlul trebuie să conțină maxim 50 de caractere!';
-    //   } else if (formValue.titlu.length === 0) {
-    //     return 'Titlul este obligatoriu!';
-    //   }
-    // }
+  const checkErrors = (name, value) => {
+
+    if (name === 'denumireRezultat') {
+      if (value.length < 5 && value.length  > 0) {
+        return 'Numele premiului trebuie sa conțină cel puțin 5 caractere!';
+      } else if (value.length > 50) {
+        return 'Numele premiului trebuie să conțină maxim 50 de caractere!';
+      } else if (value.length === 0) {
+        return 'Numele premiului este obligatoriu!';
+      }
+    }
+    if(name === 'dataObtinerii'){
+      if(value.length === 0){
+        return 'Alegerea unei date este obligatorie!';
+      }
+    }
 
     // // imagini
     // if (field === 'imagini') {
@@ -283,31 +253,31 @@ const AddEditRaportCronologic = ({ pagina }) => {
     let isValid = true;
     if (pagina === 'editRoluri' || pagina === 'adaugaRoluri') {
       Object.keys(istoricPosturi).forEach((field) => {
-        if (checkErrors(field)) {
-          isValid = false;
-        }
+          if (checkErrors(field)) {
+            isValid = false;
+          }
       });
       return isValid;
     }
     else
       if (pagina === 'editPremii' || pagina === 'adaugaPremii') {
-        Object.keys(realizariPersonale).forEach((field) => {
-          if (checkErrors(field)) {
+        // Object.keys(realizariPersonale).forEach((field) => {
+        //   console.log(realizariPersonale[field].denumireRezultat,realizariPersonale[field].idRealizariPersonale);
+        //     if (checkErrors(realizariPersonale[field].denumireRezultat,realizariPersonale[field].idRealizariPersonale)) {
+        //       isValid = false;
+        //     }
+        // });
+        const newRows = [...realizariPersonale];
+        newRows.map(premiu =>{
+          if(checkErrors('denumireRezultat',premiu.denumireRezultat))
             isValid = false;
-          }
-        });
+          if(isValid && checkErrors('dataObtinerii',premiu.dataObtinerii))
+            isValid = false;
+      })
         return isValid;
       }
   };
 
-  const getDataSetValueCalendar = (data) => {
-    let fullDate = data.split('-');
-    let zi = fullDate[0];
-    let luna = fullDate[1];
-    let an = fullDate[2];
-    console.log(new Date(an, luna, zi));
-    return (an, luna, zi);
-  }
   const getNewDateFormat = (e) => {
     return String(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear();
   }
@@ -336,8 +306,8 @@ const AddEditRaportCronologic = ({ pagina }) => {
     if (pagina === 'adaugaRoluri' || pagina === 'editRoluri')
       setIstoricPosturi([...istoricPosturi.filter(data => data.idIstoricPersoana !== id)]);
     else
-      if (pagina === 'adaugaPremii' || pagina === 'editRoluri')
-        setRealizariPersonale([...realizariPersonale.filter(data => data.idIstoricPersoana !== id)]);
+      if (pagina === 'adaugaPremii' || pagina === 'editPremii')
+        setRealizariPersonale([...realizariPersonale.filter(data => data.idRealizariPersonale !== id)]);
   }
 
   //popup
@@ -345,20 +315,6 @@ const AddEditRaportCronologic = ({ pagina }) => {
     setOpenPopup(!openPopup);
   };
 
-  function stopPropagation(e) {
-    e.stopPropagation();
-  }
-
-  // const handleStartDateClick = (idIstoricPersoana) => {
-  //   setOldDate(istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataInceput);
-  //   setDataTypeDateButton('data început');
-  //   setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
-  // }
-  // const handleEndDateClick = (idIstoricPersoana) => {
-  //   setOldDate(istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataFinal);
-  //   setDataTypeDateButton('data final');
-  //   setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
-  // }
   const [oldDates, setOldDates] = useState({});
 
   const handleStartDateClick = (idIstoricPersoana) => {
@@ -368,6 +324,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
     setDataTypeDateButton('data de început');
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
   }
+
   const handleEndDateClick = (idIstoricPersoana) => {
     const oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataFinal;
     setOldDates({ ...oldDates, [idIstoricPersoana]: oldDate });
@@ -375,27 +332,38 @@ const AddEditRaportCronologic = ({ pagina }) => {
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
   }
 
-  const handleCalendarClose = (idIstoricPersoana) => {
-    if (dataTypeDateButton === 'data de început') {
-      changeData(idIstoricPersoana, oldDates[idIstoricPersoana], '', '');
-    }
-    else if (dataTypeDateButton === 'data de final') {
-      changeData(idIstoricPersoana, '', oldDates[idIstoricPersoana], '')
-    }
-    setShowCalendar({ ...showCalendar, [idIstoricPersoana]: false });
+  const handleDataObtineriiClick = (idRealizariPersonale) => {
+    const oldDate = realizariPersonale.find(premiu => premiu.idRealizariPersonale === idRealizariPersonale).dataObtinerii;
+
+    setOldDates({ ...oldDates, [idRealizariPersonale]: oldDate });
+    setDataTypeDateButton('data obținerii');
+    setShowCalendar({ ...showCalendar, [idRealizariPersonale]: true });
   }
 
-  let Posturi = [ 
-  { value: 'PRINCIPAL', label: 'PRINCIPAL' },
-  { value: 'SECUNDAR', label: 'SECUNDAR' },
-  { value: 'CENTRU', label: 'CENTRU' },
-  { value: 'OPUS', label: 'OPUS' },
-  { value: 'RIDICATOR', label: 'RIDICATOR' },
-  { value: 'LIBERO', label: 'LIBERO' },
-  { value: 'EXTREMA', label: 'EXTREMA' },
-  { value: 'ANTRENOR', label: 'ANTRENOR' },
-];
-  
+  const handleCalendarClose = (id) => {
+    if (dataTypeDateButton === 'data de început') {
+      changeData(id, oldDates[id], '', '');
+    }
+    else if (dataTypeDateButton === 'data de final') {
+      changeData(id, '', oldDates[id], '')
+    }
+    else if (dataTypeDateButton === 'data obținerii') {
+      changeData(id, '', '', oldDates[id])
+    }
+    setShowCalendar({ ...showCalendar, [id]: false });
+  }
+
+  let Posturi = [
+    { value: 'PRINCIPAL', label: 'PRINCIPAL' },
+    { value: 'SECUNDAR', label: 'SECUNDAR' },
+    { value: 'CENTRU', label: 'CENTRU' },
+    { value: 'OPUS', label: 'OPUS' },
+    { value: 'RIDICATOR', label: 'RIDICATOR' },
+    { value: 'LIBERO', label: 'LIBERO' },
+    { value: 'EXTREMA', label: 'EXTREMA' },
+    { value: 'ANTRENOR', label: 'ANTRENOR' },
+  ];
+
 
   return (
     <>
@@ -421,10 +389,10 @@ const AddEditRaportCronologic = ({ pagina }) => {
                   <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
                     <div className={styles.inputs}>
                       <DropdownComponent
-                            title={rol.post ? rol.post : 'Denumire post'}
-                            options={Posturi}
-                            onChange={(e) => { handleChangeDropdown(e, rol.idIstoricPersoana)}}
-                        ></DropdownComponent>
+                        title={rol.post ? rol.post : 'Denumire post'}
+                        options={Posturi}
+                        onChange={(e) => { handleChangeDropdown(e, rol.idIstoricPersoana) }}
+                      ></DropdownComponent>
 
                       {pagina === 'adaugaRoluri' ?
                         <>
@@ -475,7 +443,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                           </Row>
                           {showCalendar[rol.idIstoricPersoana] && (
                             <Row className='mt-5'>
-                              <label>Schimba {dataTypeDateButton}</label>
+                              <label>Schimbă {dataTypeDateButton}</label>
                               <Calendar onChange={
                                 dataTypeDateButton === 'data de început' ?
                                   (e) => { changeData(rol.idIstoricPersoana, getNewDateFormat(e), '', ''); }
@@ -523,7 +491,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
               <>
                 {pagina === 'adaugaPremii' && <h1 className={styles.addTitlu}>Adăugare raport cronologic - Premiul</h1>}
                 {pagina === 'editPremii' && <h1 className={styles.addTitlu}>Editează premii</h1>}
-                {realizariPersonale.length === 0 && realizariPersonale.map((premiu, index) => (
+                {realizariPersonale.map((premiu, index) => (
                   <Row key={index + '_' + premiu.id + '_' + premiu.idRealizariPersonale} className='mt-4'>
                     <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
                       <div className={styles.info}>
@@ -538,20 +506,69 @@ const AddEditRaportCronologic = ({ pagina }) => {
                           value={premiu.denumireRezultat}
                           label='Denumire premiu'
                           placeholder='Denumire premiu'
-                          onChange={handleChange}
-                          error={showErrors && checkErrors('titlu') ? true : false}
-                          helper={showErrors ? checkErrors('titlu') : ''}
+                          onChange={(e) => { handleChange(e, premiu.idRealizariPersonale) }}
+                          error={showErrors && checkErrors('denumireRezultat', premiu.denumireRezultat) ? true : false}
+                          helper={showErrors ? checkErrors('denumireRezultat', premiu.denumireRezultat) : ''}
                         />
-                        <label>Data obținerii</label>
-                        <Calendar name='dataObtinerii' value={getDataSetValueCalendar(premiu?.dataObtinerii)} onChange={(e) => {
+                        {pagina === 'adaugaPremii' ?
+                          <>
+                            <label>Data obținerii {premiu.dataObtinerii && <strong><br />{moment(premiu.dataObtinerii, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong>}</label>
+                            <Calendar onChange={(e) => {
+                              changeData(premiu.idRealizariPersonale, '', '', getNewDateFormat(e));
+                            }} />
+                          </>
+                          :
+                          <>
+                            <Row>
+                              <Col>
+                                <label>Data obținerii<br /><strong>{moment(premiu.dataObtinerii, 'DD-MM-YYYY').format('DD MMMM YYYY')}</strong></label>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <Buton
+                                  id='dataObtinerii'
+                                  variant='primary'
+                                  label='Schimbă data obținerii'
+                                  onClick={() => {
+                                    handleDataObtineriiClick(premiu.idRealizariPersonale)
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            {showCalendar[premiu.idRealizariPersonale] && (
+                              <Row className='mt-5'>
+                                <label>Schimbă {dataTypeDateButton}</label>
+                                <Calendar onChange={(e) => changeData(premiu.idRealizariPersonale, '', '', getNewDateFormat(e))} />
+                                <Buton
+                                  variant='secondary'
+                                  label='Anulează'
+                                  onClick={() => { handleCalendarClose(premiu.idRealizariPersonale); }} />
+                              </Row>
+                            )}
+                          </>
 
-                        }} />
+                        }
+
                       </div>
                     </Col>
 
-                    <Col><RiDeleteBinFill onClick={() => handleDeleteRow(premiu.id)} /></Col>
+                    <Col>
+                      <Tooltip title='Șterge rubrică' placement='right' arrow onClick={() => { setIdFieldToDelete(premiu.idRealizariPersonale); togglePopup(); }}>
+                        <IconButton className={styles.iconStyle}>
+                          <RiDeleteBinFill />
+                        </IconButton>
+                      </Tooltip>
+                    </Col>
                   </Row>
                 ))}
+                {pagina === "adaugaPremii" &&
+                  <Tooltip title='Adaugă premiu' placement='top' arrow className={styles.addRowButton} onClick={handleAddRow}>
+                    <IconButton className={styles.iconStyle}>
+                      <MdAddCircleOutline className={styles.add} />
+                    </IconButton>
+                  </Tooltip>
+                }
               </>
             }
 
@@ -563,7 +580,6 @@ const AddEditRaportCronologic = ({ pagina }) => {
                     <Buton
                       variant='primary'
                       label={(pagina === 'editRoluri' || pagina === 'editPremii') ? 'Actualizează' : 'Publică'}
-                      // onClick={id ? handleUpdate : handleSubmit}
                       onClick={
                         (pagina === 'editRoluri' || pagina === 'editPremii')
                           ? () => {
