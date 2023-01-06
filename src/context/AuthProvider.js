@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await getUserById(userId);
       setUser(response?.data);
+      localStorage.setItem("token",response?.data.role);
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -34,8 +35,8 @@ export const AuthProvider = ({ children }) => {
 
   // check if user is logged in
   const isLoggedIn = () => {
-    // return !!localStorage.getItem("token");
-    return true;
+    return !!localStorage.getItem("token");
+    // return true;
   };
 
   return (

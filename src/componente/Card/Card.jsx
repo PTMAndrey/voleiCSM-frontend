@@ -113,7 +113,7 @@ const Card = ({
 
             {user?.role && (
               <div onClick={stopPropagation} className={styles.controls}>
-                  <RiEdit2Fill className={styles.edit} onClick={() => {  console.log(`${data?.id}`); navigate(`/edit/stire/${data?.id}`);}} />
+                  <RiEdit2Fill className={styles.edit} onClick={() => {  console.log(`${data?.id}`); navigate(`/noutati/edit/${data?.id}`);}} />
 
                   <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
               </div>

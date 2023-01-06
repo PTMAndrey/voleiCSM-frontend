@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers = {
-  'Content-Type': 'multipart/form-data',
+  // 'Content-Type': 'multipart/form-data',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
 };
@@ -160,10 +160,9 @@ export const getPersonalByFilter = async (personal) => {
 
     if (personal.nume !== '')
       defaultURL += '&nume=' + personal.nume;
-    else
+    // else
       if (personal.prenume !== '')
-        defaultURL += '&prenume' + personal.prenume;
-
+        defaultURL += '&prenume=' + personal.prenume;
     response = await axios.get(defaultURL);
 
     return response.data;
@@ -173,9 +172,93 @@ export const getPersonalByFilter = async (personal) => {
   }
 };
 
+export const getPersonalById = async (id) => {
+  try {
+    const response = await axios.get('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deletePersonalById = async (id) => {
   try {
     const response = await axios.delete('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addIstoricPosturiToId = async (id,data) => {
+  try {
+    console.log(data);
+    const response = await axios.post('/istoricPosturi/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addRealizarePersonaleToId = async (id,data) => {
+  try {
+    const response = await axios.post('/realizariPersonale/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateIstoricPosturiToId = async (id,data) => {
+  try {
+    console.log(data);
+    const response = await axios.put('/istoricPosturi/update/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateRealizarePersonaleToId = async (id,data) => {
+  try {
+    const response = await axios.put('/realizariPersonale/update/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const getIstoricPosturiByPersoanaId = async (id) => {
+  try {
+    const response = await axios.get('/istoricPosturi/get/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getRealizariPersonaleByPersoanaId = async (id) => {
+  try {
+    const response = await axios.get('/realizariPersonale/get/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteIstoricPosturiById = async (id) => {
+  try {
+    const response = await axios.delete('/istoricPosturi/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteRealizarePersonalaById = async (id) => {
+  try {
+    const response = await axios.delete('/realizariPersonale/' + id);
     return response;
   } catch (error) {
     console.log(error);

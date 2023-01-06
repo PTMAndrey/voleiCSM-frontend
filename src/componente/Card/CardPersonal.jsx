@@ -43,7 +43,7 @@ const CardPersonal = ({ data }) => {
     const defaultAvatar = `${require('../../assets/images/Jucator-Default.svg').default}`;
     return (
         <>
-            <Card className={styles.personalContainer}>
+            <Card className={styles.personalContainer} onClick={() => {navigate("/personal/" + data?.id); }} >
                 <Card.Img className={`${styles.imagesDiv} ${styles.imagine}`} variant="top" src={`${data.imagine ? data.imagine : defaultAvatar}`} />
                 <Card.Body>
                     {data ?
@@ -55,9 +55,9 @@ const CardPersonal = ({ data }) => {
                     {user?.role && data?.id && (
                         <Card.Title className={`${styles.controls}`}>
                             <div onClick={stopPropagation} className={styles.butoane}>
-                                <RiEdit2Fill className={styles.edit} onClick={() => navigate(`/edit/personal/${data?.id}`)} />
+                                <RiEdit2Fill className={styles.edit} onClick={() => {navigate(`/personal/edit/${data?.id}`);}} />
 
-                                <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
+                                <RiDeleteBinFill className={styles.delete} onClick={() => {togglePopup();}} />
                             </div>
                         </Card.Title>
                     )}
@@ -72,23 +72,20 @@ const CardPersonal = ({ data }) => {
                         openPopup={openPopup}
                         content={
                             <div className={styles.popup}>
-                                <h3 className={styles.titlePopup}>Ștergere știre</h3>
+                                <h3 className={styles.titlePopup}>Ștergere personal</h3>
                                 <p className={styles.descriptionPopup}>
                                     Această acțiune este permanentă și nu poate fi anulată.
                                 </p>
                                 <div className={styles.butonsPopup}>
                                     <button
                                         className={styles.deletePopup}
-                                        onClick={(e) => {
-                                            handleDelete(e);
-                                        }
-                                        }
+                                        onClick={(e) => {handleDelete(e);}}
                                     >
                                         Șterge
                                     </button>
                                     <button
                                         className={styles.backPopup}
-                                        onClick={() => setOpenPopup(!openPopup)}
+                                        onClick={() => {setOpenPopup(!openPopup);}}
                                     >
                                         Anulează
                                     </button>

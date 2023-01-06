@@ -1,0 +1,312 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: -20px;
+}
+
+
+@include responsive_W550px {
+  .imageResize {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.imagine {
+  width: 252px;
+  aspect-ratio: 0;
+  height: fit-content;
+  border-radius: 50%;
+  margin-top: -230px;
+  border: 3px solid $color-dark-blue;
+
+  @include responsive_W550px {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 110px;
+  }
+
+  @media screen and(max-width:250px) {
+    width: 90px;
+  }
+
+}
+
+.numePersoana {
+  margin-top: -50px;
+  margin-left: 320px;
+  font-size: $font-h3;
+
+  @include responsive_W550px {
+    display: flex;
+    justify-content: center;
+    margin-top: -40px;
+    margin-left: 0px;
+    font-size: $font-h4;
+  }
+
+  @media screen and(max-width:340px) {
+    margin-top: -40px;
+    font-size: $font-h6;
+  }
+
+  @media screen and(max-width:300px) {
+    margin-top: -13px;
+  }
+}
+
+
+.persoanaBody {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  .details {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    flex-direction: column;
+    width: 100%;
+    border: 2px solid $color-dark-blue;
+    padding: 32px;
+
+    .detaliiJucator {
+      display: flex;
+      align-items: center !important;
+      flex-direction: row;
+      padding-bottom: 10px;
+    }
+
+    .detaliiJucatorRow {
+      display: flex;
+      justify-items: center !important;
+      flex-direction: row;
+    }
+
+    .defaultField {
+      font-weight: $font-medium;
+      line-height: 24px;
+    }
+
+    .dynamicField {
+      font-weight: $font-bold;
+      line-height: 24px;
+    }
+
+
+    @include responsive_W550px {
+      width: 100%;
+
+      .description {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid $color-gray-100;
+        border-radius: 12px;
+      }
+
+    }
+
+  }
+}
+
+.directionRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.directionColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.iconStyle{
+  width:35px;
+}
+
+.raportCronologic {
+  display: flex;
+  flex-direction: column;
+
+  .titlu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: $font-h3;
+
+    .linie1 {
+      width: calc(70%);
+      height: 3px;
+      margin-left: 20px;
+      background: $color-yellow;
+    }
+
+    @include responsive_W550px {
+      justify-content: center;
+      font-size: $font-h4;
+
+      .linie1 {
+        display: none;
+      }
+    }
+
+    @media screen and(max-width:340px) {
+      font-size: $font-h6;
+    }
+  }
+
+  .raport {
+    width: 100%;
+    background-color: $color-dark-blue;
+    border: 2px solid $color-yellow;
+    padding: 20px;
+    color: $color-white;
+
+    .add {
+      width:200px;
+      display:flex;
+      flex-direction: row;
+      >label{margin-left:5px;}
+    }
+
+    .edit,
+    .delete {
+      fill: white !important;
+    }
+
+    //  {
+    //   box-sizing: border-box;
+    //   cursor: pointer;
+    // }
+
+    .add:hover,
+    .edit:hover,
+    .delete:hover {
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .delete:hover {
+      background-color: $color-primary-500;
+    }
+
+
+    h4 {
+      padding-left: 30px;
+    }
+
+    .headerRaport {
+      font-weight: $font-bold;
+      color: $color-yellow;
+    }
+
+    .quickActions {
+      font-weight: $font-bold;
+      color: aqua;
+    }
+
+    .roluri {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 40px;
+
+      .rol {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 5px;
+      }
+    }
+
+    .premii {
+      display: flex;
+      flex-direction: column;
+
+      .premiu {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+
+      }
+    }
+
+
+  }
+
+}
+
+
+.popup {
+  padding: 30px;
+}
+
+.titlePopup {
+  font-weight: 700;
+  font-size: $font-h5;
+  text-align: center;
+  color: $color-black;
+}
+
+.descriptionPopup {
+  font-weight: 400;
+  font-size: $font-body-small;
+  color: $color-gray-700;
+  margin: 20px 20px 30px 20px;
+  text-align: center;
+}
+
+.butonsPopup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+
+  @include responsive_W550px {
+    flex-direction: column;
+
+    & button {
+      margin: 10px 0 7px 0;
+
+    }
+  }
+}
+
+.deletePopup {
+  cursor: pointer;
+  padding: 5px 20px;
+  background-color: $color-alert-400;
+  border-radius: 5px;
+  font-weight: 600;
+  color: $color-white;
+  border: 1px solid;
+
+  &:hover {
+    color: $color-alert-700;
+    background-color: $color-white;
+    border: 1px solid $color-alert-400;
+  }
+}
+
+.backPopup {
+  cursor: pointer;
+  padding: 5px 20px;
+  background-color: transparent;
+  border: 1px solid $color-primary-500;
+  color: $color-primary-500;
+  border-radius: 5px;
+  font-weight: 600;
+
+  &:hover {
+    background-color: $color-primary-500;
+    color: $color-white;
+  }
+}

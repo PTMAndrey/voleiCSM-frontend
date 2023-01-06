@@ -97,7 +97,7 @@ const Personal = () => {
     let Divizii = [];
 
     useEffect(() => {
-        divizii.map(divizie =>
+        divizii?.map(divizie =>
             Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` })
         )
     }, [divizii, Divizii]);
@@ -145,8 +145,8 @@ const Personal = () => {
                 <div className={styles.titluDivizie}>
                     <span className={styles.linie1} />
                     <span>
-                        <h1 className={styles.divizie}>Echipa</h1>
-                        <h1 className={styles.divizie}>{filtruDivizie}</h1>
+                        {/* <h2 className={styles.divizie}>Echipa</h2> */}
+                        <h3 className={styles.divizie}>{filtruDivizie}</h3>
                     </span>
                     <span className={styles.linie2} />
                 </div>
