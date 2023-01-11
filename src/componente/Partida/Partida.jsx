@@ -14,7 +14,8 @@ import Popup from '../../pagini/PaginaPrincipala/Popup';
 import styles from './Partida.module.scss';
 
 const Partida = ({ data }) => {
-    const CSMLOGO = `${require('../../assets/images/logo csm.svg').default}`;
+    const CSMLOGO = `${require('../../assets/images/Logo-CSM.svg').default}`;
+    const DEFAULTLOGO = `${require('../../assets/images/Logo-Echipa-Default.svg').default}`;
     const [openPopup, setOpenPopup] = useState(false);
     const { user } = useAuth();
 
@@ -59,11 +60,15 @@ const Partida = ({ data }) => {
                             <Col>
                                 <div className={styles.logoContainer}>
                                     <div className={styles.logoEchipa}>
-                                        {data.teren === 'ACASA' ?
+                                        {data ?
+                                        (data.teren === 'ACASA' ?
                                             <img src={CSMLOGO} className={styles.imagine} alt='C.S.M. SUCEAVA' />
                                             :
                                             <img src={data.logoAdversar} className={styles.imagine} alt={data.numeAdversar} />
-                                        }
+                                        )
+                                        :
+                                        <img src = {DEFAULTLOGO} className={styles.imagine} alt='Echipa'/>
+                                    }
                                     </div>
                                 </div>
 

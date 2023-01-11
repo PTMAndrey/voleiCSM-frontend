@@ -112,30 +112,59 @@ export const addStire = async (stiri) => {
 
 export const updateStire = async (data) => {
   try {
-    const response = await axios.post('/stiri/' + data.id, data);
+    const response = await axios.post('/stiri/' + data.id, data); // put ???
     return response;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const addMeci = async (data) => {
+  try {
+    console.log('data api -> ', data);
+    const response = await axios.post('/meci',data);
+    console.log('response?: ',response);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMeciById = async (id) => {
+  try {
+    const response = await axios.get('/meci/'+id);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateMeci = async (data) => {
+  try {
+    const response = await axios.get('/meci/'+data.id, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteMeciById = async (id) => {
+  try {
+    const response = await axios.delete('/meci/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const getMeciuriByFilter = async (meci) => {
   try {
-    // let response;
-    // let defaultURL = '/divizii/filtru?status=' + meci.status + '&tipStire=' + meci.tipStire;
-
-    // if (meci.numarZile !== '')
-    //   defaultURL += '&numarZile=' + meci.numarZile;
-    // else
-    //   if (meci.perioadaSpecifica.firstDay !== '' && meci.perioadaSpecifica.lastDay !== '')
-    //     defaultURL += '&perioadaSpecifica=' + meci.perioadaSpecifica.firstDay + ' ' + meci.perioadaSpecifica.lastDay;
-    //   else
-    //     if (meci.dataSpecifica !== '')
-    //       defaultURL += '&dataSpecifica=' + meci.dataSpecifica;
-
-    // response = await axios.get(defaultURL);
-
-    // return response.data;
+    let response;
+    let defaultURL = '/meci/filtru?status=' + meci.status + '&campionat=' + meci.editieId;
+    if (meci.campionat !== '')
+      defaultURL += '&dataSpecifica=' + meci.dataSpecifica;
+    response = await axios.get(defaultURL);
+    return response.data;
 
   } catch (error) {
     console.error(error);
@@ -143,12 +172,22 @@ export const getMeciuriByFilter = async (meci) => {
 };
 
 
-export const deleteMeciById = async (id) => {
+
+export const getEditii = async () => {
   try {
-    const response = await axios.delete('/meciuri/' + id);
-    return response;
+    const response = await axios.get('/editie');
+    return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+  }
+};
+
+export const getCluburiSportive = async () => {
+  try {
+    const response = await axios.get('/cluburiSportive');
+    return response.data;
+  } catch (error) {
+    console.error(error);
   }
 };
 

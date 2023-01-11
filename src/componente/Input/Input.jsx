@@ -18,6 +18,7 @@ const Input = ({
   value,
   helper,
   disabled,
+  min,
 }) => {
   return (
     <div className={`${styles.container} ${error && styles.error}`}>
@@ -33,6 +34,7 @@ const Input = ({
         placeholder={placeholder}
         className={error ? styles.inputErr : null}
         type={type}
+        min={min}
       />
       <span
         onClick={onIconClick}
@@ -60,6 +62,7 @@ Input.propTypes = {
   value: PropTypes.any,
   helper: PropTypes.string,
   disabled: PropTypes.bool,
+  min: PropTypes.string,
 };
 
 Input.defaultProps = {
@@ -76,6 +79,7 @@ Input.defaultProps = {
   type: "text",
   helper: "",
   disabled: false,
+  min: '',
 };
 
 export default Input;

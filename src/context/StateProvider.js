@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
-import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter, getPersonalByFilter, getDivizii } from '../api/API';
+import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter, getPersonalByFilter, getDivizii, getEditii, getCluburiSportive } from '../api/API';
 import parse from 'date-fns/parse'
+import { async } from 'q';
 
 const StateContext = createContext({});
 
@@ -41,16 +42,19 @@ export const StateProvider = ({ children }) => {
   // calendar meciuri
   const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
   const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
-  // previzualizare Meciuri
   const [previzualizareMeciuri, setPrevizualizareMeciuri] = useState({});
   const [filtruMeciuri, setFiltruMeciuri] = useState({
-    status: 'TOATE',
+    status: 'VIITOR',
+    editieId: '14',
     dataSpecifica: '',
   });
+  const [editii, setEditii] = useState([]);
+  const [echipe, setEchipe] = useState([]);
 
+  // personal
   const [personal, setPersonal] = useState([]);
   const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
-  // previzualizare Meciuri
+  // previzualizare personal
   const [previzualizarePersonal, setPrevizualizarePersonal] = useState({});
   const [filtruPersonal, setFiltruPersonal] = useState({
     tipPersonal: 'JUCATOR',
@@ -94,6 +98,29 @@ export const StateProvider = ({ children }) => {
     } catch (error) { }
   };
 
+  const fetchEditii = async () =>{
+    try {
+      const response = await getEditii();
+      if (response) {
+        setEditii(response);
+        setFiltruMeciuri({...filtruMeciuri, editieId:response[0].idEditie});
+      }
+      else { setEditii(null); }
+
+    } catch (error) { }
+  }
+
+  const fetchEchipe = async () =>{
+    try {
+      const response = await getCluburiSportive();
+      if (response) {
+        setEchipe(response);
+      }
+      else { setEchipe(null); }
+
+    } catch (error) { }
+  }
+
   const fetchPersonalbyFilter = async () => {
     try {
       const response = await getPersonalByFilter(filtruPersonal);
@@ -136,6 +163,8 @@ export const StateProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
+    fetchEditii();
+    fetchEchipe();
     fetchMeciuribyFilter(); // pentru pagina Noutati - stiri
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -181,6 +210,10 @@ export const StateProvider = ({ children }) => {
       fetchMeciuribyFilter,
       previzualizareMeciuri,
       setPrevizualizareMeciuri,
+      editii,
+      setEditii,
+      echipe,
+      setEchipe,
 
       personal, 
       setPersonal,

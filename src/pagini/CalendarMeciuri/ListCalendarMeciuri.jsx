@@ -13,9 +13,9 @@ const ListCalendarMeciuri = (props) => {
         <>
             {props.currentTableData?.length > 1 &&
                 <Paginare
-                    data={props.meciViitor}
+                    data={meciuriOrdonate}
                     className="pagination-bar pt-3"
-                    totalCount={props.meciViitor?.length}
+                    totalCount={meciuriOrdonate?.length}
                     pageSize={pageSize}
                     paginaCurenta={paginaCurentaMeciuri}
                     onPageChange={page => setPaginaCurentaMeciuri(page)}
@@ -35,9 +35,9 @@ const ListCalendarMeciuri = (props) => {
 
             {props.currentTableData?.length > 0 &&
                 <Paginare
-                    data={props.meciViitor}
+                    data={meciuriOrdonate}
                     className="pagination-bar pt-3"
-                    totalCount={props.meciViitor?.length}
+                    totalCount={meciuriOrdonate?.length}
                     pageSize={pageSize}
                     paginaCurenta={paginaCurentaMeciuri}
                     onPageChange={page => setPaginaCurentaMeciuri(page)}
