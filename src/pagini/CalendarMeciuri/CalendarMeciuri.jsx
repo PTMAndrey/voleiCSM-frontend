@@ -11,7 +11,7 @@ import useAuth from '../../hooks/useAuth';
 const CalendarMeciuri = () => {
   // view
   const { meciuriOrdonate, paginaCurentaMeciuri } = useStateProvider();
-  const {fetchStiribyFilter, filtruMeciuri, setFiltruMeciuri} = useStateProvider();
+  const {fetchMeciuribyFilter, filtruMeciuri, setFiltruMeciuri} = useStateProvider();
   const { setPrevizualizareMeciuri } = useStateProvider();
   const { pageSize } = useStateProvider();
   const { user } = useAuth();
@@ -20,78 +20,14 @@ const CalendarMeciuri = () => {
   const Programare = [
     { value: 'VIITOR', label: "Meciuri viitoare" },
     { value: 'REZULTAT', label: "Rezultate" },
-    { value: 'TOATE', label: "Toate meciurile" },
   ];
   useEffect(() => {
-    fetchStiribyFilter();
+    fetchMeciuribyFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filtruMeciuri]);
 
-  const [meciViitor, setMeciViitor] = useState([
-    {
-    id:'1234',
-    tipMeci:'Campionat',
-    status:'VIITOR',
-    data:'12-01-2023 15:30',
-    numeAdversar: 'CSA Steaua Bucuresti',
-    logoAdversar: `${require('../../assets/images/logo csm.svg').default}`,
-    locatie:'Sala de sport “Daniel Olariu”',
-    scorCSM: '',
-    scorAdversar: '',
-    teren:'ACASA',
-  },
-  {
-    id:'1243',
-    tipMeci:'Super Cupa Romaniei',
-    status:'REZULTAT',
-    data:'12-08-2022 19:30',
-    numeAdversar: 'CS FARUL CONSTANTA',
-    logoAdversar: `${require('../../assets/images/logo csm.svg').default}`,
-    locatie:'“Stadionul Tineretului”',
-    scorCSM: '2',
-    scorAdversar: '2',
-    teren:'DEPLASARE',
-  },
-  {
-    id:'1324',
-    tipMeci:'Campionat',
-    status:'REZULTAT',
-    data:'22-06-2022 19:30',
-    numeAdversar: 'CSA Steaua Bucuresti',
-    logoAdversar: `${require('../../assets/images/logo csm.svg').default}`,
-    locatie:'Sala de sport “Dumitru Bernicu”',
-    scorCSM: '7',
-    scorAdversar: '4',
-    teren:'ACASA',
-  },
-  {
-    id:'1342',
-    tipMeci:'Cupa Romaniei',
-    status:'VIITOR',
-    data:'17-01-2023 20:00',
-    numeAdversar: 'CSA Timisoara',
-    logoAdversar: `${require('../../assets/images/logo csm.svg').default}`,
-    locatie:'Sala de sport Timisoara',
-    scorCSM: '',
-    scorAdversar: '',
-    teren:'ACASA',
-  },
-  {
-    id:'1423',
-    tipMeci:'Campionat',
-    status:'VIITOR',
-    data:'23-03-2023 19:45',
-    numeAdversar: 'CSS Steaua Marii',
-    logoAdversar: `${require('../../assets/images/logo csm.svg').default}`,
-    locatie:'Terenul de sport municipal',
-    scorCSM: '',
-    scorAdversar: '',
-    teren:'DEPLASARE',
-  },
-]);
-
   const currentTableData = useMemo(() => {
-    if(meciViitor){
+    if(meciuriOrdonate){
       const firstPageIndex = (paginaCurentaMeciuri - 1) * pageSize;
       const lastPageIndex = firstPageIndex + pageSize;
 
@@ -99,15 +35,15 @@ const CalendarMeciuri = () => {
       //     return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - meciuriOrdonate?.length));
       //   else
       //     return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex);
-      if (meciViitor?.length < lastPageIndex && (lastPageIndex - meciViitor?.length) > 0)
-          return meciViitor?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - meciViitor?.length));
+      if (meciuriOrdonate?.length < lastPageIndex && (lastPageIndex - meciuriOrdonate?.length) > 0)
+          return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - meciuriOrdonate?.length));
       else
-          return meciViitor?.slice(firstPageIndex, lastPageIndex);
+          return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex);
     }
     else
       return null;
 
-  }, [paginaCurentaMeciuri, pageSize, meciViitor]);
+  }, [paginaCurentaMeciuri, pageSize, meciuriOrdonate]);
 
   return (
     <div className={styles.containerMeciuri}>
@@ -144,10 +80,11 @@ const CalendarMeciuri = () => {
 
             </div>
           }
-          {meciViitor?.length < 1 &&
+          {meciuriOrdonate?.length < 1 ?
             <h2 style={{ marginTop: '25px' }}>Momentan nu există meciuri care să îndeplinească filtrele selectate</h2>
+          :
+          <ListCalendarMeciuri currentTableData={currentTableData} />
           }
-          <ListCalendarMeciuri currentTableData={currentTableData} meciViitor={meciViitor} />
         </div>
 
       </div>

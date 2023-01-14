@@ -57,6 +57,7 @@ function App() {
             <Route path='/noutati/adauga/stire/preview' element={<PrevizualizareStiri />} />
            
             <Route path='/calendar/adauga' element={<AddEditMeciuri/>} />
+            <Route path='/calendar/edit/:id' element={<AddEditMeciuri/>} />
             {/* <Route path='/calendar/edit/meci/preview' element={<PrevizualizareMeci />}/> */}
             {/* <Route path='/calendar/adauga/meci/preview' element={<AddEditMeciuri/>} /> */}
            

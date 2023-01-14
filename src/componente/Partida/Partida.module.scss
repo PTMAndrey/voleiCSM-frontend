@@ -77,18 +77,26 @@
     width: 100%;
     padding:10px 0;
     font-size: 20px;
-    .delete {
+    .edit {
       fill:white !important;
-    cursor:pointer;
+      cursor:pointer;
       &:hover {
         background-color: $color-primary-500;
         box-sizing: border-box;
       }
     }
-  
-    .edit {
-      fill:white !important;
+    a:hover{box-sizing: border-box; border:1px solid black; padding: 0px 10px}
+    .link {
+      fill:red !important;
       cursor:pointer;
+      &:hover {
+        // background-color: $color-primary-500;
+        box-sizing: border-box;
+      }
+    }
+    .delete {
+      fill:white !important;
+    cursor:pointer;
       &:hover {
         background-color: $color-primary-500;
         box-sizing: border-box;
