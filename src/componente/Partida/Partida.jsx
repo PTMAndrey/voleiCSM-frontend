@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { RiEdit2Fill } from 'react-icons/ri';
+import { MdLiveTv } from 'react-icons/md';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import moment from 'moment';
 import 'moment/locale/ro';
@@ -14,7 +15,8 @@ import Popup from '../../pagini/PaginaPrincipala/Popup';
 import styles from './Partida.module.scss';
 
 const Partida = ({ data }) => {
-    const CSMLOGO = `${require('../../assets/images/logo csm.svg').default}`;
+    const CSMLOGO = `${require('../../assets/images/Logo-CSM.svg').default}`;
+    const DEFAULTLOGO = `${require('../../assets/images/Logo-Echipa-Default.svg').default}`;
     const [openPopup, setOpenPopup] = useState(false);
     const { user } = useAuth();
 
@@ -47,6 +49,7 @@ const Partida = ({ data }) => {
     const togglePopup = (props) => {
         setOpenPopup(!openPopup);
     };
+    console.log(data.id, '\n',data);
     return (
         <div className={`${styles.containerPartida} ${data.status === 'VIITOR' ? styles.timelineViitor : styles.timelineRezultat}`} >
             <Container>
@@ -59,11 +62,15 @@ const Partida = ({ data }) => {
                             <Col>
                                 <div className={styles.logoContainer}>
                                     <div className={styles.logoEchipa}>
-                                        {data.teren === 'ACASA' ?
+                                        {data ?
+                                        (data.teren === 'ACASA' ?
                                             <img src={CSMLOGO} className={styles.imagine} alt='C.S.M. SUCEAVA' />
                                             :
                                             <img src={data.logoAdversar} className={styles.imagine} alt={data.numeAdversar} />
-                                        }
+                                        )
+                                        :
+                                        <img src = {DEFAULTLOGO} className={styles.imagine} alt='Echipa'/>
+                                    }
                                     </div>
                                 </div>
 
@@ -94,7 +101,7 @@ const Partida = ({ data }) => {
                             : null}
                         <Row>
                             <Col>
-                                <h6>{data.tipdata}</h6>
+                                <h6>{data.teren}</h6>
                             </Col>
                         </Row>
                         <Row>
@@ -102,6 +109,7 @@ const Partida = ({ data }) => {
                                 <h5>{data.locatie}</h5>
                             </Col>
                         </Row>
+                       
                     </Col>
                     <Col xs={{ order: 3 }} md={4}>
                         <Row>
@@ -123,10 +131,13 @@ const Partida = ({ data }) => {
                         </Row>
                     </Col>
                 </Row>
+                <div onClick={stopPropagation} className={styles.controls}>
+                <a href={data.link} target='_blank' alt='link meci' rel='noreferrer'><label className='text-white mr-2'>Vezi live</label><MdLiveTv className={styles.link}/></a>
+                </div>
                 {user?.role && (
                     <div onClick={stopPropagation} className={styles.controls}>
-                        <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`); navigate(`/partida/edit/${data?.id}`); }} />
-
+                        <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`); navigate(`/calendar/edit/${data?.id}`); }} />
+                        
                         <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
                     </div>
                 )}

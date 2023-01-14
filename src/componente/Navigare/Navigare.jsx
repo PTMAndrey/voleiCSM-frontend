@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import LogoCSM from '../../assets/images/logo csm.svg';
+import LogoCSM from '../../assets/images/Logo-CSM.svg';
 import styles from './Navigare.module.scss';
 import useWindowDimensions from "../../hooks/useWindowDimensions"
 
