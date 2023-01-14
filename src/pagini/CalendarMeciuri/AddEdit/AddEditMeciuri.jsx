@@ -18,11 +18,12 @@ import Buton from '../../../componente/Buton/Buton';
 import DropdownComponent from '../../../componente/Dropdown/Dropdown';
 
 import styles from './AddEditMeciuri.module.scss';
+import moment from 'moment/moment';
 
 const AddEdit = () => {
   const navigate = useNavigate();
 
-  const { editii, echipe } = useStateProvider();
+  const { editii, echipe, setAlert, filtruMeciuri, setFiltruMeciuri } = useStateProvider();
   const { userId } = useAuth();
 
   const { id } = useParams();
@@ -32,9 +33,11 @@ const AddEdit = () => {
 
   const [dataFinala, setDataFinala] = useState('');
   const [dataCalendar, setDataCalendar] = useState('');
-  const [selectedHour, setSelectedHour] = useState('');
-  const [selectedMinute, setSelectedMinute] = useState('');
+  const [dataCalendarEdit, setDataCalendarEdit] = useState()
+  const [selectedHour, setSelectedHour] = useState('12');
+  const [selectedMinute, setSelectedMinute] = useState('00');
   const [eroareCalendar, setEroareCalendar] = useState('');
+  const [valueInHour, setValueInHour] = useState(true);
 
   const [openPopup, setOpenPopup] = useState(false);
   //popup
@@ -46,6 +49,7 @@ const AddEdit = () => {
   const [formValue, setFormValue] = useState({
     id: '',
     idEditie: '',
+    numeEditie: '',
     data: '',
     numeAdversar: '',
     logoAdversar: '',
@@ -56,22 +60,36 @@ const AddEdit = () => {
     link: '',
   });
 
+
   const getMeci = async () => {
     const response = await getMeciById(id);
     if (response.status === 200) {
       setFormValue({
         id: response.data.id,
         idEditie: response.data.idEditie,
+        numeEditie: response.data.numeEditie,
         data: response.data.data,
         numeAdversar: response.data.numeAdversar,
         logoAdversar: response.data.logoAdversar,
-        locatie: response.data.locatie,
-        scorCSM: response.data.scorCSM,
-        scorAdversar: response.data.scorAdversar,
+        locatie: response.data.locatie || '',
+        scorCSM: response.data.scorCSM || '',
+        scorAdversar: response.data.scorAdversar || '',
         teren: response.data.teren,
-        link: response.data.link,
+        link: response.data.link || '',
       });
       console.log('edit- ', response.data);
+
+      setDataCalendarEdit(moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate())
+      setDataCalendar(response.data.data)
+      if (moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate().getHours() < 10)
+        setSelectedHour('0' + moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate().getHours())
+      else
+        setSelectedHour(moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate().getHours())
+
+      if (moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate().getMinutes() < 10)
+        setSelectedMinute('0' + moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate().getMinutes())
+      else
+        setSelectedMinute(moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate().getMinutes())
     }
   };
 
@@ -81,6 +99,29 @@ const AddEdit = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    setFiltruMeciuri({ ...filtruMeciuri, status: 'VIITOR' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  let Editii = [];
+  useEffect(() => {
+    editii?.map(editie =>
+      Editii.push({ value: `${editie.idEditie}`, label: `${editie.numeEditie}` })
+    )
+  }, [editii, Editii]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  let Echipe = [];
+  useEffect(() => {
+    echipe?.map(echipa =>
+      Echipe.push({ value: `${echipa.numeClubSportiv}`, label: `${echipa.numeClubSportiv}` })
+    )
+  }, [echipe, Echipe]);
+
+
 
   //------------------------------- HANDLERE
   // handleChange
@@ -93,9 +134,11 @@ const AddEdit = () => {
 
   // handleSubmit
   const handleSubmit = async () => {
+
+    console.log('inainte de validare', formValue);
     if (!isFormValid()) {
       setShowErrors(true);
-      console.log('Required fields must be completed!');
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowErrors(false);
@@ -103,7 +146,7 @@ const AddEdit = () => {
         console.log('mno, inainte de add', formValue);
         const response = await addMeci(formValue);
         console.log('\nraspuns\n', response);
-        
+
         if (response.status === 200)
           navigate('/calendar');
 
@@ -123,13 +166,39 @@ const AddEdit = () => {
       try {
         const response = await updateMeci(formValue);
         if (response.status === 200) {
-          navigate('/confirmation');
+          navigate('/calendar');
         }
       } catch (error) {
         console.log(error);
       }
     }
   };
+
+  // const handleChangeData = (e, tipData) => {
+  //   if (tipData === 'data')
+  //     if (!e)
+  //       setDataCalendar(getDataFromCalendar(e));
+  //     else
+  //       setDataCalendar('');
+  //   if (tipData === 'ora')
+  //     if (!e)
+  //       setSelectedHour(e.value);
+  //     else
+  //       setSelectedHour('')
+
+  //   if (tipData === 'minute')
+  //     if (!e)
+  //       setSelectedMinute(e.value);
+  //     else
+  //       setSelectedMinute('')
+
+  //   setForm();
+  // }
+  // const setForm = () => { setFormValue({ ...formValue, data: dataCalendar + ' ' + selectedHour + ':' + selectedMinute }); }
+
+  const handleChoice = (e) => {
+    setFormValue({ ...formValue, numeAdversar: e.value });
+  }
 
   //-------------------------------- VALIDARI
   // check errors
@@ -148,17 +217,32 @@ const AddEdit = () => {
       if (!formValue.numeAdversar)
         return 'Echipa adversară este obligatoriu de selectat!';
     }
+
     if (field === 'idEditie') {
       if (!formValue.idEditie)
         return 'Campionatul este obligatoriu de selectat!';
     }
 
+
     if (field === 'data') {
-      if (!formValue.data) {
+      if (!dataCalendar) {
         setEroareCalendar('Alegeti data calendaristică!');
         return 'Alegeti data calendaristică!';
       }
     }
+
+    if (field === 'ora') {
+      if (!selectedHour) {
+        return 'Alegeti ora!';
+      }
+    }
+
+    if (field === 'minut') {
+      if (!selectedMinute) {
+        return 'Alegeti minutele!';
+      }
+    }
+
     return '';
   };
 
@@ -188,28 +272,8 @@ const AddEdit = () => {
       minutes.push({ value: `${i}`, label: `${i}` },);
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  let Editii = [];
-  useEffect(() => {
-    editii?.map(editie =>
-      Editii.push({ value: `${editie.idEditie}`, label: `${editie.numeEditie}` })
-    )
-  }, [editii, Editii]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  let Echipe = [];
-  useEffect(() => {
-    echipe?.map(echipa =>
-      Echipe.push({ value: `${echipa.numeClubSportiv}`, label: `${echipa.numeClubSportiv}` })
-    )
-  }, [echipe, Echipe]);
-
-  const handleChoice = (e) => {
-    setFormValue({ ...formValue, numeAdversar: e.value });
-  }
-
   const getDataFromCalendar = (e) => {
-    return ((e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
+    return !e ? null : ((e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
   }
 
   console.log('log-->', formValue);
@@ -250,7 +314,8 @@ const AddEdit = () => {
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.inputs}>
             <DropdownComponent
-              title='Alege echipa'
+              // title='Alege echipa'
+              title={id ? formValue.numeAdversar ? formValue.numeAdversar : 'Alege echipa' : 'Alege echipa'}
               options={Echipe}
               clearable={true}
               searchable={true}
@@ -322,7 +387,8 @@ const AddEdit = () => {
         <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.publicare}>
             <DropdownComponent
-              title='Alege campionat'
+              // title='Alege campionat'
+              title={id ? formValue.idEditie ? formValue.numeEditie : 'Alege campionat' : 'Alege campionat'}
               options={Editii}
               clearable={true}
               onChange={(e) => {
@@ -336,7 +402,7 @@ const AddEdit = () => {
             <Input
               name='locatie'
               id='locatie'
-              value={formValue.titlu}
+              value={formValue.locatie}
               label='Locatia'
               placeholder='Locatia'
               onChange={handleChange}
@@ -345,46 +411,77 @@ const AddEdit = () => {
             />
             <div className={styles.alegeZiua}>
               <div>
-                <p>Alege zi</p>
+                {/* {console.log('\n\nTEEEEEEEEST\n',dataCalendar, '\n',dataCalendarEdit,'\nTEEEEEEEEEEEST\n\n')} */}
+                {!id ? <p>Alege zi </p>
+                  : moment(getDataFromCalendar(dataCalendarEdit), 'DD-MM-YYYY').format('DD MMMM YYYY') && <p>Data meci: {moment(getDataFromCalendar(dataCalendarEdit), 'DD-MM-YYYY').format('DD MMMM YYYY')}</p>
+                }
                 <Calendar
                   className={` ${showErrors && eroareCalendar && styles.helperErr}`}
                   name='data'
-                  // onChange={(e) => { setDataCalendar(getDataFromCalendar(e)); }}
-                  onChange={(e) => { !e ? setFormValue({...formValue, data: ''}) : setFormValue({...formValue, data:getDataFromCalendar(e)}) }}
+                  value={dataCalendarEdit}
+                  onChange={(e) => {
+                    // (selectedHour && selectedMinute) ?
+                    setFormValue({ ...formValue, data: getDataFromCalendar(e) + ' ' + selectedHour + ':' + selectedMinute })
+                    // :
+                    // selectedHour ?
+                    // setFormValue({ ...formValue, data: getDataFromCalendar(e) + ' ' + selectedHour})
+                    // :
+                    // setFormValue({ ...formValue, data: getDataFromCalendar(e)})
+
+
+                    setDataCalendar(getDataFromCalendar(e))
+                    setDataCalendarEdit(e)
+
+                    // setSelectedHour('');
+                    // setSelectedMinute('');
+                  }}
                   minDate={new Date(2010, 1, 1)} />
                 {showErrors && <p className='mt-4 text-danger'>{eroareCalendar}</p>}
               </div>
               <div>
-                {formValue.data.length > 0 && <>
-                  <p>Ore</p>
-                  <DropdownComponent
-                    title='00'
-                    options={hours}
-                    clearable={true}
-                    searchable={true}
-                    onChange={(e) => {
-                      !e ? setFormValue({...formValue, data: formValue.data}) : setFormValue({...formValue, data: formValue.data + ' ' + e.value});
-                    }}
-                    error={showErrors && checkErrors('ora') ? true : false}
-                    helper={showErrors ? checkErrors('ora') : ''}
-                  />
-                </>}
-                { }
-                {formValue.data.length > 10 && <>
-                  <p>Minute</p>
-                  <DropdownComponent
-                    title='00'
-                    options={minutes}
-                    clearable={true}
-                    searchable={true}
-                    onChange={(e) => {
-                      // e === null ? setSelectedMinute('') : setSelectedMinute(e.value);
-                      !e ? setFormValue({...formValue, data: formValue.data}) : setFormValue({...formValue, data: formValue.data  + ':' + e.value});
-                    }}
-                    error={showErrors && checkErrors('minut') ? true : false}
-                    helper={showErrors ? checkErrors('minut') : ''}
-                  />
-                </>}
+                <p>Ore</p>
+                <DropdownComponent
+                  title={formValue.data.length <= 10 ? 'Alege ora' : selectedHour}
+                  options={hours}
+                  // clearable={true}
+                  searchable={true}
+                  onChange={(e) => {
+                    // setFormValue({ ...formValue, data: '' })
+                    // !e ? setFormValue({ ...formValue, data: dataCalendar }) :
+                    //   setFormValue({ ...formValue, data: dataCalendar + ' ' + e.value });
+                    // !e ? setSelectedHour('') : setSelectedHour(e.value);
+
+                    // e.value !== 'Alege ora' ?
+                    // selectedMinute ?
+                    setFormValue({ ...formValue, data: formValue.data.split(' ')[0] + ' ' + e.value + ':' + selectedMinute })
+                    // :
+                    // setFormValue({ ...formValue, data: formValue.data.split(' ')[0] + ' ' + e.value})
+                    // :
+                    // setFormValue({ ...formValue, data: dataCalendar})
+                    setSelectedHour(e.value);
+
+                    // setSelectedMinute('');
+                  }}
+                  error={showErrors && checkErrors('ora') ? true : false}
+                  helper={showErrors ? checkErrors('ora') : ''}
+                />
+
+                <p>Minute</p>
+                <DropdownComponent
+                  title={formValue.data.length <= 13 ? 'Alege minutele' : selectedMinute}
+                  options={minutes}
+                  // clearable={true}
+                  searchable={true}
+                  onChange={(e) => {
+                    // e.value !== 'Alege minutele' ?
+                    setFormValue({ ...formValue, data: formValue.data.split(':')[0] + ':' + e.value })
+                    // :
+                    // setFormValue({ ...formValue, data: dataCalendar + ' ' + selectedHour });
+                    setSelectedMinute(e.value);
+                  }}
+                  error={showErrors && checkErrors('minut') ? true : false}
+                  helper={showErrors ? checkErrors('minut') : ''}
+                />
               </div>
             </div>
             <Input
@@ -421,12 +518,13 @@ const AddEdit = () => {
             <Input
               name='link'
               id='link'
-              value={formValue.titlu}
+              type="url"
               label='Link vizualizare LIVE'
-              placeholder='LINK'
+              placeholder={"https://www.example.com"}
+              pattern="https://www*.*.*"
+              title="Adresa url de forma: https://www.example.com"
+              value={formValue.link}
               onChange={handleChange}
-              error={showErrors && checkErrors('titlu') ? true : false}
-              helper={showErrors ? checkErrors('titlu') : ''}
             />
           </div>
         </Col>
@@ -442,7 +540,6 @@ const AddEdit = () => {
                 label={id ? 'Actualizează' : 'Publică'}
                 // onClick={id ? handleUpdate : handleSubmit}
                 onClick={() => {
-                  //setFormValue({ ...formValue, data: dataCalendar + ' ' + selectedHour + ':' + selectedMinute });
                   if (id) {
                     handleUpdate();
                   } else {

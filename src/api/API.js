@@ -133,7 +133,7 @@ export const addMeci = async (data) => {
 export const getMeciById = async (id) => {
   try {
     const response = await axios.get('/meci/'+id);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
   }
@@ -141,8 +141,8 @@ export const getMeciById = async (id) => {
 
 export const updateMeci = async (data) => {
   try {
-    const response = await axios.get('/meci/'+data.id, data);
-    return response.data;
+    const response = await axios.put('/meci/'+data.id, data);
+    return response ;
   } catch (error) {
     console.error(error);
   }

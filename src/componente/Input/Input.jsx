@@ -19,11 +19,13 @@ const Input = ({
   helper,
   disabled,
   min,
+  title,
 }) => {
   return (
     <div className={`${styles.container} ${error && styles.error}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <input
+        title={title}
         disabled={disabled}
         value={value}
         id={id}
@@ -63,6 +65,7 @@ Input.propTypes = {
   helper: PropTypes.string,
   disabled: PropTypes.bool,
   min: PropTypes.string,
+  title: PropTypes.string,
 };
 
 Input.defaultProps = {
