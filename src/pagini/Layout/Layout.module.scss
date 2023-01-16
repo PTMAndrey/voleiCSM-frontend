@@ -1,8 +1,9 @@
+@import '../../styles/variables.scss';
 @import "../../styles/mixins.scss";
 
 .layout {
   // background-image: linear-gradient(to top, #8988DD, rgba(255, 255, 255, 0.386));
-  background-color: #ebebf9;
+  background-color: $background-color;
   padding: 32px;
   min-width: 220px;
 

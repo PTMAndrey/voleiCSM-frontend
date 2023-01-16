@@ -1,92 +1,76 @@
 import React, { useState, useEffect } from 'react';
-
-import useStateProvider from '../../hooks/useStateProvider';
-import Partida from '../../componente/Partida/Partida';
-import Header from '../../componente/Header/Header';
-import Layout from '../Layout/Layout';
-import Titlu from '../../componente/Titlu/Titlu';
-
-import Carusel from '../../componente/Carusel/Carusel';
+import Iframe from 'react-iframe';
+import parse from 'date-fns/parse'
 
 import butonClasament from './../../assets/images/butonClasament.svg';
-
-import Iframe from 'react-iframe';
-
+import useStateProvider from '../../hooks/useStateProvider';
+import Layout from '../Layout/Layout';
+import Partida from '../../componente/Partida/Partida';
+import Header from '../../componente/Header/Header';
+import Titlu from '../../componente/Titlu/Titlu';
+import Carusel from '../../componente/Carusel/Carusel';
+import { getMeciuriByFilter, getMeciuriByStatus } from '../../api/API';
 import styles from './PaginaPrincipala.module.scss'
-import { getMeciuriByFilter } from '../../api/API';
 
 const PaginaPrincipala = () => {
 
-  const { stiriPublicate, meciuriOrdonate } = useStateProvider();
-  const [meciViitor, setMeciViitor] = useState([{
-    idMeci:'1234',
-    tipMeci:'Campionat',
-    status:'VIITOR',
-    data:'12-01-2023 15:30',
-    numeAdversar: 'CSA Steaua Bucuresti',
-    logoAdversar: `${require('../../assets/images/Logo-CSM.svg').default}`,
-    locatie:'Sala de sport “Dumitru Bernicu”',
-    scorCSM: '',
-    scorAdversar: '',
-    teren:'ACASA',
-  }]);
-  const [meciRezultat, setMeciRezultat] = useState([{
-    idMeci:'4321',
-    tipMeci:'Cupa Romaniei',
-    status:'REZULTAT',
-    data:'12-12-2022 15:30',
-    numeAdversar: 'CS Foresta Dumbraveni',
-    logoAdversar: `${require('../../assets/images/Logo-CSM.svg').default}`,
-    locatie:'Sala de sport “Aurel Vlaicu”',
-    scorCSM: '2',
-    scorAdversar: '3',
-    teren:'DEPLASARE',
-  }]);
-  const [filtruMeciuri, setFiltruMeciuri] = useState({
-    status: 'TOATE',
-    dataSpecifica: '',
-  })
+  const { stiriPublicate, meciuriOrdonate, editii } = useStateProvider();
+
+  const [meciViitor, setMeciViitor] = useState([]);
+  const [meciRezultat, setMeciRezultat] = useState([]);
   const getMeciViitor = async () => {
     try {
-      const response = await getMeciuriByFilter(filtruMeciuri);
-      response.status === 200 ? setMeciViitor(response.data[0]) : setMeciViitor(null);
+      const response = await getMeciuriByStatus('VIITOR');
+      response ? setMeciViitor(getUrmatorulMeci(response)) : setMeciViitor([]);
 
     } catch (error) { console.log(error) }
   };
 
   const getMeciRezultat = async () => {
     try {
-      const response = await getMeciuriByFilter(filtruMeciuri);
-      response.status === 200 ? setMeciViitor(response.data[0]) : setMeciRezultat(null);
+      const response = await getMeciuriByStatus('REZULTAT');
+      response ? setMeciRezultat(getUltimulMeci(response)) : setMeciRezultat([]);
 
     } catch (error) { console.log(error) }
   };
 
   useEffect(() => {
-    setFiltruMeciuri({ ...filtruMeciuri, status: 'VIITOR' });
-    // getMeciViitor();
+    // setFiltruMeciuri({status: 'VIITOR'})
+    getMeciViitor();
   }, []);
 
   useEffect(() => {
-    setFiltruMeciuri({ ...filtruMeciuri, status: 'REZULTAT' });
-    // getMeciRezultat();
+    // setFiltruMeciuri({status: 'REZULTAT'});
+    getMeciRezultat();
   }, []);
+
+  const getUltimulMeci = (response) => {
+    const format = 'd-M-y H:m'
+    const parseDate = d => parse(d, format, new Date())
+    const resp = (response?.sort((a, b) => parseDate(b.data) - parseDate(a.data)));
+    return resp[0];
+  }
+  const getUrmatorulMeci = (response) => {
+    const format = 'd-M-y H:m'
+    const parseDate = d => parse(d, format, new Date())
+    const resp = (response?.sort((a, b) => parseDate(a.data) - parseDate(b.data)));
+    return resp[0];
+  }
 
   return (
     <>
       <Header />
       <Layout>
         {/* ################  MECIURI ################ */}
-        {/* <span className={styles.linie} /> */}
         <div className={styles.timelinePartida}>
-          <h3 className={styles.borderTimeline}>Urmatorul meci</h3>
+          <h3 className={styles.borderTimeline}>Următorul meci în `{meciViitor?.numeEditie}`</h3>
         </div>
-        <Partida data={meciViitor[0]} />
-        <br /><br /><br />
-        <div className={styles.timelinePartida}>
-          <h3 className={styles.borderTimeline}>Ultimul meci</h3>
+        <Partida data={meciViitor} className='mb-5'/>
+
+        <div className={`mt-5 ${styles.timelinePartida}`}>
+          <h3 className={styles.borderTimeline}>Ultimul meci din `{meciRezultat?.numeEditie}`</h3>
         </div>
-        <Partida data={meciRezultat[0]} />
+        <Partida data={meciRezultat} />
 
         {/* ################  CLASAMENT ################ */}
 

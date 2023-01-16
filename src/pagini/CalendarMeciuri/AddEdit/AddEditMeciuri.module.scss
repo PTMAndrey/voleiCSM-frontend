@@ -1,18 +1,6 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
 
-.price {
-  display: flex;
-  margin-bottom: 10px;
-
-  h6 {
-    margin-top: 40px;
-    margin-left: 10px;
-    font-weight: $font-medium;
-    font-size: $font-body-small;
-  }
-}
-
 .publicare {
   display: flex;
   flex-direction: column;
@@ -72,37 +60,6 @@ div>label>input {
   border-bottom: 1px solid $color-gray-100;
 }
 
-.dropzone {
-  background-color: $color-gray-50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  height: 128px;
-  width: 164px;
-  margin-bottom: 1rem;
-
-  &:hover {
-    background-color: $color-gray-100;
-  }
-
-  p {
-    font-weight: $font-body-small;
-    font-size: $font-regular;
-    color: $color-gray-400;
-    margin: 0;
-    padding: 1rem;
-    text-align: center;
-  }
-}
-
-.accept {
-  border: 2px dashed $color-success-400;
-}
-
-.reject {
-  border: 2px dashed $color-alert-400;
-}
 
 .error {
   color: $color-alert-400;

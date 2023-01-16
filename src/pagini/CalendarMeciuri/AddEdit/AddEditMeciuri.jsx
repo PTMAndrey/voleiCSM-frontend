@@ -1,51 +1,34 @@
-import React, { useState, useCallback, useEffect } from 'react';
-
-import { ReactComponent as Add } from '../../../assets/icons/add.svg';
+import React, { useState, useEffect } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import { RiDeleteBinFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Calendar } from 'react-calendar';
 
 import { updateMeci, getMeciById, addMeci } from '../../../api/API';
 import useStateProvider from '../../../hooks/useStateProvider';
-import useAuth from '../../../hooks/useAuth';
-
 import Popup from '../../PaginaPrincipala/Popup';
 import Input from '../../../componente/Input/Input';
 import Buton from '../../../componente/Buton/Buton';
 import DropdownComponent from '../../../componente/Dropdown/Dropdown';
-
 import styles from './AddEditMeciuri.module.scss';
 import moment from 'moment/moment';
 
 const AddEdit = () => {
   const navigate = useNavigate();
-
   const { editii, echipe, setAlert, filtruMeciuri, setFiltruMeciuri } = useStateProvider();
-  const { userId } = useAuth();
-
   const { id } = useParams();
-
-  // show errors only if clicked to submit
   const [showErrors, setShowErrors] = useState(false);
-
-  const [dataFinala, setDataFinala] = useState('');
+  const [showEroareCalendar, setShowEroareCalendar] = useState(false);
   const [dataCalendar, setDataCalendar] = useState('');
   const [dataCalendarEdit, setDataCalendarEdit] = useState()
   const [selectedHour, setSelectedHour] = useState('12');
   const [selectedMinute, setSelectedMinute] = useState('00');
   const [eroareCalendar, setEroareCalendar] = useState('');
-  const [valueInHour, setValueInHour] = useState(true);
-
   const [openPopup, setOpenPopup] = useState(false);
-  //popup
   const togglePopup = () => {
     setOpenPopup(!openPopup);
   };
-
-  // form data
   const [formValue, setFormValue] = useState({
     id: '',
     idEditie: '',
@@ -59,7 +42,6 @@ const AddEdit = () => {
     teren: 'ACASA',
     link: '',
   });
-
 
   const getMeci = async () => {
     const response = await getMeciById(id);
@@ -77,7 +59,6 @@ const AddEdit = () => {
         teren: response.data.teren,
         link: response.data.link || '',
       });
-      console.log('edit- ', response.data);
 
       setDataCalendarEdit(moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate())
       setDataCalendar(response.data.data)
@@ -104,7 +85,7 @@ const AddEdit = () => {
     setFiltruMeciuri({ ...filtruMeciuri, status: 'VIITOR' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   let Editii = [];
   useEffect(() => {
@@ -124,7 +105,7 @@ const AddEdit = () => {
 
 
   //------------------------------- HANDLERE
-  // handleChange
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValue((prev) => {
@@ -132,20 +113,17 @@ const AddEdit = () => {
     });
   };
 
-  // handleSubmit
   const handleSubmit = async () => {
-
-    console.log('inainte de validare', formValue);
     if (!isFormValid()) {
+      setShowEroareCalendar(true);
       setShowErrors(true);
       setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
+      setShowEroareCalendar(false);
       setShowErrors(false);
       try {
-        console.log('mno, inainte de add', formValue);
         const response = await addMeci(formValue);
-        console.log('\nraspuns\n', response);
 
         if (response.status === 200)
           navigate('/calendar');
@@ -156,12 +134,13 @@ const AddEdit = () => {
     }
   };
 
-  // handleUpdate
   const handleUpdate = async () => {
     if (!isFormValid()) {
+      setShowEroareCalendar(true);
       setShowErrors(true);
     }
     if (isFormValid()) {
+      setShowEroareCalendar(false);
       setShowErrors(false);
       try {
         const response = await updateMeci(formValue);
@@ -173,28 +152,6 @@ const AddEdit = () => {
       }
     }
   };
-
-  // const handleChangeData = (e, tipData) => {
-  //   if (tipData === 'data')
-  //     if (!e)
-  //       setDataCalendar(getDataFromCalendar(e));
-  //     else
-  //       setDataCalendar('');
-  //   if (tipData === 'ora')
-  //     if (!e)
-  //       setSelectedHour(e.value);
-  //     else
-  //       setSelectedHour('')
-
-  //   if (tipData === 'minute')
-  //     if (!e)
-  //       setSelectedMinute(e.value);
-  //     else
-  //       setSelectedMinute('')
-
-  //   setForm();
-  // }
-  // const setForm = () => { setFormValue({ ...formValue, data: dataCalendar + ' ' + selectedHour + ':' + selectedMinute }); }
 
   const handleChoice = (e) => {
     setFormValue({ ...formValue, numeAdversar: e.value });
@@ -213,6 +170,7 @@ const AddEdit = () => {
         return 'Locatia este obligatorie!';
       }
     }
+
     if (field === 'numeAdversar') {
       if (!formValue.numeAdversar)
         return 'Echipa adversară este obligatoriu de selectat!';
@@ -223,22 +181,54 @@ const AddEdit = () => {
         return 'Campionatul este obligatoriu de selectat!';
     }
 
-
     if (field === 'data') {
       if (!dataCalendar) {
+        setShowEroareCalendar(true);
         setEroareCalendar('Alegeti data calendaristică!');
         return 'Alegeti data calendaristică!';
+      }
+      else
+        setShowEroareCalendar(false);
+    }
+
+    if (field === 'scorCSM') {
+      if (dataCalendarEdit) {
+        if (dataCalendarEdit < new Date(new Date().setHours(0, 0, 0, 0)) && !formValue.scorCSM) {
+          return 'Introduceti scor';
+        }
+        if (dataCalendarEdit.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) && Number(selectedHour) <= new Date().getHours() && Number(selectedMinute) < new Date().getMinutes()) {
+          return 'Introduceti scor'
+        }
+      }
+    }
+
+    if (field === 'scorAdversar') {
+      if (dataCalendarEdit) {
+        if (dataCalendarEdit < new Date().setHours(0, 0, 0, 0) && !formValue.scorAdversar) {
+          return 'Introduceti scor';
+        }
+        if (dataCalendarEdit.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) && Number(selectedHour) <= new Date().getHours() && Number(selectedMinute) < new Date().getMinutes()) {
+          return 'Introduceti scor'
+        }
+      }
+    }
+
+    if (field === 'link') {
+      if (formValue.link) {
+        const regex = /^((http|https):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/g;
+        if (!regex.test(formValue.link))
+          return 'Link-ul introdus este invalid';
       }
     }
 
     if (field === 'ora') {
-      if (!selectedHour) {
+      if (!dataCalendar) {
         return 'Alegeti ora!';
       }
     }
 
     if (field === 'minut') {
-      if (!selectedMinute) {
+      if (!dataCalendar) {
         return 'Alegeti minutele!';
       }
     }
@@ -275,15 +265,10 @@ const AddEdit = () => {
   const getDataFromCalendar = (e) => {
     return !e ? null : ((e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
   }
-
-  console.log('log-->', formValue);
   return (
-    <Container className={styles.addBackgroundColor}>
-      {id ?
-        <h1 className={styles.addTitlu}>Editare meci</h1>
-        :
-        <h1 className={styles.addTitlu}>Adăugare meci</h1>
-      }
+    <Container>
+      {id ? <h1 className={styles.addTitlu}>Editare meci</h1> :
+        <h1 className={styles.addTitlu}>Adăugare meci</h1>}
       <Row>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
@@ -301,7 +286,6 @@ const AddEdit = () => {
               disabled
               onChange={handleChange}
             />
-
           </div>
         </Col>
       </Row>
@@ -314,7 +298,6 @@ const AddEdit = () => {
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.inputs}>
             <DropdownComponent
-              // title='Alege echipa'
               title={id ? formValue.numeAdversar ? formValue.numeAdversar : 'Alege echipa' : 'Alege echipa'}
               options={Echipe}
               clearable={true}
@@ -330,7 +313,6 @@ const AddEdit = () => {
           </div>
         </Col>
       </Row>
-
       <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
@@ -374,10 +356,6 @@ const AddEdit = () => {
           </div>
         </Col>
       </Row>
-
-
-
-
       <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
@@ -387,7 +365,6 @@ const AddEdit = () => {
         <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.publicare}>
             <DropdownComponent
-              // title='Alege campionat'
               title={id ? formValue.idEditie ? formValue.numeEditie : 'Alege campionat' : 'Alege campionat'}
               options={Editii}
               clearable={true}
@@ -411,56 +388,31 @@ const AddEdit = () => {
             />
             <div className={styles.alegeZiua}>
               <div>
-                {/* {console.log('\n\nTEEEEEEEEST\n',dataCalendar, '\n',dataCalendarEdit,'\nTEEEEEEEEEEEST\n\n')} */}
                 {!id ? <p>Alege zi </p>
                   : moment(getDataFromCalendar(dataCalendarEdit), 'DD-MM-YYYY').format('DD MMMM YYYY') && <p>Data meci: {moment(getDataFromCalendar(dataCalendarEdit), 'DD-MM-YYYY').format('DD MMMM YYYY')}</p>
                 }
                 <Calendar
-                  className={` ${showErrors && eroareCalendar && styles.helperErr}`}
+                  className={` ${showEroareCalendar && eroareCalendar && styles.helperErr}`}
                   name='data'
                   value={dataCalendarEdit}
                   onChange={(e) => {
-                    // (selectedHour && selectedMinute) ?
                     setFormValue({ ...formValue, data: getDataFromCalendar(e) + ' ' + selectedHour + ':' + selectedMinute })
-                    // :
-                    // selectedHour ?
-                    // setFormValue({ ...formValue, data: getDataFromCalendar(e) + ' ' + selectedHour})
-                    // :
-                    // setFormValue({ ...formValue, data: getDataFromCalendar(e)})
-
-
                     setDataCalendar(getDataFromCalendar(e))
                     setDataCalendarEdit(e)
-
-                    // setSelectedHour('');
-                    // setSelectedMinute('');
+                    setShowEroareCalendar(false);
                   }}
                   minDate={new Date(2010, 1, 1)} />
-                {showErrors && <p className='mt-4 text-danger'>{eroareCalendar}</p>}
+                {showEroareCalendar && <p className='mt-4 text-danger'>{eroareCalendar}</p>}
               </div>
               <div>
                 <p>Ore</p>
                 <DropdownComponent
                   title={formValue.data.length <= 10 ? 'Alege ora' : selectedHour}
                   options={hours}
-                  // clearable={true}
                   searchable={true}
                   onChange={(e) => {
-                    // setFormValue({ ...formValue, data: '' })
-                    // !e ? setFormValue({ ...formValue, data: dataCalendar }) :
-                    //   setFormValue({ ...formValue, data: dataCalendar + ' ' + e.value });
-                    // !e ? setSelectedHour('') : setSelectedHour(e.value);
-
-                    // e.value !== 'Alege ora' ?
-                    // selectedMinute ?
                     setFormValue({ ...formValue, data: formValue.data.split(' ')[0] + ' ' + e.value + ':' + selectedMinute })
-                    // :
-                    // setFormValue({ ...formValue, data: formValue.data.split(' ')[0] + ' ' + e.value})
-                    // :
-                    // setFormValue({ ...formValue, data: dataCalendar})
                     setSelectedHour(e.value);
-
-                    // setSelectedMinute('');
                   }}
                   error={showErrors && checkErrors('ora') ? true : false}
                   helper={showErrors ? checkErrors('ora') : ''}
@@ -470,13 +422,9 @@ const AddEdit = () => {
                 <DropdownComponent
                   title={formValue.data.length <= 13 ? 'Alege minutele' : selectedMinute}
                   options={minutes}
-                  // clearable={true}
                   searchable={true}
                   onChange={(e) => {
-                    // e.value !== 'Alege minutele' ?
                     setFormValue({ ...formValue, data: formValue.data.split(':')[0] + ':' + e.value })
-                    // :
-                    // setFormValue({ ...formValue, data: dataCalendar + ' ' + selectedHour });
                     setSelectedMinute(e.value);
                   }}
                   error={showErrors && checkErrors('minut') ? true : false}
@@ -493,6 +441,8 @@ const AddEdit = () => {
               placeholder='Scor'
               min='0'
               onChange={handleChange}
+              error={showErrors && checkErrors('scorCSM') ? true : false}
+              helper={showErrors ? checkErrors('scorCSM') : ''}
             />
             <Input
               type='number'
@@ -503,6 +453,8 @@ const AddEdit = () => {
               placeholder='Scor'
               min='0'
               onChange={handleChange}
+              error={showErrors && checkErrors('scorAdversar') ? true : false}
+              helper={showErrors ? checkErrors('scorAdversar') : ''}
             />
           </div>
         </Col>
@@ -525,6 +477,8 @@ const AddEdit = () => {
               title="Adresa url de forma: https://www.example.com"
               value={formValue.link}
               onChange={handleChange}
+              error={showErrors && checkErrors('link') ? true : false}
+              helper={showErrors ? checkErrors('link') : ''}
             />
           </div>
         </Col>
@@ -538,15 +492,9 @@ const AddEdit = () => {
               <Buton
                 variant='primary'
                 label={id ? 'Actualizează' : 'Publică'}
-                // onClick={id ? handleUpdate : handleSubmit}
                 onClick={() => {
-                  if (id) {
-                    handleUpdate();
-                  } else {
-                    handleSubmit();
-                  }
-                }}
-              />
+                  if (id) handleUpdate(); else handleSubmit();
+                }} />
             </Col>
             <Col sm={{ span: 4, offset: 2 }}>
               <Buton
@@ -558,38 +506,35 @@ const AddEdit = () => {
           </Row>
         </Col>
       </Row>
-
-      {
-        openPopup && (
-          <Popup
-            setOpenPopup={setOpenPopup}
-            openPopup={openPopup}
-            content={
-              <div className={styles.popup}>
-                <h3 className={styles.titlePopup}>Confirmare acțiuni efectuate</h3>
-                <p className={styles.descriptionPopup}>
-                  Această acțiune este permanentă și nu poate fi anulată.
-                </p>
-                <div className={styles.butonsPopup}>
-                  <button
-                    className={styles.backPopup}
-                    onClick={() => { id ? navigate('/calendar/' + id) : navigate('/calendar') }}
-                  >
-                    Confirm
-                  </button>
-                  <button
-                    className={styles.deletePopup}
-                    onClick={() => { togglePopup(); }}
-                  >
-                    Renunț
-                  </button>
-                </div>
+      {openPopup && (
+        <Popup
+          setOpenPopup={setOpenPopup}
+          openPopup={openPopup}
+          content={
+            <div className={styles.popup}>
+              <h3 className={styles.titlePopup}>Confirmare acțiuni efectuate</h3>
+              <p className={styles.descriptionPopup}>
+                Această acțiune este permanentă și nu poate fi anulată.
+              </p>
+              <div className={styles.butonsPopup}>
+                <button
+                  className={styles.backPopup}
+                  onClick={() => { navigate(-1) }}
+                >
+                  Confirm
+                </button>
+                <button
+                  className={styles.deletePopup}
+                  onClick={() => { togglePopup(); }}
+                >
+                  Renunț
+                </button>
               </div>
-            }
-          />
-        )
+            </div>
+          }
+        />
+      )
       }
-
     </Container >
   );
 };

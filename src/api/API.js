@@ -121,9 +121,7 @@ export const updateStire = async (data) => {
 
 export const addMeci = async (data) => {
   try {
-    console.log('data api -> ', data);
     const response = await axios.post('/meci',data);
-    console.log('response?: ',response);
     return response;
   } catch (error) {
     console.error(error);
@@ -152,6 +150,15 @@ export const deleteMeciById = async (id) => {
   try {
     const response = await axios.delete('/meci/' + id);
     return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMeciuriByStatus = async (status) => {
+  try {
+    const response = await axios.get('/meci/status?status='+status);
+    return response.data;
   } catch (error) {
     console.log(error);
   }
