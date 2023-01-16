@@ -62,16 +62,18 @@ const PaginaPrincipala = () => {
       <Header />
       <Layout>
         {/* ################  MECIURI ################ */}
-        <div className={styles.timelinePartida}>
-          <h3 className={styles.borderTimeline}>Următorul meci în `{meciViitor?.numeEditie}`</h3>
-        </div>
-        <Partida data={meciViitor} className='mb-5'/>
-
+        {meciViitor && <>
+          <div className={styles.timelinePartida}>
+            <h3 className={styles.borderTimeline}>Următorul meci în `{meciViitor?.numeEditie}`</h3>
+          </div>
+          <Partida data={meciViitor} className='mb-5' />
+        </>}
+        {meciRezultat && <>
         <div className={`mt-5 ${styles.timelinePartida}`}>
           <h3 className={styles.borderTimeline}>Ultimul meci din `{meciRezultat?.numeEditie}`</h3>
         </div>
         <Partida data={meciRezultat} />
-
+        </>}
         {/* ################  CLASAMENT ################ */}
 
         <Titlu title='Clasament' />
