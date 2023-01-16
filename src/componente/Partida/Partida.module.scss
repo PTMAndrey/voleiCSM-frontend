@@ -85,6 +85,7 @@
         box-sizing: border-box;
       }
     }
+    a{border:1px solid transparent}
     a:hover{box-sizing: border-box; border:1px solid black; padding: 0px 10px}
     .link {
       fill:red !important;

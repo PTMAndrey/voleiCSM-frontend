@@ -44,7 +44,7 @@ export const StateProvider = ({ children }) => {
   const [previzualizareMeciuri, setPrevizualizareMeciuri] = useState({});
   const [filtruMeciuri, setFiltruMeciuri] = useState({
     status: 'VIITOR',
-    editieId: '14',
+    editieId: '1',
     dataSpecifica: '',
   });
   const [editii, setEditii] = useState([]);
@@ -62,8 +62,8 @@ export const StateProvider = ({ children }) => {
     prenume: '',
   });
 
-
   const [divizii, setDivizii] = useState([]);
+
   const fetchStiriPublicate = async () => {
     try {
       const response = await getStiriByStatus('PUBLICAT');
@@ -147,7 +147,6 @@ export const StateProvider = ({ children }) => {
     const format = 'd-M-y H:m'
     const parseDate = d => parse(d, format, new Date())
     return (response?.sort((a, b) => parseDate(b.dataPublicarii) - parseDate(a.dataPublicarii)));
-
   }
 
 
@@ -164,17 +163,17 @@ export const StateProvider = ({ children }) => {
   useEffect(() => {
     fetchEditii();
     fetchEchipe();
-    fetchMeciuribyFilter(); // pentru pagina Noutati - stiri
+    fetchMeciuribyFilter(); // pentru pagina Calendar
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    fetchPersonalbyFilter(); // pentru pagina Noutati - stiri
+    fetchPersonalbyFilter(); // pentru pagina Personal
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    fetchDivizii(); // pentru pagina Noutati - stiri
+    fetchDivizii(); // pentru pagina Personal
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -227,6 +226,8 @@ export const StateProvider = ({ children }) => {
 
       divizii,
       setDivizii,
+
+      sortData,
 
     }}
   >{children}</StateContext.Provider>;

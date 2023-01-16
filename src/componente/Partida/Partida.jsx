@@ -28,7 +28,6 @@ const Partida = ({ data }) => {
     function stopPropagation(e) {
         e.stopPropagation();
     }
-    // //delete announce
     const handleDelete = async () => {
         try {
             const response = await deleteMeciById(data?.id);
@@ -49,7 +48,6 @@ const Partida = ({ data }) => {
     const togglePopup = (props) => {
         setOpenPopup(!openPopup);
     };
-    console.log(data.id, '\n',data);
     return (
         <div className={`${styles.containerPartida} ${data.status === 'VIITOR' ? styles.timelineViitor : styles.timelineRezultat}`} >
             <Container>
@@ -63,14 +61,14 @@ const Partida = ({ data }) => {
                                 <div className={styles.logoContainer}>
                                     <div className={styles.logoEchipa}>
                                         {data ?
-                                        (data.teren === 'ACASA' ?
-                                            <img src={CSMLOGO} className={styles.imagine} alt='C.S.M. SUCEAVA' />
+                                            (data.teren === 'ACASA' ?
+                                                <img src={CSMLOGO} className={styles.imagine} alt='C.S.M. SUCEAVA' />
+                                                :
+                                                <img src={data.logoAdversar} className={styles.imagine} alt={data.numeAdversar} />
+                                            )
                                             :
-                                            <img src={data.logoAdversar} className={styles.imagine} alt={data.numeAdversar} />
-                                        )
-                                        :
-                                        <img src = {DEFAULTLOGO} className={styles.imagine} alt='Echipa'/>
-                                    }
+                                            <img src={DEFAULTLOGO} className={styles.imagine} alt='Echipa' />
+                                        }
                                     </div>
                                 </div>
 
@@ -101,15 +99,10 @@ const Partida = ({ data }) => {
                             : null}
                         <Row>
                             <Col>
-                                <h6>{data.teren}</h6>
+                                <h6>{data.locatie}</h6>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col>
-                                <h5>{data.locatie}</h5>
-                            </Col>
-                        </Row>
-                       
+
                     </Col>
                     <Col xs={{ order: 3 }} md={4}>
                         <Row>
@@ -131,13 +124,15 @@ const Partida = ({ data }) => {
                         </Row>
                     </Col>
                 </Row>
-                <div onClick={stopPropagation} className={styles.controls}>
-                <a href={data.link} target='_blank' alt='link meci' rel='noreferrer'><label className='text-white mr-2'>Vezi live</label><MdLiveTv className={styles.link}/></a>
-                </div>
+                {data.link &&
+                    <div onClick={stopPropagation} className={styles.controls}>
+                        <a href={data.link} target='_blank' alt='link meci' rel='noreferrer'><label className='text-white mr-2'>Vezi live</label><MdLiveTv className={styles.link} /></a>
+                    </div>
+                }
                 {user?.role && (
                     <div onClick={stopPropagation} className={styles.controls}>
-                        <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`); navigate(`/calendar/edit/${data?.id}`); }} />
-                        
+                        <RiEdit2Fill className={styles.edit} onClick={() => navigate(`/calendar/edit/${data?.id}`)} />
+
                         <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
                     </div>
                 )}

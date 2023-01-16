@@ -19,6 +19,7 @@ const Input = ({
   helper,
   disabled,
   min,
+  pattern,
   title,
 }) => {
   return (
@@ -36,6 +37,7 @@ const Input = ({
         placeholder={placeholder}
         className={error ? styles.inputErr : null}
         type={type}
+        pattern={pattern}
         min={min}
       />
       <span
@@ -66,6 +68,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   min: PropTypes.string,
   title: PropTypes.string,
+  pattern: PropTypes.string,
 };
 
 Input.defaultProps = {
