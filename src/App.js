@@ -58,8 +58,6 @@ function App() {
            
             <Route path='/calendar/adauga' element={<AddEditMeciuri/>} />
             <Route path='/calendar/edit/:id' element={<AddEditMeciuri/>} />
-            {/* <Route path='/calendar/edit/meci/preview' element={<PrevizualizareMeci />}/> */}
-            {/* <Route path='/calendar/adauga/meci/preview' element={<AddEditMeciuri/>} /> */}
            
             <Route path='/personal/adauga' element={<AddEditPersonal/>}/>
             <Route path='/personal/edit/:id' element={<AddEditPersonal/>}/>
