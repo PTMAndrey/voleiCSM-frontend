@@ -20,6 +20,11 @@ import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
+import { EditorState, convertToRaw, convertToHTML} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { Editor } from 'react-draft-wysiwyg';
+import DOMPurify from 'dompurify';
+
 const Persoana = () => {
   const { id } = useParams();
   const { user } = useAuth();
@@ -29,6 +34,15 @@ const Persoana = () => {
 
   // states for the details page
   const [persoana, setPersoana] = useState(null);
+  // descriere - form
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  );
+  const getHtml = editorState => {
+    // const data = editorState
+    console.log(draftToHtml(convertToHTML(editorState.getCurrentContent())));
+  }
+
 
   const [istoricId, setIstoricId] = useState();
   const [istoricSters, setIstoricSters] = useState(false);
@@ -40,7 +54,9 @@ const Persoana = () => {
       try {
         const response = await getPersonalById(id);
         if (response.status === 200) {
+          console.log(response.data);
           setPersoana(response.data);
+          setEditorState(response.data.descriere)
         }
         else {
           setPersoana(null);
@@ -135,7 +151,13 @@ const Persoana = () => {
               </Row>
               <Row >
                 <h6 className={styles.defaultField}>Descriere</h6>
-                <p className={styles.dynamicField}>{persoana?.descriere}</p>
+                {/* <p className={styles.dynamicField}>{persoana?.descriere}</p> */}
+                <div className={styles.dynamicField} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(persoana.descriere) }} />
+                {/* <textarea
+                  readOnly
+                  className="rdw-storybook-textarea"
+                  value={JSON.stringify(editorState, null, 4)}
+                /> */}
               </Row>
             </div>
           </div>
@@ -159,18 +181,18 @@ const Persoana = () => {
                       <>
                         <Col>
                           <div className={styles.directionRow}>
-                              <Tooltip title="Adaugă rol" placement="top" arrow onClick={() => { navigate(`/personal/adauga/roluri/` + persoana.id); }} >
+                            <Tooltip title="Adaugă rol" placement="top" arrow onClick={() => { navigate(`/personal/adauga/roluri/` + persoana.id); }} >
+                              <IconButton className={styles.iconStyle}>
+                                <MdAddCircleOutline id='addRol' className={styles.edit} />
+                              </IconButton>
+                            </Tooltip>
+                            {persoana?.istoricPosturi.length > 0 &&
+                              <Tooltip title="Editează roluri" placement="top" arrow onClick={() => { navigate(`/personal/edit/roluri/` + persoana.id); }}>
                                 <IconButton className={styles.iconStyle}>
-                                  <MdAddCircleOutline id='addRol' className={styles.edit}/>
+                                  <RiEdit2Fill id='deleteRol' className={styles.edit} />
                                 </IconButton>
                               </Tooltip>
-                              {persoana?.istoricPosturi.length > 0 &&
-                                <Tooltip title="Editează roluri" placement="top" arrow onClick={() => { navigate(`/personal/edit/roluri/` + persoana.id); }}>
-                                  <IconButton className={styles.iconStyle}>
-                                    <RiEdit2Fill id='deleteRol' className={styles.edit} />
-                                  </IconButton>
-                                </Tooltip>
-                              }
+                            }
                           </div>
                         </Col>
                       </>
@@ -225,18 +247,18 @@ const Persoana = () => {
                       <>
                         <Col>
                           <div className={styles.directionRow}>
-                              <Tooltip title="Adaugă premiu"placement="top" arrow>
-                                <IconButton className={styles.iconStyle} onClick={() => { navigate(`/personal/adauga/premii/` + persoana.id); }} >
-                                  <MdAddCircleOutline id='addPremiu' className={styles.edit}/>
+                            <Tooltip title="Adaugă premiu" placement="top" arrow>
+                              <IconButton className={styles.iconStyle} onClick={() => { navigate(`/personal/adauga/premii/` + persoana.id); }} >
+                                <MdAddCircleOutline id='addPremiu' className={styles.edit} />
+                              </IconButton>
+                            </Tooltip>
+                            {persoana?.realizariPersonale.length > 0 &&
+                              <Tooltip title="Editează premii" placement="top" arrow onClick={() => { navigate(`/personal/edit/premii/` + persoana.id); }} >
+                                <IconButton className={styles.iconStyle}>
+                                  <RiEdit2Fill id='deletePremiu' title="Adauga rol" className={styles.edit} />
                                 </IconButton>
                               </Tooltip>
-                              {persoana?.realizariPersonale.length > 0 &&
-                                <Tooltip title="Editează premii" placement="top" arrow onClick={() => { navigate(`/personal/edit/premii/` + persoana.id); }} >
-                                  <IconButton className={styles.iconStyle}>
-                                    <RiEdit2Fill id='deletePremiu' title="Adauga rol" className={styles.edit}/>
-                                  </IconButton>
-                                </Tooltip>
-                              }
+                            }
                           </div>
                         </Col>
                       </>
@@ -259,7 +281,7 @@ const Persoana = () => {
                         <Col>{istoric.denumireRezultat}</Col><Col>
                           {user.role &&
 
-                            <Tooltip title="Șterge premiu"placement="right" arrow onClick={() => { setIstoricId(istoric.idRealizariPersonale); setRaportCronologic('premiu'); togglePopup(); }}>
+                            <Tooltip title="Șterge premiu" placement="right" arrow onClick={() => { setIstoricId(istoric.idRealizariPersonale); setRaportCronologic('premiu'); togglePopup(); }}>
                               <IconButton className={styles.iconStyle}>
                                 <RiDeleteBinFill className={styles.delete} />
                               </IconButton>

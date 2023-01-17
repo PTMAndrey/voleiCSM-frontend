@@ -198,6 +198,28 @@ export const getCluburiSportive = async () => {
   }
 };
 
+export const addPersoana = async (file, data) => {
+  try {
+    console.log('api',file,'\n',data)
+    const response = await axios.post('/persoana', data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file}
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updatePersoana = async (id,data) => {
+  try {
+    const response = await axios.put('/persoana/'+id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 export const getPersonalByFilter = async (personal) => {
   try {

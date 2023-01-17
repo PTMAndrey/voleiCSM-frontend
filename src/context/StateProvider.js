@@ -17,6 +17,7 @@ export const StateProvider = ({ children }) => {
   // numar elemente pe o pagina ( ex. noutati )
   let pageSize = 4;
   let pageSizePersonal = 9;
+  let pageSizePremiiEchipa = 9;
 
   // stiri 
   const [stiri, setStiri] = useState(null);
@@ -53,6 +54,7 @@ export const StateProvider = ({ children }) => {
   // personal
   const [personal, setPersonal] = useState([]);
   const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
+  const [paginaCurentaPremiiPersonal, setPaginaCurentaPremiiPersonal] = useState(1);
   // previzualizare personal
   const [previzualizarePersonal, setPrevizualizarePersonal] = useState({});
   const [filtruPersonal, setFiltruPersonal] = useState({
@@ -61,6 +63,17 @@ export const StateProvider = ({ children }) => {
     nume: '',
     prenume: '',
   });
+
+  let Posturi = [
+    { value: 'PRINCIPAL', label: 'PRINCIPAL' },
+    { value: 'SECUNDAR', label: 'SECUNDAR' },
+    { value: 'CENTRU', label: 'CENTRU' },
+    { value: 'OPUS', label: 'OPUS' },
+    { value: 'RIDICATOR', label: 'RIDICATOR' },
+    { value: 'LIBERO', label: 'LIBERO' },
+    { value: 'EXTREMA', label: 'EXTREMA' },
+    { value: 'ANTRENOR', label: 'ANTRENOR' },
+  ];
 
   const [divizii, setDivizii] = useState([]);
 
@@ -223,6 +236,10 @@ export const StateProvider = ({ children }) => {
       fetchPersonalbyFilter,
       previzualizarePersonal,
       setPrevizualizarePersonal,
+      pageSizePremiiEchipa,
+      paginaCurentaPremiiPersonal,
+      setPaginaCurentaPremiiPersonal,
+      Posturi,
 
       divizii,
       setDivizii,

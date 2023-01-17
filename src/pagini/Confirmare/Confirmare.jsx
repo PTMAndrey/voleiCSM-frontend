@@ -3,28 +3,29 @@ import styles from "./Confirmare.module.scss";
 import welcome from "../../assets/images/welcome.png";
 import Buton  from "../../componente/Buton/Buton";
 import { useNavigate } from "react-router-dom";
+import { Row } from "react-bootstrap";
 
-const Confirmare = () => {
+const Confirmare = ({pagina}) => {
   const navigate = useNavigate();
   return (
-    <div className={styles.confirmation}>
+    <div className={`${styles.confirmation}`}>
       <img src={welcome} alt="Stire adăugată"  />
       <h5 className={styles.confirmationTitlu}>
-        Super! Știrea a fost publicată!
+        Super! Postarea a fost publicată!
       </h5>
       <div className={styles.button}>
         <Buton
           variant={"primary"}
-          label="Stiri"
-          onClick={() => navigate("/noutati")}
+          label={pagina}
+          onClick={() => navigate(pagina === 'Noutati' ? "/noutati" : pagina === 'Personal' && "/personal")}
         />
       </div>
 
-      <div className={styles.button}>
+      <div className={`${styles.button} mb-5`}>
         <Buton
           variant={"secondary"}
-          label="Adaugă știre nouă"
-          onClick={() => navigate("/noutati/adauga")}
+          label="Adaugă o nouă postare"
+          onClick={() => navigate(-1)}
         />
       </div>
     </div>

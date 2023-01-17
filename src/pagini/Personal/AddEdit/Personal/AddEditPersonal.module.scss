@@ -54,11 +54,11 @@ div>label, div>label>input{
   border-bottom: 1px solid $color-gray-100;
 }
 
-.previzualizareStiri {
+.previzualizarePersonal {
   display: flex;
   flex-direction: column;
   img {
-    height: 128px;
+    height: fit-content;
     width: 164px;
     background-color: $color-gray-50;
     display: flex;
@@ -112,4 +112,34 @@ div>label, div>label>input{
   color: $color-alert-400;
   font-size: $font-body-tiny;
   margin-top: 4px;
+}
+
+.helperErr {
+  color: $color-alert-500;
+  border: 2px solid $color-alert-500 !important;
+}
+
+.wrapperClass {
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.editorClass {
+  background-color:lightgray;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.toolbarClass {
+  border: 1px solid #ccc;
+}
+em{
+  font-style: italic;
+}
+ins{
+  text-decoration: underline;
+}
+del{
+  text-decoration: line-through;
+}
+code{
+  font-family: monospace;
 }
