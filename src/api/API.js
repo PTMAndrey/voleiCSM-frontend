@@ -1,28 +1,26 @@
-import axios from "axios";
+import axios from 'axios';
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+  // 'Content-Type': 'multipart/form-data',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
 };
 
 // access control axios
-// axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-// get user by id
 export const getUserById = async (id) => {
   //try {
-  //   const response = await axios.get("/user/" + id);
+  //   const response = await axios.get('/user/' + id);
   //   return response;
   return {
     data: {
-      userId: "44232",
-      firstName: "Andrei",
-      lastName: "Andries",
-      token: "tkn123",
-      email: "email@email.com",
-      password: "1234",
+      userId: '44232',
+      firstName: 'Andrei',
+      lastName: 'Andries',
+      token: 'tkn123',
+      email: 'email@email.com',
+      password: '1234',
       // role: null,
       role: 'Administrator',
       // role: 'CreatorContinut',
@@ -34,96 +32,33 @@ export const getUserById = async (id) => {
   //   }
 };
 
-export const getStiri = async (status) => {
+export const getStiriByStatus = async (status) => {
   try {
-    const response = await axios.get("/stiri?status=" + status);
+    const response = await axios.get('/stiri?status=' + status);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStiriByFilter = async (stire) => {
+  try {
+    let response;
+    let defaultURL = '/stiri/filtru?status=' + stire.status + '&tipStire=' + stire.tipStire;
+
+    if (stire.numarZile !== '')
+      defaultURL += '&numarZile=' + stire.numarZile;
+    else
+      if (stire.perioadaSpecifica.firstDay !== '' && stire.perioadaSpecifica.lastDay !== '')
+        defaultURL += '&perioadaSpecifica=' + stire.perioadaSpecifica.firstDay + ' ' + stire.perioadaSpecifica.lastDay;
+      else
+        if (stire.dataSpecifica !== '')
+          defaultURL += '&dataSpecifica=' + stire.dataSpecifica;
+
+    response = await axios.get(defaultURL);
+
     return response.data;
 
-    // return {
-    //   stiri: [{
-    //     id: '111',
-    //     titlu: 'Meci 1 Publicat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ############## Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus?',
-    //     status: 'Publicat',
-    //     dataPublicarii: '20-10-2021',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '222',
-    //     titlu: 'Meci 2 Publicat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Publicat',
-    //     dataPublicarii: '18-10-2022',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '333',
-    //     titlu: 'Meci 3 Publicat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Publicat',
-    //     dataPublicarii: '01-11-2019',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '444',
-    //     titlu: 'Meci 4 Programat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Programat',
-    //     dataPublicarii: '05-11-2022',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '555',
-    //     titlu: 'Meci 5 Publicat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Publicat',
-    //     dataPublicarii: '16-10-2022',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '666',
-    //     titlu: 'Meci 6 Draft',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Draft',
-    //     dataPublicarii: '',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '777',
-    //     titlu: 'Meci 7 Draft',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Draft',
-    //     dataPublicarii: '09-11-2022',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '888',
-    //     titlu: 'Meci 8 Publicat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Publicat',
-    //     dataPublicarii: '12-11-2022',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   {
-    //     id: '999',
-    //     titlu: 'Meci 9 Publicat',
-    //     descriere: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident aspernatur facere atque pariatur repellendus exercitationem ex quia vero ea alias modi eius, quos eligendi cum veritatis ducimus debitis tempore necessitatibus? ##############',
-    //     status: 'Publicat',
-    //     dataPublicarii: '07-11-2022',
-    //     imaginiURL: 'https://media.istockphoto.com/vectors/vector-illustration-of-red-house-icon-vector-id155666671?k=20&m=155666671&s=612x612&w=0&h=sL5gRpVmrGcZBVu5jEjF5Ne7A4ZrBCuh5d6DpRv3mps=',
-    //     video: '',
-    //   },
-    //   ],
-    //   response: 200,
-    // }
   } catch (error) {
     console.error(error);
   }
@@ -131,23 +66,279 @@ export const getStiri = async (status) => {
 
 export const deleteStireById = async (id) => {
   try {
-    const response = await axios.delete("/stiri/" + id);
+    const response = await axios.delete('/stiri/' + id);
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getListingById = (id) => {
-  // try {
-  //   const response = await axios.get("/listing/" + id);
-  //   return response;
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  // stiri.map((stire, index) => {
-  //   if (index === id)
-  //     return stire;
-  // })
-  return 1;
+export const getStireById = async (id) => {
+  try {
+    const response = await axios.get('/stiri/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addStire = async (stiri) => {
+  try {
+    const response = await axios.post('/stiri', stiri);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+
+// export const addStire = async (file, stire) => {
+//   try {
+//     const response = await axios.post('/stiri', stire, 
+//       {
+//         headers: {
+//           'Content-Type': 'multipart/form-data',
+//         }
+//       },);
+//     if (response.status === 200)
+//       return response;
+//     else
+//       return null;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+export const updateStire = async (data) => {
+  try {
+    const response = await axios.post('/stiri/' + data.id, data); // put ???
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addMeci = async (data) => {
+  try {
+    const response = await axios.post('/meci',data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMeciById = async (id) => {
+  try {
+    const response = await axios.get('/meci/'+id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateMeci = async (data) => {
+  try {
+    const response = await axios.put('/meci/'+data.id, data);
+    return response ;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteMeciById = async (id) => {
+  try {
+    const response = await axios.delete('/meci/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMeciuriByStatus = async (status) => {
+  try {
+    const response = await axios.get('/meci/status?status='+status);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getMeciuriByFilter = async (meci) => {
+  try {
+    let response;
+    let defaultURL = '/meci/filtru?status=' + meci.status + '&campionat=' + meci.editieId;
+    if (meci.campionat !== '')
+      defaultURL += '&dataSpecifica=' + meci.dataSpecifica;
+    response = await axios.get(defaultURL);
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+
+export const getEditii = async () => {
+  try {
+    const response = await axios.get('/editie');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getCluburiSportive = async () => {
+  try {
+    const response = await axios.get('/cluburiSportive');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addPersoana = async (file, data) => {
+  try {
+    console.log('api',file,'\n',data)
+    const response = await axios.post('/persoana', data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file}
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updatePersoana = async (id,data) => {
+  try {
+    const response = await axios.put('/persoana/'+id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const getPersonalByFilter = async (personal) => {
+  try {
+    let response;
+    let defaultURL = '/persoana/filtru?tipPersonal=' + personal.tipPersonal + '&divizie=' + personal.divizie;
+
+    if (personal.nume !== '')
+      defaultURL += '&nume=' + personal.nume;
+    // else
+      if (personal.prenume !== '')
+        defaultURL += '&prenume=' + personal.prenume;
+    response = await axios.get(defaultURL);
+
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPersonalById = async (id) => {
+  try {
+    const response = await axios.get('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePersonalById = async (id) => {
+  try {
+    const response = await axios.delete('/persoana/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addIstoricPosturiToId = async (id,data) => {
+  try {
+    console.log(data);
+    const response = await axios.post('/istoricPosturi/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addRealizarePersonaleToId = async (id,data) => {
+  try {
+    const response = await axios.post('/realizariPersonale/add/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateIstoricPosturiToId = async (id,data) => {
+  try {
+    console.log(data);
+    const response = await axios.put('/istoricPosturi/update/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateRealizarePersonaleToId = async (id,data) => {
+  try {
+    const response = await axios.put('/realizariPersonale/update/' + id,data);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const getIstoricPosturiByPersoanaId = async (id) => {
+  try {
+    const response = await axios.get('/istoricPosturi/get/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getRealizariPersonaleByPersoanaId = async (id) => {
+  try {
+    const response = await axios.get('/realizariPersonale/get/' + id);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteIstoricPosturiById = async (id) => {
+  try {
+    const response = await axios.delete('/istoricPosturi/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteRealizarePersonalaById = async (id) => {
+  try {
+    const response = await axios.delete('/realizariPersonale/' + id);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const getDivizii = async (id) => {
+  try {
+    const response = await axios.get('/divizii');
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
 };

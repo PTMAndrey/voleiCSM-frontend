@@ -1,0 +1,53 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.containerFiltre {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    min-width:200px;
+    background-color: rgba(13, 4, 11, 0.2);
+    padding: 15px;
+    margin: 20px 0;
+
+    .titlu {
+        color: $color-dark-blue;
+        font-weight: $font-bold;
+    }
+}
+
+.filtruMeciuri {
+    display: flex;
+    justify-items: flex-start;
+    flex-direction: column;
+    align-content: center;
+    background-color: $color-dark-blue;
+    color: $color-white;
+    border: 3px solid $color-yellow;
+    width: 100%;
+    padding: 15px;
+    margin: 20px auto;
+
+    min-width:160px;
+    &h5 {
+        font-weight: $font-bold;
+    }
+
+    >div {
+        // margin-left: 15px;
+        margin-top:5px;
+        label {
+            display: flex;
+            flex-direction: row;
+            cursor: pointer;
+            color: white;
+        }
+
+        input {
+            margin-right: 10px;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}

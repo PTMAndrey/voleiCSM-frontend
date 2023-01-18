@@ -1,0 +1,177 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+
+.containerPartida {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    border: 5px solid $color-yellow;
+    color: $color-white;
+    margin-bottom: 50px;
+    padding: 10px 0;
+    min-width: 100px; // asta e important la resize 
+}
+
+.timelineViitor {
+    background-color: $color-primary-700;
+}
+
+.timelineRezultat {
+    background-color: $color-dark-blue;
+}
+
+.logoContainer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid $color-yellow;
+    background-color: $color-white;
+    border-radius: 50%;
+    height: -moz-fit-content;
+    height: fit-content;
+
+    .logoEchipa {
+        width: 112px;
+        aspect-ratio: 1;
+        align-self: center;
+        height: fit-content;
+        padding: 5px;
+
+        & .imagine {
+            max-width: 112px !important;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            width: 100%;
+        }
+    }
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(1turn);
+    }
+}
+
+.coloanaNumeEchipa {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.detaliiPartida {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    @media screen and(max-width:768px) {
+        padding: 20px 0;
+    }
+}
+
+.controls {
+    
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding:10px 0;
+    font-size: 20px;
+    .edit {
+      fill:white !important;
+      cursor:pointer;
+      &:hover {
+        background-color: $color-primary-500;
+        box-sizing: border-box;
+      }
+    }
+    a{border:1px solid transparent}
+    a:hover{box-sizing: border-box; border:1px solid black; padding: 0px 10px}
+    .link {
+      fill:red !important;
+      cursor:pointer;
+      &:hover {
+        // background-color: $color-primary-500;
+        box-sizing: border-box;
+      }
+    }
+    .delete {
+      fill:white !important;
+    cursor:pointer;
+      &:hover {
+        background-color: $color-primary-500;
+        box-sizing: border-box;
+      }
+    }
+  }
+  
+
+.approve {
+    padding: 10px;
+    background-color: $color-primary-400;
+    color: $color-white;
+    border-radius: 8px;
+  }
+  
+  .popup {
+    padding: 30px;
+  }
+  
+  .titlePopup {
+    font-weight: 700;
+    font-size: $font-h5;
+    text-align: center;
+    color: $color-black;
+  }
+  
+  .descriptionPopup {
+    font-weight: 400;
+    font-size: $font-body-small;
+    color: $color-gray-700;
+    margin: 20px 20px 30px 20px;
+    text-align: center;
+  }
+  
+  .butonsPopup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    @include responsive_W550px{
+      flex-direction:column;
+      & button {
+        margin:10px 0 7px 0;
+        
+      }
+    }
+  }
+  
+  .deletePopup {
+    cursor:pointer;
+    padding: 5px 20px;
+    background-color: $color-alert-400;
+    border-radius: 5px;
+    font-weight: 600;
+    color: $color-white;
+    border:1px solid;
+    &:hover{
+      color: $color-alert-700;
+      background-color: $color-white;
+      border:1px solid $color-alert-400;
+    }
+  }
+  
+  .backPopup {
+    cursor:pointer;
+    padding: 5px 20px;
+    background-color: transparent;
+    border: 1px solid $color-primary-500;
+    color: $color-primary-500;
+    border-radius: 5px;
+    font-weight: 600;
+    &:hover{
+      background-color: $color-primary-500;
+      color:$color-white;
+    }
+  }
+  
