@@ -27,6 +27,9 @@ import HeaderPersonal from './componente/Header/HeaderPersonal';
 import AddEditPersonal from './pagini/Personal/AddEdit/Personal/AddEditPersonal';
 import AddEditRaportCronologic from './pagini/Personal/AddEdit/RaportCronologic/AddEditRaportCronologic'
 
+import Onboarding from './pagini/Onboarding/Onboarding.jsx'
+
+
 import ProtectedRoute from './rute/RuteProtejate';
 
 import useStateProvider from './hooks/useStateProvider';
@@ -117,8 +120,8 @@ function App() {
           </Route>
 
           {/* onboarding rute */}
-          {/* <Route path='/login' element={<Onboarding />} />
-        <Route path='/register' element={<Onboarding />} />
+           <Route path='/login' element={<Onboarding />} />
+        {/*<Route path='/register' element={<Onboarding />} />
         <Route path='/forgot-password' element={<Onboarding />} />
         <Route path='/reset-password' element={<Onboarding />} /> */}
 
