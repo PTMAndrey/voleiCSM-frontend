@@ -9,28 +9,7 @@ axios.defaults.headers = {
 // access control axios
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-export const getUserById = async (id) => {
-  //try {
-  //   const response = await axios.get('/user/' + id);
-  //   return response;
-  return {
-    data: {
-      userId: '44232',
-      firstName: 'Andrei',
-      lastName: 'Andries',
-      token: 'tkn123',
-      email: 'email@email.com',
-      password: '1234',
-      // role: null,
-      role: 'Administrator',
-      // role: 'CreatorContinut',
-    },
-    response: 200,
-  };
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-};
+// ---------------------------- USER ----------------------------------
 
 export const getStiriByStatus = async (status) => {
   try {

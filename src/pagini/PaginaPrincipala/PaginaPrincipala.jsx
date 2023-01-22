@@ -16,14 +16,14 @@ const PaginaPrincipala = () => {
 
   // const Background = `${require('./../../assets/images/PersonalPaginaPrincipala.svg').default}`;
 
-  const { stiriPublicate, personal } = useStateProvider();
+  const { stiriPublicate, personal, meciuriOrdonate } = useStateProvider();
 
   const [meciViitor, setMeciViitor] = useState([]);
   const [meciRezultat, setMeciRezultat] = useState([]);
   const getMeciViitor = async () => {
     try {
       const response = await getMeciuriByStatus('VIITOR');
-      response ? setMeciViitor(getUrmatorulMeci(response)) : setMeciViitor([]);
+      response ? setMeciViitor(getUrmatorulMeci(response)) : setMeciViitor(null);
 
     } catch (error) { console.log(error) }
   };
@@ -31,7 +31,7 @@ const PaginaPrincipala = () => {
   const getMeciRezultat = async () => {
     try {
       const response = await getMeciuriByStatus('REZULTAT');
-      response ? setMeciRezultat(getUltimulMeci(response)) : setMeciRezultat([]);
+      response ? setMeciRezultat(getUltimulMeci(response)) : setMeciRezultat(null);
 
     } catch (error) { console.log(error) }
   };
@@ -95,7 +95,7 @@ const PaginaPrincipala = () => {
             <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' isHomePage />
           </div>
         }
-            {/* <img src={Background} alt=''/> */}
+        {/* <img src={Background} alt=''/> */}
         {/* ################  PERSONAL ################ */}
         {/* {personal?.length > 0 &&
           <div className={styles.personal}>

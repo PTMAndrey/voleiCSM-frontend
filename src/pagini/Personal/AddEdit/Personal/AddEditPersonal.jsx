@@ -28,9 +28,9 @@ import styles from "./AddEditPersonal.module.scss";
 import TextArea from "../../../../componente/TextArea/TextArea";
 
 const AddEditPersonal = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { previzualizarePersonal, setAlert, setPrevizualizarePersonal, divizii, Posturi } = useStateProvider();
-  const { userId } = useAuth();
   const { id } = useParams();
   useEffect(() => {
     if (id && id.length < 30)
@@ -303,265 +303,274 @@ const AddEditPersonal = () => {
   }
 
   return (
-    <Container className={styles.addBackgroundColor}>
-      <h1 className={styles.addTitlu}>Adaugă Personal</h1>
-      <Row className='mt-5'>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>Imagine *</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          <Col
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "1rem",
-            }}
-          >
-            <label>Poza de profil persoană</label>
-            <br />
-            {file?.file ?
-              <div className={styles.previzualizarePersonal}>
-                <img src={file?.file} alt="" />
-                <RiDeleteBinFill onClick={() => {
-                  handleDelete();
-                }} />
-              </div>
-              :
-              formValue?.imagine &&
-              <div className={styles.previzualizarePersonal}>
-                <img src={formValue?.imagine} alt="" />
-                <RiDeleteBinFill onClick={() => {
-                  handleDelete();
-                }} />
-              </div>
-            }
-            {/* dropzone */}
-            {!formValue.imagine ? <>
-              {fileInForm?.file?.length < 1 &&
-                <Dropzone onDrop={handleDrop}
-                  error={showErrors && checkErrors('file') ? true : false}
-                  helper={showErrors ? checkErrors('file') : ''}
-                />}
-
-              {fileInForm?.file === undefined &&
-                <Dropzone onDrop={handleDrop}
-                  error={showErrors && checkErrors('file') ? true : false}
-                  helper={showErrors ? checkErrors('file') : ''}
-                />}
-            </>
-              : null}
-          </Col>
-        </Col>
-      </Row>
-      <Row className='mt-5'>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>Echipă *</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.inputs}>
-            <DropdownComponent
-              title={id ? formValue.numeDivizie : 'Alege echipa'}
-              options={Divizii}
-              searchable={true}
-              onChange={(e) => {
-                e === null ?
-                  setFormValue({ ...formValue, numeDivizie: '' }) :
-                  setFormValue({ ...formValue, numeDivizie: e.value });
-              }}
-              error={showErrors && checkErrors('numeDivizie') ? true : false}
-              helper={showErrors ? checkErrors('numeDivizie') : ''}
-            />
-          </div>
-        </Col>
-      </Row>
-      <Row className='mt-5'>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>Personal *</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
-
-          <div className={styles.inputs}>
-            <div>
-              <label htmlFor='jucator'>
-                <input
-                  id='jucator'
-                  type='radio'
-                  name='personal'
-                  value='JUCATOR'
-                  checked={formValue.personal === 'JUCATOR'}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setFormValue({ ...formValue, personal: 'JUCATOR' });
+    <>
+      {user?.role === 'Administrator' ?
+        <>
+          <Container className={styles.addBackgroundColor}>
+            <h1 className={styles.addTitlu}>Adaugă Personal</h1>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Imagine *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+                <Col
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "1rem",
                   }}
-                />
-                {' '} JUCATOR
-              </label>
-            </div>
-            <div className='mt-3'>
-              <label htmlFor='antrenor'>
-                <input
-                  id='antrenor'
-                  type='radio'
-                  name='personal'
-                  value='ANTRENOR'
-                  checked={formValue.personal === 'ANTRENOR'}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setFormValue({ ...formValue, personal: 'ANTRENOR' });
-                  }}
-                />
-                {' '} ANTRENOR
-              </label>
-            </div>
-          </div>
-        </Col>
-      </Row>
+                >
+                  <label>Poza de profil persoană</label>
+                  <br />
+                  {file?.file ?
+                    <div className={styles.previzualizarePersonal}>
+                      <img src={file?.file} alt="" />
+                      <RiDeleteBinFill onClick={() => {
+                        handleDelete();
+                      }} />
+                    </div>
+                    :
+                    formValue?.imagine &&
+                    <div className={styles.previzualizarePersonal}>
+                      <img src={formValue?.imagine} alt="" />
+                      <RiDeleteBinFill onClick={() => {
+                        handleDelete();
+                      }} />
+                    </div>
+                  }
+                  {/* dropzone */}
+                  {!formValue.imagine ? <>
+                    {fileInForm?.file?.length < 1 &&
+                      <Dropzone onDrop={handleDrop}
+                        error={showErrors && checkErrors('file') ? true : false}
+                        helper={showErrors ? checkErrors('file') : ''}
+                      />}
 
-      <Row className='mt-5'>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>Detalii *</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.inputs}>
-            <Input
-              name='nume'
-              id='nume'
-              label='Nume'
-              placeholder="Nume"
-              value={formValue.nume}
-              onChange={handleChange}
-              error={showErrors && checkErrors('nume') ? true : false}
-              helper={showErrors ? checkErrors('nume') : ''}
-            />
-            <Input
-              name='prenume'
-              id='prenume'
-              label='Prenume'
-              placeholder='Prenume'
-              value={formValue.prenume}
-              onChange={handleChange}
-              error={showErrors && checkErrors('prenume') ? true : false}
-              helper={showErrors ? checkErrors('prenume') : ''}
-            />
-            <label>Data nașterii</label>
-            <Calendar
-              className={` ${showEroareCalendar && eroareCalendar && styles.helperErrCalendar} mb-4`}
-              name='data'
-              value={dataCalendarEdit}
-              onChange={(e) => {
-                setFormValue({ ...formValue, dataNasterii: getDataFromCalendar(e) })
-                setDataCalendar(getDataFromCalendar(e))
-                setDataCalendarEdit(e)
-                setShowEroareCalendar(false);
-              }} />
-            {showEroareCalendar && <p className={`mt-2 ${styles.helperErr}`}>{eroareCalendar}</p>}
-            <Input
-              name='inaltime'
-              id='inaltime'
-              label='Înălțime'
-              placeholder='Înălțime'
-              value={formValue.inaltime}
-              onChange={handleChange}
-              error={showErrors && checkErrors('inaltime') ? true : false}
-              helper={showErrors ? checkErrors('inaltime') : ''}
-            />
-            <Input
-              name='nationalitate'
-              id='nationalitate'
-              label='Naționalitate'
-              placeholder='Naționalitate'
-              value={formValue.nationalitate}
-              onChange={handleChange}
-              error={showErrors && checkErrors('nationalitate') ? true : false}
-              helper={showErrors ? checkErrors('nationalitate') : ''}
-            />
-            <label>Post</label>
-            <DropdownComponent
-              title={id ? formValue.post : 'Alege post'}
-              options={Posturi}
-              onChange={(e) => {
-                setFormValue({ ...formValue, post: e.value });
-              }}
-              error={showErrors && checkErrors('post') ? true : false}
-              helper={showErrors ? checkErrors('post') : ''}
-            />
-          </div>
-        </Col>
-      </Row>
+                    {fileInForm?.file === undefined &&
+                      <Dropzone onDrop={handleDrop}
+                        error={showErrors && checkErrors('file') ? true : false}
+                        helper={showErrors ? checkErrors('file') : ''}
+                      />}
+                  </>
+                    : null}
+                </Col>
+              </Col>
+            </Row>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Echipă *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.inputs}>
+                  <DropdownComponent
+                    title={id ? formValue.numeDivizie : 'Alege echipa'}
+                    options={Divizii}
+                    searchable={true}
+                    onChange={(e) => {
+                      e === null ?
+                        setFormValue({ ...formValue, numeDivizie: '' }) :
+                        setFormValue({ ...formValue, numeDivizie: e.value });
+                    }}
+                    error={showErrors && checkErrors('numeDivizie') ? true : false}
+                    helper={showErrors ? checkErrors('numeDivizie') : ''}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Personal *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
 
-      <Row className='mt-5'>
-        <Col md={{ span: 2, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3
-              onClick={() =>
-                setFormValue({
-                  ...formValue,
-                  descriere:
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque illum recusandae molestiae consequuntur tempora, esse omnis fugiat quam harum iure?",
-                })
-              }
-            >
-              Descriere *
-            </h3>
-          </div>
-        </Col>
-        <Col md={{ span: 10, offset: 0 }} className={styles.bottomBorder}>
-          {/* descriere */}
-          <div className={styles.inputs}>
-            <Editor
-              editorState={editorState}
-              onEditorStateChange={onEditorStateChange}
-              wrapperClassName={styles.wrapperClass}
-              editorClassName={styles.editorClass}
-              toolbarClassName={styles.toolbarClass} />
-            {showEroareDescriere && <p className='mt-4 text-danger'>{eroareDescriere}</p>}
-          </div>
+                <div className={styles.inputs}>
+                  <div>
+                    <label htmlFor='jucator'>
+                      <input
+                        id='jucator'
+                        type='radio'
+                        name='personal'
+                        value='JUCATOR'
+                        checked={formValue.personal === 'JUCATOR'}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setFormValue({ ...formValue, personal: 'JUCATOR' });
+                        }}
+                      />
+                      {' '} JUCATOR
+                    </label>
+                  </div>
+                  <div className='mt-3'>
+                    <label htmlFor='antrenor'>
+                      <input
+                        id='antrenor'
+                        type='radio'
+                        name='personal'
+                        value='ANTRENOR'
+                        checked={formValue.personal === 'ANTRENOR'}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setFormValue({ ...formValue, personal: 'ANTRENOR' });
+                        }}
+                      />
+                      {' '} ANTRENOR
+                    </label>
+                  </div>
+                </div>
+              </Col>
+            </Row>
 
-        </Col>
-      </Row>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Detalii *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.inputs}>
+                  <Input
+                    name='nume'
+                    id='nume'
+                    label='Nume'
+                    placeholder="Nume"
+                    value={formValue.nume}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('nume') ? true : false}
+                    helper={showErrors ? checkErrors('nume') : ''}
+                  />
+                  <Input
+                    name='prenume'
+                    id='prenume'
+                    label='Prenume'
+                    placeholder='Prenume'
+                    value={formValue.prenume}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('prenume') ? true : false}
+                    helper={showErrors ? checkErrors('prenume') : ''}
+                  />
+                  <label>Data nașterii</label>
+                  <Calendar
+                    className={` ${showEroareCalendar && eroareCalendar && styles.helperErrCalendar} mb-4`}
+                    name='data'
+                    value={dataCalendarEdit}
+                    onChange={(e) => {
+                      setFormValue({ ...formValue, dataNasterii: getDataFromCalendar(e) })
+                      setDataCalendar(getDataFromCalendar(e))
+                      setDataCalendarEdit(e)
+                      setShowEroareCalendar(false);
+                    }} />
+                  {showEroareCalendar && <p className={`mt-2 ${styles.helperErr}`}>{eroareCalendar}</p>}
+                  <Input
+                    name='inaltime'
+                    id='inaltime'
+                    label='Înălțime'
+                    placeholder='Înălțime'
+                    value={formValue.inaltime}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('inaltime') ? true : false}
+                    helper={showErrors ? checkErrors('inaltime') : ''}
+                  />
+                  <Input
+                    name='nationalitate'
+                    id='nationalitate'
+                    label='Naționalitate'
+                    placeholder='Naționalitate'
+                    value={formValue.nationalitate}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('nationalitate') ? true : false}
+                    helper={showErrors ? checkErrors('nationalitate') : ''}
+                  />
+                  <label>Post</label>
+                  <DropdownComponent
+                    title={id ? formValue.post : 'Alege post'}
+                    options={Posturi}
+                    onChange={(e) => {
+                      setFormValue({ ...formValue, post: e.value });
+                    }}
+                    error={showErrors && checkErrors('post') ? true : false}
+                    helper={showErrors ? checkErrors('post') : ''}
+                  />
+                </div>
+              </Col>
+            </Row>
 
-      <Row className='mt-5 mb-5'>
-        <Col md={{ span: 4, offset: 0 }}></Col>
-        <Col md={{ span: 6, offset: 0 }}>
-          <Row>
-            <Col sm={{ span: 4, offset: 1 }}>
-              {!id && (
-                <Buton
-                  variant="secondary"
-                  label="Previzualizare"
-                  onClick={handlePrevizualizare}
-                />
-              )}
-            </Col>
-
-            <Col sm={{ span: 4, offset: 3 }}>
-              <Buton
-                variant="primary"
-                disabled={disabledButton}
-                label={id ? "Actualizează" : "Publică"}
-                onClick={
-                  id
-                    ? () => {
-                      handleUpdate();
+            <Row className='mt-5'>
+              <Col md={{ span: 2, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3
+                    onClick={() =>
+                      setFormValue({
+                        ...formValue,
+                        descriere:
+                          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque illum recusandae molestiae consequuntur tempora, esse omnis fugiat quam harum iure?",
+                      })
                     }
-                    : handleSubmit
-                }
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container >
+                  >
+                    Descriere *
+                  </h3>
+                </div>
+              </Col>
+              <Col md={{ span: 10, offset: 0 }} className={styles.bottomBorder}>
+                {/* descriere */}
+                <div className={styles.inputs}>
+                  <Editor
+                    editorState={editorState}
+                    onEditorStateChange={onEditorStateChange}
+                    wrapperClassName={styles.wrapperClass}
+                    editorClassName={styles.editorClass}
+                    toolbarClassName={styles.toolbarClass} />
+                  {showEroareDescriere && <p className='mt-4 text-danger'>{eroareDescriere}</p>}
+                </div>
+
+              </Col>
+            </Row>
+
+            <Row className='mt-5 mb-5'>
+              <Col md={{ span: 4, offset: 0 }}></Col>
+              <Col md={{ span: 6, offset: 0 }}>
+                <Row>
+                  <Col sm={{ span: 4, offset: 1 }}>
+                    {!id && (
+                      <Buton
+                        variant="secondary"
+                        label="Previzualizare"
+                        onClick={handlePrevizualizare}
+                      />
+                    )}
+                  </Col>
+
+                  <Col sm={{ span: 4, offset: 3 }}>
+                    <Buton
+                      variant="primary"
+                      disabled={disabledButton}
+                      label={id ? "Actualizează" : "Publică"}
+                      onClick={
+                        id
+                          ? () => {
+                            handleUpdate();
+                          }
+                          : handleSubmit
+                      }
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container >
+        </>
+        :
+        navigate('/')
+      }
+    </>
   );
 };
+
 
 export default AddEditPersonal;
 

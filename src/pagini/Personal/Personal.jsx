@@ -175,7 +175,7 @@ const Personal = () => {
                 <div className={styles.userAdmin}>
                     {!premiiEchipa && <span>Caută după:</span>}
                     <span className={styles.linie1} />
-                    {user?.role && !premiiEchipa &&
+                    {user?.role === 'Administrator' && !premiiEchipa &&
                         <Buton
                             label="Adaugă personal"
                             className={styles.addPersonal}
@@ -185,7 +185,7 @@ const Personal = () => {
                             }}
                         />
                     }
-                    {user?.role && premiiEchipa &&
+                    {user?.role === 'Administrator' && premiiEchipa &&
                         <Buton
                             label="Adaugă premiu"
                             className={styles.addPersonal}

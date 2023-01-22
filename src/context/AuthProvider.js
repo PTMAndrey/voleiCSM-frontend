@@ -1,19 +1,18 @@
 import { createContext, useEffect, useState } from "react";
-import { getUserById } from "../api/API";
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   // user
   const [user, setUser] = useState(null);
 
-  // set user from local storage if exists
-  // id should change with token in production
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(sessionStorage.getItem("userId") || null);
+
+  console.log("user: ", user);
   const fetchUser = async () => {
     try {
-      const response = await getUserById(userId);
-      setUser(response?.data);
-      localStorage.setItem("token",response?.data.role);
+      const response = sessionStorage.getItem('user');
+      setUser( JSON.parse(response));
+      console.log(JSON.parse(response));
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -24,19 +23,15 @@ export const AuthProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  console.log("user: ", user);
-
   // logout function
   function logout() {
+    sessionStorage.clear();
     setUser(null);
-    localStorage.clear();
-    setUserId(null);
   }
 
   // check if user is logged in
   const isLoggedIn = () => {
-    return !!localStorage.getItem("token");
-    // return true;
+    return !!sessionStorage.getItem("userId");
   };
 
   return (
@@ -45,10 +40,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         isLoggedIn,
         user,
-        fetchUser,
         setUser,
-        userId,
-        setUserId,
       }}
     >
       {children}
