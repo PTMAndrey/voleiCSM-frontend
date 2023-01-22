@@ -60,6 +60,7 @@ function App() {
             <Route path='/calendar/edit/:id' element={<AddEditMeciuri/>} />
            
             <Route path='/personal/adauga' element={<AddEditPersonal/>}/>
+            {/* <Route path='/personal/adauga/premii' element={<AddEditPremiiPersonal/>}/> */}
             <Route path='/personal/edit/:id' element={<AddEditPersonal/>}/>
             <Route path='/personal/edit/preview' element={<AddEditPersonal/>}/>
             <Route path='/personal/adauga/roluri/:id' element={<AddEditRaportCronologic pagina="adaugaRoluri"/>}/>
@@ -68,8 +69,9 @@ function App() {
             <Route path='/personal/edit/premii/:id' element={<AddEditRaportCronologic pagina="editPremii"/>}/>
             
             
-            <Route path='/confirmation' element={<Confirmare />} />
-            
+            <Route path='/confirmare/noutati/' element={<Confirmare pagina={'Noutati'}/>} />
+            <Route path='/confirmare/personal/' element={<Confirmare pagina={'Personal'}/>} />
+
             {/*
             <Route path='/my-account'>
               <Route path='profile' element={<MyAccount />} />
@@ -110,7 +112,8 @@ function App() {
             } />
             <Route path='/personal/:id' exact element={<><HeaderPersonal/><Layout><Persoana/></Layout></>} />
 
-            <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />
+            <Route path='/not-found' element={<Layout><NotFound /></Layout>} />
+            <Route path='*' element={<Layout><NotFound /></Layout>} />
 
           </Route>
 

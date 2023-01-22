@@ -9,12 +9,14 @@ import Partida from '../../componente/Partida/Partida';
 import Header from '../../componente/Header/Header';
 import Titlu from '../../componente/Titlu/Titlu';
 import Carusel from '../../componente/Carusel/Carusel';
-import { getMeciuriByFilter, getMeciuriByStatus } from '../../api/API';
+import { getMeciuriByStatus } from '../../api/API';
 import styles from './PaginaPrincipala.module.scss'
 
 const PaginaPrincipala = () => {
 
-  const { stiriPublicate, meciuriOrdonate, editii } = useStateProvider();
+  // const Background = `${require('./../../assets/images/PersonalPaginaPrincipala.svg').default}`;
+
+  const { stiriPublicate, personal } = useStateProvider();
 
   const [meciViitor, setMeciViitor] = useState([]);
   const [meciRezultat, setMeciRezultat] = useState([]);
@@ -35,12 +37,10 @@ const PaginaPrincipala = () => {
   };
 
   useEffect(() => {
-    // setFiltruMeciuri({status: 'VIITOR'})
     getMeciViitor();
   }, []);
 
   useEffect(() => {
-    // setFiltruMeciuri({status: 'REZULTAT'});
     getMeciRezultat();
   }, []);
 
@@ -69,10 +69,10 @@ const PaginaPrincipala = () => {
           <Partida data={meciViitor} className='mb-5' />
         </>}
         {meciRezultat && <>
-        <div className={`mt-5 ${styles.timelinePartida}`}>
-          <h3 className={styles.borderTimeline}>Ultimul meci din `{meciRezultat?.numeEditie}`</h3>
-        </div>
-        <Partida data={meciRezultat} />
+          <div className={`mt-5 ${styles.timelinePartida}`}>
+            <h3 className={styles.borderTimeline}>Ultimul meci din `{meciRezultat?.numeEditie}`</h3>
+          </div>
+          <Partida data={meciRezultat} />
         </>}
         {/* ################  CLASAMENT ################ */}
 
@@ -92,11 +92,16 @@ const PaginaPrincipala = () => {
         {/* ################  ULTIMELE NOUTATI ################ */}
         {stiriPublicate?.length > 0 &&
           <div className={styles.stiri}>
-            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' showcontrols isHomePage />
+            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' isHomePage />
           </div>
         }
-
-
+            {/* <img src={Background} alt=''/> */}
+        {/* ################  PERSONAL ################ */}
+        {/* {personal?.length > 0 &&
+          <div className={styles.personal}>
+            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' isHomePage />
+          </div>
+        } */}
 
 
       </Layout>

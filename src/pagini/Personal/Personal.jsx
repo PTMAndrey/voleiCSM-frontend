@@ -5,9 +5,11 @@ import styles from './Personal.module.scss';
 import Button from '../../componente/Buton/Buton';
 import DropdownComponent from '../../componente/Dropdown/Dropdown';
 import ListPersonal from './ListPersonal/ListPersonal';
+import ListPremii from './ListPremii/ListPremii';
 import Buton from '../../componente/Buton/Buton';
 import { useNavigate } from 'react-router-dom';
 import { userInfo } from 'os';
+import { Col } from "react-bootstrap";
 import useAuth from '../../hooks/useAuth';
 
 const Personal = () => {
@@ -15,6 +17,7 @@ const Personal = () => {
     const { divizii, fetchPersonalbyFilter, filtruPersonal, setFiltruPersonal, personal, setPrevizualizarePersonal } = useStateProvider();
     const navigate = useNavigate();
     const [filtruDivizie, setFiltruDivizie] = useState('A1');
+    const [premiiEchipa, setPremiiEchipa] = useState('');
 
     // const [personal, setPersonal] = useState('jucatori');
 
@@ -97,7 +100,7 @@ const Personal = () => {
     let Divizii = [];
 
     useEffect(() => {
-        divizii.map(divizie =>
+        divizii?.map(divizie =>
             Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` })
         )
     }, [divizii, Divizii]);
@@ -122,7 +125,7 @@ const Personal = () => {
 
 
     // pagination - current page with the content displayed
-    const { pageSizePersonal, paginaCurentaPersonal } = useStateProvider();
+    const { pageSizePersonal, paginaCurentaPersonal, pageSizePremiiEchipa, paginaCurentaPremiiPersonal } = useStateProvider();
 
     const currentTableData = useMemo(() => {
         if (personal) {
@@ -137,6 +140,18 @@ const Personal = () => {
             return null;
     }, [pageSizePersonal, paginaCurentaPersonal, personal]);
 
+    // const currentTablePremii = useMemo(() => {
+    //     if (personal) {
+    //         const firstPageIndex = (paginaCurentaPremiiPersonal - 1) * pageSizePremiiEchipa;
+    //         const lastPageIndex = firstPageIndex + pageSizePremiiEchipa;
+    //         if (personal?.length < lastPageIndex && (lastPageIndex - personal?.length) > 0)
+    //             return personal?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - personal?.length));
+    //         else
+    //             return personal?.slice(firstPageIndex, lastPageIndex);
+    //     }
+    //     else
+    //         return null;
+    // }, [pageSizePremiiEchipa, paginaCurentaPremiiPersonal, personal]);
 
     return (
         <div className={styles.containerPersonal}>
@@ -151,15 +166,16 @@ const Personal = () => {
                     <span className={styles.linie2} />
                 </div>
                 <div className={styles.filtru}>
-                    <p className={filtruPersonal.tipPersonal === 'JUCATOR' ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'JUCATOR' }) }}>Jucători</p>
-                    <p className={filtruPersonal.tipPersonal === 'ANTRENOR' ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'ANTRENOR' }) }}>Antrenori</p>
+                    <p className={filtruPersonal.tipPersonal === 'JUCATOR' && !premiiEchipa ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'JUCATOR' }); setPremiiEchipa('') }}>Jucători</p>
+                    <p className={filtruPersonal.tipPersonal === 'ANTRENOR' && !premiiEchipa ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'ANTRENOR' }); setPremiiEchipa('') }}>Antrenori</p>
+                    <p className={premiiEchipa === 'PREMII' ? styles.isActive : null} onClick={() => { setPremiiEchipa('PREMII') }}>Premii</p>
                 </div>
             </div>
             <div className={styles.bodyPersonal}>
                 <div className={styles.userAdmin}>
-                    <span>Caută după:</span>
+                    {!premiiEchipa && <span>Caută după:</span>}
                     <span className={styles.linie1} />
-                    {user?.role &&
+                    {user?.role && !premiiEchipa &&
                         <Buton
                             label="Adaugă personal"
                             className={styles.addPersonal}
@@ -169,33 +185,49 @@ const Personal = () => {
                             }}
                         />
                     }
+                    {user?.role && premiiEchipa &&
+                        <Buton
+                            label="Adaugă premiu"
+                            className={styles.addPersonal}
+                            onClick={() => {
+                                navigate("/personal/adauga/premii");
+                            }}
+                        />
 
+                    }
                 </div>
                 <div className={styles.filtre}>
-                    <div>
-                        <Input
-                            name="nume"
-                            id="nume"
-                            label="Nume"
-                            placeholder="Nume"
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <Input
-                            name="prenume"
-                            id="prenume"
-                            label="Prenume"
-                            placeholder="Prenume"
-                            onChange={handleChange}
-                        />
-                    </div>
+                    {!premiiEchipa ? <>
+                        <div>
+                            <Input
+                                name="nume"
+                                id="nume"
+                                label="Nume"
+                                placeholder="Nume"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name="prenume"
+                                id="prenume"
+                                label="Prenume"
+                                placeholder="Prenume"
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </>
+                        : <>
+                            <Col />
+                            <Col />
+                        </>
+                    }
                     <div className={styles.ddContainer}>
                         <p className={styles.label}>Echipe</p>
                         <DropdownComponent
                             title='Alege echipa'
                             options={Divizii}
-                            clearable={true}
+                            // clearable={true}
                             onChange={(e) => {
                                 e === null ?
                                     setFiltruPersonal({ ...filtruPersonal, divizie: 'A1' }) :
@@ -203,6 +235,7 @@ const Personal = () => {
                             }}
                         ></DropdownComponent>
                     </div>
+                    {premiiEchipa ? <div className='mr-5'/> : null}
                     <div>
                         <Button
                             label="Cauta"
@@ -211,9 +244,16 @@ const Personal = () => {
                         />
                     </div>
                 </div>
-                <div>
-                    <ListPersonal currentTableData={currentTableData} fullData={personal} />
-                </div>
+                {/* {premiiEchipa ?
+                    <div>
+                        <ListPremii currentTableData={currentTablePremii} fullData={premii} />
+                        <ListPremii currentTableData={currentTablePremii} fullData={personal} />
+                    </div>
+                    : */}
+                    <div>
+                        <ListPersonal currentTableData={currentTableData} fullData={personal} />
+                    </div>
+                {/* } */}
             </div>
         </div >
     );

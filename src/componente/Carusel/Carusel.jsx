@@ -16,7 +16,6 @@ import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg
 const Carusel = ({
     data,
     titluCarousel,
-    showcontrols,
 }) => {
     const { width } = useWindowDimensions();
     const navigate = useNavigate();
@@ -51,7 +50,6 @@ const Carusel = ({
                         {data?.slice(0, 3).map((_data) =>
                             <SwiperSlide key={_data.id}>
                                 <Card
-                                    showcontrols={showcontrols}
                                     style={{ width: "90%" }}
                                     data={_data}
                                     isHomePage
@@ -75,7 +73,6 @@ const Carusel = ({
                         {data?.slice(0, 3).map(_data =>
                             <SwiperSlide key={_data.id}>
                                 <Card
-                                    showcontrols={showcontrols}
                                     style={{ width: "90%", backgroundColor: "#1B1D49" }}
                                     data={_data}
                                     isHomePage

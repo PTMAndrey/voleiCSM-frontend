@@ -20,6 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 const AddEditRaportCronologic = ({ pagina }) => {
+  const {Posturi} = useStateProvider()
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -352,17 +353,6 @@ const AddEditRaportCronologic = ({ pagina }) => {
     }
     setShowCalendar({ ...showCalendar, [id]: false });
   }
-
-  let Posturi = [
-    { value: 'PRINCIPAL', label: 'PRINCIPAL' },
-    { value: 'SECUNDAR', label: 'SECUNDAR' },
-    { value: 'CENTRU', label: 'CENTRU' },
-    { value: 'OPUS', label: 'OPUS' },
-    { value: 'RIDICATOR', label: 'RIDICATOR' },
-    { value: 'LIBERO', label: 'LIBERO' },
-    { value: 'EXTREMA', label: 'EXTREMA' },
-    { value: 'ANTRENOR', label: 'ANTRENOR' },
-  ];
 
 
   return (
