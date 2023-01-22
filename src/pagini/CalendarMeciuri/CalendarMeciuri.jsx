@@ -58,7 +58,7 @@ const CalendarMeciuri = () => {
 
         <div className={styles.rightSide}>
           <div className={styles.dropdownMeciuri}>
-            {user?.role !== null &&
+            {user?.role &&
               <div>
                 <Buton
                   label="Adaugă meci"

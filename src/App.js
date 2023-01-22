@@ -55,25 +55,25 @@ function App() {
           >
 
             {/* protected rute */}
-            <Route path='/noutati/adauga' element={<AddEditStiri/>} />
-            <Route path='/noutati/edit/:id' element={<AddEditStiri/>} /> 
+            <Route path='/noutati/adauga' element={<AddEditStiri />} />
+            <Route path='/noutati/edit/:id' element={<AddEditStiri />} />
             <Route path='/noutati/adauga/stire/preview' element={<PrevizualizareStiri />} />
-           
-            <Route path='/calendar/adauga' element={<AddEditMeciuri/>} />
-            <Route path='/calendar/edit/:id' element={<AddEditMeciuri/>} />
-           
-            <Route path='/personal/adauga' element={<AddEditPersonal/>}/>
+
+            <Route path='/calendar/adauga' element={<AddEditMeciuri />} />
+            <Route path='/calendar/edit/:id' element={<AddEditMeciuri />} />
+
+            <Route path='/personal/adauga' element={<AddEditPersonal />} />
             {/* <Route path='/personal/adauga/premii' element={<AddEditPremiiPersonal/>}/> */}
-            <Route path='/personal/edit/:id' element={<AddEditPersonal/>}/>
-            <Route path='/personal/edit/preview' element={<AddEditPersonal/>}/>
-            <Route path='/personal/adauga/roluri/:id' element={<AddEditRaportCronologic pagina="adaugaRoluri"/>}/>
-            <Route path='/personal/adauga/premii/:id' element={<AddEditRaportCronologic pagina="adaugaPremii"/>}/>
-            <Route path='/personal/edit/roluri/:id' element={<AddEditRaportCronologic pagina="editRoluri"/>}/>
-            <Route path='/personal/edit/premii/:id' element={<AddEditRaportCronologic pagina="editPremii"/>}/>
-            
-            
-            <Route path='/confirmare/noutati/' element={<Confirmare pagina={'Noutati'}/>} />
-            <Route path='/confirmare/personal/' element={<Confirmare pagina={'Personal'}/>} />
+            <Route path='/personal/edit/:id' element={<AddEditPersonal />} />
+            <Route path='/personal/edit/preview' element={<AddEditPersonal />} />
+            <Route path='/personal/adauga/roluri/:id' element={<AddEditRaportCronologic pagina="adaugaRoluri" />} />
+            <Route path='/personal/adauga/premii/:id' element={<AddEditRaportCronologic pagina="adaugaPremii" />} />
+            <Route path='/personal/edit/roluri/:id' element={<AddEditRaportCronologic pagina="editRoluri" />} />
+            <Route path='/personal/edit/premii/:id' element={<AddEditRaportCronologic pagina="editPremii" />} />
+
+
+            <Route path='/confirmare/noutati/' element={<Confirmare pagina={'Noutati'} />} />
+            <Route path='/confirmare/personal/' element={<Confirmare pagina={'Personal'} />} />
 
             {/*
             <Route path='/my-account'>
@@ -110,19 +110,19 @@ function App() {
             } />
             <Route path='/personal' element={
               <Layout>
-                <Personal/>
+                <Personal />
               </Layout>
             } />
-            <Route path='/personal/:id' exact element={<><HeaderPersonal/><Layout><Persoana/></Layout></>} />
+            <Route path='/personal/:id' exact element={<><HeaderPersonal /><Layout><Persoana /></Layout></>} />
 
             <Route path='/not-found' element={<Layout><NotFound /></Layout>} />
             <Route path='*' element={<Layout><NotFound /></Layout>} />
 
+            {/* onboarding rute */}
+            <Route path='/login' element={<Onboarding />} />
           </Route>
 
-          {/* onboarding rute */}
-           <Route path='/login' element={<Onboarding />} />
-        {/*<Route path='/register' element={<Onboarding />} />
+          {/*<Route path='/register' element={<Onboarding />} />
         <Route path='/forgot-password' element={<Onboarding />} />
         <Route path='/reset-password' element={<Onboarding />} /> */}
 
@@ -138,7 +138,7 @@ export default App;
 const Wrapper = ({ children }) => {
   const location = useLocation();
   useLayoutEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }, [location.pathname]);
   return children
 } 

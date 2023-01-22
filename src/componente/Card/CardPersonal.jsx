@@ -53,7 +53,7 @@ const CardPersonal = ({ data }) => {
                         <Card.Title className={styles.alignCenter} >Jucator</Card.Title>
                     }
 
-                    {user?.role && data?.id && (
+                    {user?.role === 'Administrator' && data?.id && (
                         <Card.Title className={`${styles.controls}`}>
                             <div onClick={stopPropagation} className={styles.butoane}>
                                 <RiEdit2Fill className={styles.edit} onClick={() => { navigate(`/personal/edit/${data?.id}`); }} />

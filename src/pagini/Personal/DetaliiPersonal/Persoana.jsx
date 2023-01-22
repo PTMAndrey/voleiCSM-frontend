@@ -201,7 +201,7 @@ const Persoana = () => {
               <div className={styles.directionRow}>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <Col><h4>Roluri</h4></Col>
-                  {user?.role &&
+                  {user?.role === 'Administrator' &&
                     <>
                       <Col>
                         <div className={styles.directionRow}>
@@ -240,7 +240,7 @@ const Persoana = () => {
                       <Col>{moment(istoric.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
                       <Col>{moment(istoric.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
                       <Col>{istoric.post}</Col> <Col>
-                        {user.role &&
+                        {user.role === 'Administrator' &&
                           <Tooltip title="Șterge rol" placement="right" arrow onClick={() => { setIstoricId(istoric.idIstoricPersoana); setRaportCronologic('rol'); togglePopup(); }}>
                             <IconButton className={styles.iconStyle}>
                               <RiDeleteBinFill className={styles.delete} />
@@ -267,7 +267,7 @@ const Persoana = () => {
               <div className={styles.directionRow}>
                 <Row style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <Col><h4>Premii</h4> </Col>
-                  {user?.role &&
+                  {user?.role === 'Administrator' &&
                     <>
                       <Col>
                         <div className={styles.directionRow}>
@@ -303,7 +303,7 @@ const Persoana = () => {
 
                       <Col>{moment(istoric.dataObtinerii, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
                       <Col>{istoric.denumireRezultat}</Col><Col>
-                        {user.role &&
+                        {user.role === 'Administrator' &&
 
                           <Tooltip title="Șterge premiu" placement="right" arrow onClick={() => { setIstoricId(istoric.idRealizariPersonale); setRaportCronologic('premiu'); togglePopup(); }}>
                             <IconButton className={styles.iconStyle}>

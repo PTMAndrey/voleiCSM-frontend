@@ -35,6 +35,7 @@ div a{
     
     width: 415px;
     height: 320px;
+    min-width:150px;
     
 }
 
@@ -47,6 +48,7 @@ div a{
     
     width: 415px;
     height: 70px;
+    min-width:150px;
     
 }
 
@@ -59,6 +61,7 @@ div a{
     
     width: 415px;
     height: 246px;
+    min-width:150px;
     
     
     flex: none;
@@ -76,7 +79,8 @@ div a{
     
     order: 0;
     align-self: stretch;
-    flex-grow: 0;
+    flex-grow: 0;    
+    
 }
 
 .formTitleReset{
@@ -240,7 +244,7 @@ div a{
     
     width: 415px;
     height: 142px;
-    
+    min-width:150px;
     flex: none;
     order: 1;
     flex-grow: 0;  
@@ -324,7 +328,6 @@ div a{
     {
         width: 260px;
     }
-
     .formTitleReset{
         height: 80px;
     }
@@ -392,9 +395,59 @@ div a{
     .contentContainerAuthEndForm,
     .forgotPasswordEndForm
     {
-        width: 260px;
+        width: 220px;
+        margin: 0 auto;
     }    
     
+   
+    .formInput{margin-top:20px}
+
+    .rememberMe{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .forgotPassword{
+        justify-content: center;    
+    }
+    
+    // .contentContainerButtons{
+    //     height: 120px;
+    // }
+    
+    .contentContainerButtons Button, .formInput Button{
+        padding:5px;
+    }
+    .register{
+        margin-top:90px;
+    }
+}
+
+@media (max-width : 252px){
+
+
+    .containerAuth, 
+    .contentContainerForm, 
+    .form, 
+    .formTitle, 
+    .formInput,
+    .rememberMe,
+    .contentContainerAuthOptions,
+    .forgotPassword,
+    .contentContainerButtons,
+    .contentContainerButtons Button,
+    .formInput Button,
+    .containerAuthResetPwd,
+    .contentContainerFormResetPwd,
+    .contentContainerAuthEndForm,
+    .forgotPasswordEndForm
+    {
+        width: 150px;
+        margin: 0 auto;
+    }    
+    
+    .formInput{margin-top:20px}
    
     .rememberMe{
         flex-direction: column;
