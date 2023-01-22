@@ -162,9 +162,11 @@
 }
 
 .imagesDiv {
-  display: flex;
-  position: relative;
+  // display: flex;
+  // position: relative;
   justify-content: center;
+  display:grid;
+  grid-gap:8px;
 }
 
 
@@ -304,10 +306,17 @@
   }
 }
 
+.imgContainer{
+  margin:10px;
+  max-height: 250px;
+  margin-bottom:20px;
+}
 .imagine {
   align-self: center;
-  height: fit-content;
+  // height: fit-content;
   border-radius: 50%;
-  border-bottom: 5px solid $color-yellow;
-  max-height: 300px;
+  border: 5px solid $color-yellow;
+  max-height: 230px;
+
+  width:fit-content;
 }

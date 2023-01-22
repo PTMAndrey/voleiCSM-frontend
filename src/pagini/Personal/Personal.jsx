@@ -140,18 +140,18 @@ const Personal = () => {
             return null;
     }, [pageSizePersonal, paginaCurentaPersonal, personal]);
 
-    const currentTablePremii = useMemo(() => {
-        if (personal) {
-            const firstPageIndex = (paginaCurentaPremiiPersonal - 1) * pageSizePremiiEchipa;
-            const lastPageIndex = firstPageIndex + pageSizePremiiEchipa;
-            if (personal?.length < lastPageIndex && (lastPageIndex - personal?.length) > 0)
-                return personal?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - personal?.length));
-            else
-                return personal?.slice(firstPageIndex, lastPageIndex);
-        }
-        else
-            return null;
-    }, [pageSizePremiiEchipa, paginaCurentaPremiiPersonal, personal]);
+    // const currentTablePremii = useMemo(() => {
+    //     if (personal) {
+    //         const firstPageIndex = (paginaCurentaPremiiPersonal - 1) * pageSizePremiiEchipa;
+    //         const lastPageIndex = firstPageIndex + pageSizePremiiEchipa;
+    //         if (personal?.length < lastPageIndex && (lastPageIndex - personal?.length) > 0)
+    //             return personal?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - personal?.length));
+    //         else
+    //             return personal?.slice(firstPageIndex, lastPageIndex);
+    //     }
+    //     else
+    //         return null;
+    // }, [pageSizePremiiEchipa, paginaCurentaPremiiPersonal, personal]);
 
     return (
         <div className={styles.containerPersonal}>
@@ -244,16 +244,16 @@ const Personal = () => {
                         />
                     </div>
                 </div>
-                {premiiEchipa ?
+                {/* {premiiEchipa ?
                     <div>
-                        {/* <ListPremii currentTableData={currentTablePremii} fullData={premii} /> */}
+                        <ListPremii currentTableData={currentTablePremii} fullData={premii} />
                         <ListPremii currentTableData={currentTablePremii} fullData={personal} />
                     </div>
-                    :
+                    : */}
                     <div>
                         <ListPersonal currentTableData={currentTableData} fullData={personal} />
                     </div>
-                }
+                {/* } */}
             </div>
         </div >
     );

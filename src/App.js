@@ -71,7 +71,7 @@ function App() {
             
             <Route path='/confirmare/noutati/' element={<Confirmare pagina={'Noutati'}/>} />
             <Route path='/confirmare/personal/' element={<Confirmare pagina={'Personal'}/>} />
-            
+
             {/*
             <Route path='/my-account'>
               <Route path='profile' element={<MyAccount />} />
@@ -112,7 +112,8 @@ function App() {
             } />
             <Route path='/personal/:id' exact element={<><HeaderPersonal/><Layout><Persoana/></Layout></>} />
 
-            <Route path='*' exact={true} element={<Layout><NotFound /></Layout>} />
+            <Route path='/not-found' element={<Layout><NotFound /></Layout>} />
+            <Route path='*' element={<Layout><NotFound /></Layout>} />
 
           </Route>
 

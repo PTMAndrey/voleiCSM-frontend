@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Calendar } from "react-calendar";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, ContentState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
 
@@ -25,32 +25,26 @@ import Buton from "../../../../componente/Buton/Buton";
 import DropdownComponent from "../../../../componente/Dropdown/Dropdown";
 
 import styles from "./AddEditPersonal.module.scss";
+import TextArea from "../../../../componente/TextArea/TextArea";
 
 const AddEditPersonal = () => {
   const navigate = useNavigate();
-
-  const { previzualizarePersonal, setPrevizualizarePersonal, divizii, Posturi } = useStateProvider();
+  const { previzualizarePersonal, setAlert, setPrevizualizarePersonal, divizii, Posturi } = useStateProvider();
   const { userId } = useAuth();
-
   const { id } = useParams();
+  useEffect(() => {
+    if (id && id.length < 30)
+      navigate('/not-found');
+  }, [id]);
 
-  // show errors only if clicked to submit
   const [showErrors, setShowErrors] = useState(false);
-
-  // descriere - form
-  const [editorState, setEditorState] = useState(
-    () => EditorState.createEmpty(),
-  );
-  const getHtml = editorState => draftToHtml(convertToRaw(editorState.getCurrentContent())); {/* new */ }
-
-
-  // show calendar if clicked to Publica Acum
   const [showEroareCalendar, setShowEroareCalendar] = useState(false);
   const [showEroareDescriere, setShowEroareDescriere] = useState(false);
   const [eroareCalendar, setEroareCalendar] = useState('');
   const [eroareDescriere, setEroareDescriere] = useState('');
   const [dataCalendar, setDataCalendar] = useState('');
   const [dataCalendarEdit, setDataCalendarEdit] = useState()
+  const [disabledButton, setDisabledButton] = useState(false);
 
   // form data
   const [file, setFile] = useState({ file: previzualizarePersonal.file } || []);
@@ -84,18 +78,30 @@ const AddEditPersonal = () => {
         numeDivizie: response.data.numeDivizie,
         imagine: response.data.imagine,
       });
-      setDataCalendarEdit(moment(response.data.data, 'DD-MM-YYYY hh:mm').toDate())
-      setDataCalendar(response.data.data)
+      setDataCalendarEdit(moment(response.data.dataNasterii, 'DD-MM-YYYY hh:mm').toDate())
+      setDataCalendar(response.data.dataNasterii)
 
       console.log('edit', response.data);
     }
   };
 
+  const [editorState, setEditorState] = useState(
+    EditorState.createEmpty());
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    formValue.descriere = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
 
-  //------------------------------ useEffect
+  }
+
+  //------------------------------ useEffect 
   useEffect(() => {
-    setPrevizualizarePersonal(formValue);
-  }, [formValue]);
+    if (formValue.descriere) {
+      const content = JSON.parse(formValue.descriere);
+      const contentState = convertFromRaw(content);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState)
+    }
+  }, [formValue.descriere])
 
   // get personal by id to edit
   useEffect(() => {
@@ -104,23 +110,20 @@ const AddEditPersonal = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    setPrevizualizarePersonal(formValue);
+  }, [formValue]);
 
   let Divizii = [];
-
   useEffect(() => {
     divizii?.map(divizie =>
       Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` })
     )
   }, [divizii, Divizii]);
 
-  useEffect(() => {
-    setFormValue({ ...formValue, descriere: getHtml(editorState) })
-    setShowEroareDescriere(false)
-    setEroareDescriere('')
-  }, [editorState])
 
   useEffect(() => {
-    setFormValue({ ...formValue, file:fileInForm.file })
+    setFormValue({ ...formValue, file: fileInForm.file })
   }, [fileInForm])
 
   //------------------------------- HANDLERE
@@ -135,7 +138,6 @@ const AddEditPersonal = () => {
   // handleDrop
   const handleDrop = useCallback((acceptedFiles) => {
     //! setez imaginile
-    // setFormValue({ ...formValue, file: acceptedFiles[0] })
     setFileInForm({ file: acceptedFiles[0] })
     //! afisez imaginile
     acceptedFiles.map((file) => {
@@ -159,18 +161,25 @@ const AddEditPersonal = () => {
   // handleSubmit
   const handleSubmit = async () => {
     if (!isFormValid()) {
+      setShowEroareCalendar(true);
       setShowErrors(true);
       console.log("Required fields must be completed!");
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
+
     }
     if (isFormValid()) {
+      setShowEroareCalendar(false);
       setShowErrors(false);
       try {
+        setDisabledButton(true);
         const response = await addPersoana(formValue.file, formValue);
         console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmare/personal/");
           setPrevizualizarePersonal({});
         }
+        else
+          setAlert({ type: 'danger', message: 'Eroare la trimiterea datelor!' });
       } catch (error) {
         console.log(error);
       }
@@ -180,13 +189,16 @@ const AddEditPersonal = () => {
   // handleUpdate
   const handleUpdate = async () => {
     if (!isFormValid()) {
+      setShowEroareCalendar(true);
       setShowErrors(true);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
+      setShowEroareCalendar(false);
       setShowErrors(false);
       try {
         const response = await updatePersoana(id, formValue.file, formValue);
-        if (response.status === 200) {
+        if (response) {
           navigate("/confirmare/personal/");
           setPrevizualizarePersonal({});
         }
@@ -200,9 +212,12 @@ const AddEditPersonal = () => {
   const handlePrevizualizare = () => {
     if (!isFormValid()) {
       setShowErrors(true);
+      setShowEroareCalendar(true);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowErrors(false);
+      setShowEroareCalendar(false);
       setPrevizualizarePersonal(formValue);
       navigate("./preview");
     }
@@ -212,32 +227,32 @@ const AddEditPersonal = () => {
 
   const checkErrors = (field) => {
     if (field === "nume") {
-      if (formValue.nume.length === 0) {
+      if (!formValue.nume) {
         return "Numele este obligatoriu de introdus!";
       }
     }
     if (field === "prenume") {
-      if (formValue.prenume.length === 0) {
+      if (!formValue.prenume) {
         return "Prenumele este obligatoriu de introdus!";
       }
     }
     if (field === "inaltime") {
-      if (formValue.inaltime.length === 0) {
+      if (!formValue.inaltime) {
         return "Inaltimea este obligatoriu de introdus!";
       }
     }
     if (field === "nationalitate") {
-      if (formValue.nationalitate.length === 0) {
+      if (!formValue.nationalitate) {
         return "Nationalitatea este obligatoriu de introdus!";
       }
     }
     if (field === "numeDivizie") {
-      if (formValue.numeDivizie.length === 0) {
+      if (!formValue.numeDivizie) {
         return "Echipa este obligatoriu de selectat!";
       }
     }
     if (field === "post") {
-      if (formValue.post.length === 0) {
+      if (!formValue.post) {
         return "Postul este obligatoriu de selectat!";
       }
     }
@@ -249,35 +264,31 @@ const AddEditPersonal = () => {
       }
       else
         setShowEroareCalendar(false);
-
-      if (field === "descriere") {
-        if (formValue.descriere.length < 15) {
-          setShowEroareDescriere(true);
-          setEroareDescriere("Descrierea este obligatorie!")
-          return "Descrierea este obligatorie!";
-        }
-        else {
-          setShowEroareDescriere(false);
-        }
-      }
-
-      if (field === "file") {
-        if (formValue.file.length === 0)
-          return 'Alegeti o imagine de profil';
-        if (formValue.file.length > 1)
-          return "Doar o imagine";
-      }
-
     }
 
+    if (field === "descriere") {
+      if (formValue.descriere.length < 15) {
+        setShowEroareDescriere(true);
+        setEroareDescriere("Descrierea este obligatorie!")
+        return "Descrierea este obligatorie!";
+      }
+      else {
+        setShowEroareDescriere(false);
+      }
+    }
+
+    if (field === "file") {
+      if (!formValue.file)
+        return 'Alegeti o imagine de profil';
+      if (formValue.file.length > 1)
+        return "Doar o imagine";
+    }
 
 
     return "";
   };
 
-  // check if form is valid
   const isFormValid = () => {
-    // setFormValue({ ...formValue, file: fileInForm.file });
     let isValid = true;
     Object.keys(formValue).forEach((field) => {
       if (checkErrors(field)) {
@@ -291,8 +302,6 @@ const AddEditPersonal = () => {
     return !e ? null : ((e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
   }
 
-  console.log(formValue, "formValue");
-
   return (
     <Container className={styles.addBackgroundColor}>
       <h1 className={styles.addTitlu}>Adaugă Personal</h1>
@@ -303,7 +312,6 @@ const AddEditPersonal = () => {
           </div>
         </Col>
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* previzualizarePersonals */}
           <Col
             style={{
               display: "flex",
@@ -312,7 +320,6 @@ const AddEditPersonal = () => {
             }}
           >
             <label>Poza de profil persoană</label>
-            {/* {formValue?.file === undefined && <p className="text-danger"> Doar o imagine!</p>} */}
             <br />
             {file?.file ?
               <div className={styles.previzualizarePersonal}>
@@ -322,7 +329,6 @@ const AddEditPersonal = () => {
                 }} />
               </div>
               :
-              // edit - incarcare link imagine azure
               formValue?.imagine &&
               <div className={styles.previzualizarePersonal}>
                 <img src={formValue?.imagine} alt="" />
@@ -332,17 +338,23 @@ const AddEditPersonal = () => {
               </div>
             }
             {/* dropzone */}
-            {fileInForm?.file?.length < 1 && <Dropzone onDrop={handleDrop}/>}
-            {fileInForm?.file === undefined && <Dropzone onDrop={handleDrop} />}
+            {!formValue.imagine ? <>
+              {fileInForm?.file?.length < 1 &&
+                <Dropzone onDrop={handleDrop}
+                  error={showErrors && checkErrors('file') ? true : false}
+                  helper={showErrors ? checkErrors('file') : ''}
+                />}
+
+              {fileInForm?.file === undefined &&
+                <Dropzone onDrop={handleDrop}
+                  error={showErrors && checkErrors('file') ? true : false}
+                  helper={showErrors ? checkErrors('file') : ''}
+                />}
+            </>
+              : null}
           </Col>
-          {showErrors && (
-            <div>
-              <p className={styles.error}>{checkErrors("imagini")}</p>
-            </div>
-          )}
         </Col>
       </Row>
-      {/* {file?.file?.length > 0 ? <> */}
       <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
@@ -352,9 +364,9 @@ const AddEditPersonal = () => {
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.inputs}>
             <DropdownComponent
-              title='Alege echipa'
+              title={id ? formValue.numeDivizie : 'Alege echipa'}
               options={Divizii}
-              clearable={true}
+              searchable={true}
               onChange={(e) => {
                 e === null ?
                   setFormValue({ ...formValue, numeDivizie: '' }) :
@@ -441,7 +453,7 @@ const AddEditPersonal = () => {
             />
             <label>Data nașterii</label>
             <Calendar
-              className={` ${showEroareCalendar && eroareCalendar && styles.helperErr} mb-4`}
+              className={` ${showEroareCalendar && eroareCalendar && styles.helperErrCalendar} mb-4`}
               name='data'
               value={dataCalendarEdit}
               onChange={(e) => {
@@ -449,9 +461,8 @@ const AddEditPersonal = () => {
                 setDataCalendar(getDataFromCalendar(e))
                 setDataCalendarEdit(e)
                 setShowEroareCalendar(false);
-              }}
-              minDate={new Date(2010, 1, 1)} />
-            {showEroareCalendar && <p className='mt-4 text-danger'>{eroareCalendar}</p>}
+              }} />
+            {showEroareCalendar && <p className={`mt-2 ${styles.helperErr}`}>{eroareCalendar}</p>}
             <Input
               name='inaltime'
               id='inaltime'
@@ -474,13 +485,10 @@ const AddEditPersonal = () => {
             />
             <label>Post</label>
             <DropdownComponent
-              title='Alege post'
+              title={id ? formValue.post : 'Alege post'}
               options={Posturi}
-              clearable={true}
               onChange={(e) => {
-                e === null ?
-                  setFormValue({ ...formValue, post: '' }) :
-                  setFormValue({ ...formValue, post: e.value });
+                setFormValue({ ...formValue, post: e.value });
               }}
               error={showErrors && checkErrors('post') ? true : false}
               helper={showErrors ? checkErrors('post') : ''}
@@ -507,29 +515,16 @@ const AddEditPersonal = () => {
         </Col>
         <Col md={{ span: 10, offset: 0 }} className={styles.bottomBorder}>
           {/* descriere */}
-          {/* <TextArea
-            name="descriere"
-            id="descriere"
-            label="Detalii descriere"
-            placeholder="Descriere"
-            value={formValue.descriere}
-            onChange={handleChange}
-            error={showErrors && checkErrors('descriere') ? true : false}
-            helper={showErrors ? checkErrors('descriere') : ''}
-          /> */}
           <div className={styles.inputs}>
             <Editor
               editorState={editorState}
-              onEditorStateChange={setEditorState}
+              onEditorStateChange={onEditorStateChange}
               wrapperClassName={styles.wrapperClass}
               editorClassName={styles.editorClass}
-              toolbarClassName={styles.toolbarClass}
-            />
+              toolbarClassName={styles.toolbarClass} />
             {showEroareDescriere && <p className='mt-4 text-danger'>{eroareDescriere}</p>}
           </div>
-          {/* 
-        <div className="html-output">{getHtml(editorState)}</div>
-        <div className="modal-body" dangerouslySetInnerHTML={{ __html: getHtml(editorState) }} /> */}
+
         </Col>
       </Row>
 
@@ -550,8 +545,8 @@ const AddEditPersonal = () => {
             <Col sm={{ span: 4, offset: 3 }}>
               <Buton
                 variant="primary"
+                disabled={disabledButton}
                 label={id ? "Actualizează" : "Publică"}
-                // onClick={id ? handleUpdate : handleSubmit}
                 onClick={
                   id
                     ? () => {
@@ -571,7 +566,7 @@ const AddEditPersonal = () => {
 export default AddEditPersonal;
 
 
-function Dropzone({ onDrop, accept, open }) {
+function Dropzone({ onDrop, accept, open, error, helper }) {
   const {
     getRootProps,
     getInputProps,
@@ -597,8 +592,11 @@ function Dropzone({ onDrop, accept, open }) {
     >
       <div
         {...getRootProps({
-          className: `${styles.dropzone} ${isDragAccept && styles.accept} ${isDragReject && styles.reject
-            }`,
+          className: `${styles.dropzone} 
+          ${isDragAccept && styles.accept} 
+          ${isDragReject && styles.reject}
+          ${error && styles.error}
+          `,
         })}
       >
         <input {...getInputProps()} />
@@ -615,7 +613,8 @@ function Dropzone({ onDrop, accept, open }) {
             <Add />
           )}
         </div>
-      </div>
+
+      </div> <p className={error ? styles.helperErr : null}>{helper}</p>
     </div>
   );
 }

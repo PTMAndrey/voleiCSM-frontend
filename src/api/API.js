@@ -211,9 +211,12 @@ export const addPersoana = async (file, data) => {
   }
 };
 
-export const updatePersoana = async (id,data) => {
+export const updatePersoana = async (id,file,data) => {
   try {
-    const response = await axios.put('/persoana/'+id,data);
+    const response = await axios.put('/persoana/'+id, data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file ? file : null}
+    });
     return response;
   } catch (error) {
     console.error(error);

@@ -11,7 +11,7 @@ import useAuth from '../../hooks/useAuth';
 const CalendarMeciuri = () => {
   // view
   const { meciuriOrdonate, paginaCurentaMeciuri } = useStateProvider();
-  const {fetchMeciuribyFilter, filtruMeciuri, setFiltruMeciuri} = useStateProvider();
+  const { fetchMeciuribyFilter, filtruMeciuri, setFiltruMeciuri, filtruOrdonareMeciuri, setFiltruOrdonareMeciuri } = useStateProvider();
   const { setPrevizualizareMeciuri } = useStateProvider();
   const { pageSize } = useStateProvider();
   const { user } = useAuth();
@@ -21,24 +21,24 @@ const CalendarMeciuri = () => {
     { value: 'VIITOR', label: "Meciuri viitoare" },
     { value: 'REZULTAT', label: "Rezultate" },
   ];
+  const OrderBy = [
+    { value: "ASC", label: "Ordonează: Crescător" },
+    { value: "DESC", label: "Ordonează: Descrescător" },
+  ];
   useEffect(() => {
     fetchMeciuribyFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filtruMeciuri]);
+  }, [filtruMeciuri, filtruOrdonareMeciuri]);
 
   const currentTableData = useMemo(() => {
-    if(meciuriOrdonate){
+    if (meciuriOrdonate) {
       const firstPageIndex = (paginaCurentaMeciuri - 1) * pageSize;
       const lastPageIndex = firstPageIndex + pageSize;
 
-      // if (meciuriOrdonate?.length < lastPageIndex && (lastPageIndex - meciuriOrdonate?.length) > 0)
-      //     return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - meciuriOrdonate?.length));
-      //   else
-      //     return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex);
       if (meciuriOrdonate?.length < lastPageIndex && (lastPageIndex - meciuriOrdonate?.length) > 0)
-          return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - meciuriOrdonate?.length));
+        return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex - (lastPageIndex - meciuriOrdonate?.length));
       else
-          return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex);
+        return meciuriOrdonate?.slice(firstPageIndex, lastPageIndex);
     }
     else
       return null;
@@ -53,43 +53,55 @@ const CalendarMeciuri = () => {
       <div className={styles.meciuriBody}>
 
         <div className={styles.leftSide}>
-            <FiltreCalendarMeciuri/>
+          <FiltreCalendarMeciuri />
         </div>
 
         <div className={styles.rightSide}>
-          {user?.role !== null &&
-            <div className={styles.dropdownMeciuri}>
-              <Buton
-                label="Adaugă meci"
-                className={styles.addMeciuri}
-                onClick={() => {
-                  setPrevizualizareMeciuri({});
-                  navigate("/calendar/adauga");
+          <div className={styles.dropdownMeciuri}>
+            {user?.role !== null &&
+              <div>
+                <Buton
+                  label="Adaugă meci"
+                  className={styles.addMeciuri}
+                  onClick={() => {
+                    setPrevizualizareMeciuri({});
+                    navigate("/calendar/adauga");
+                  }}
+                />
+              </div>
+            }
+            <div>
+              <DropdownComponent
+                title="Ordonează: Crescător"
+                options={OrderBy}
+                onChange={(e) => {
+                  setFiltruOrdonareMeciuri(e.value);
                 }}
               />
+            </div>
+            <div>
               <DropdownComponent
                 title="Meciuri viitoare"
                 options={Programare}
                 clearable={true}
                 onChange={(e) => {
                   e === null ?
-                    setFiltruMeciuri({...filtruMeciuri, status:'VIITOR'}) :
-                    setFiltruMeciuri({...filtruMeciuri, status:e.value});
+                    setFiltruMeciuri({ ...filtruMeciuri, status: 'VIITOR' }) :
+                    setFiltruMeciuri({ ...filtruMeciuri, status: e.value });
                 }}
               ></DropdownComponent>
-
             </div>
-          }
+          </div>
           {meciuriOrdonate?.length < 1 ?
             <h2 style={{ marginTop: '25px' }}>Momentan nu există meciuri care să îndeplinească filtrele selectate</h2>
-          :
-          <ListCalendarMeciuri currentTableData={currentTableData} />
+            :
+            <ListCalendarMeciuri currentTableData={currentTableData} />
           }
         </div>
 
       </div>
 
-    </div>
+    </div >
   );
 };
 

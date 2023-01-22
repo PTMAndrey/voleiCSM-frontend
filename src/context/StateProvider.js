@@ -11,7 +11,7 @@ export const StateProvider = ({ children }) => {
   if (alert) {
     setTimeout(() => {
       setAlert(null);
-    }, 2500);
+    }, 5000);
   }
 
   // numar elemente pe o pagina ( ex. noutati )
@@ -50,6 +50,7 @@ export const StateProvider = ({ children }) => {
   });
   const [editii, setEditii] = useState([]);
   const [echipe, setEchipe] = useState([]);
+  const [filtruOrdonareMeciuri, setFiltruOrdonareMeciuri] = useState('ASC');
 
   // personal
   const [personal, setPersonal] = useState([]);
@@ -80,7 +81,7 @@ export const StateProvider = ({ children }) => {
   const fetchStiriPublicate = async () => {
     try {
       const response = await getStiriByStatus('PUBLICAT');
-      response ? setStiriPublicate(sortData(response)) : setStiriPublicate(null);
+      response ? setStiriPublicate(sortDataStiri(response)) : setStiriPublicate(null);
 
     } catch (error) { }
   };
@@ -90,7 +91,7 @@ export const StateProvider = ({ children }) => {
       const response = await getStiriByFilter(filtruStiri);
       if (response) {
         setStiri(response);
-        setStiriOrdonate(sortData(response));
+        setStiriOrdonate(sortDataStiri(response));
         setPaginaCurentaStiri(1);
       }
       else { setStiri(null); setStiriOrdonate(null); }
@@ -102,27 +103,32 @@ export const StateProvider = ({ children }) => {
     try {
       const response = await getMeciuriByFilter(filtruMeciuri);
       if (response) {
-        setMeciuriOrdonate(sortData(response));
+        if (filtruOrdonareMeciuri === 'ASC')
+          setMeciuriOrdonate(sortDataMeciuriASC(response));
+        else
+          if (filtruOrdonareMeciuri === 'DESC')
+            setMeciuriOrdonate(sortDataMeciuriDESC(response));
+
         setPaginaCurentaMeciuri(1);
       }
-      else { setMeciuriOrdonate(null); }
+      else { setMeciuriOrdonate(null); setFiltruOrdonareMeciuri('ASC') }
 
     } catch (error) { }
   };
 
-  const fetchEditii = async () =>{
+  const fetchEditii = async () => {
     try {
       const response = await getEditii();
       if (response) {
         setEditii(response);
-        setFiltruMeciuri({...filtruMeciuri, editieId:response[0].idEditie});
+        setFiltruMeciuri({ ...filtruMeciuri, editieId: response[0].idEditie });
       }
       else { setEditii(null); }
 
     } catch (error) { }
   }
 
-  const fetchEchipe = async () =>{
+  const fetchEchipe = async () => {
     try {
       const response = await getCluburiSportive();
       if (response) {
@@ -143,8 +149,8 @@ export const StateProvider = ({ children }) => {
       else { setPersonal(null); }
 
     } catch (error) { }
-  };  
-  
+  };
+
   const fetchDivizii = async () => {
     try {
       const response = await getDivizii();
@@ -156,10 +162,24 @@ export const StateProvider = ({ children }) => {
     } catch (error) { }
   };
 
-  const sortData = (response) => {
+  const sortDataStiri = (response) => {
     const format = 'd-M-y H:m'
     const parseDate = d => parse(d, format, new Date())
     return (response?.sort((a, b) => parseDate(b.dataPublicarii) - parseDate(a.dataPublicarii)));
+  }
+
+  const sortDataMeciuriASC = (response) => {
+    const format = 'd-M-y H:m'
+    const parseDate = d => parse(d, format, new Date())
+    const resp = (response?.sort((a, b) => parseDate(a.data) - parseDate(b.data)));
+    return resp;
+  }
+
+  const sortDataMeciuriDESC = (response) => {
+    const format = 'd-M-y H:m'
+    const parseDate = d => parse(d, format, new Date())
+    const resp = (response?.sort((a, b) => parseDate(b.data) - parseDate(a.data)));
+    return resp;
   }
 
 
@@ -225,13 +245,15 @@ export const StateProvider = ({ children }) => {
       setEditii,
       echipe,
       setEchipe,
+      filtruOrdonareMeciuri,
+      setFiltruOrdonareMeciuri,
 
-      personal, 
+      personal,
       setPersonal,
       pageSizePersonal,
-      paginaCurentaPersonal, 
+      paginaCurentaPersonal,
       setPaginaCurentaPersonal,
-      filtruPersonal, 
+      filtruPersonal,
       setFiltruPersonal,
       fetchPersonalbyFilter,
       previzualizarePersonal,
@@ -244,7 +266,9 @@ export const StateProvider = ({ children }) => {
       divizii,
       setDivizii,
 
-      sortData,
+      sortDataStiri,
+      sortDataMeciuriASC,
+      sortDataMeciuriDESC,
 
     }}
   >{children}</StateContext.Provider>;
