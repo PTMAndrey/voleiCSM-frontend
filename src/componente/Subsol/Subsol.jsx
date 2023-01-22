@@ -1,124 +1,56 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBBtn, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import styles from './Subsol.module.scss'
+
+import {RiFacebookCircleLine} from 'react-icons/ri'
+import {RiInstagramLine} from 'react-icons/ri'
+import {RiYoutubeLine} from 'react-icons/ri'
 
 const Subsol = () => {
     return (
-        <MDBFooter bgColor='black' color='light' className='text-center text-lg-start text-white'>
-            <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-                <div className='me-5 d-none d-lg-block'>
-                    <span>Get connected with us on social networks:</span>
-                </div>
+        <MDBFooter bgColor='transparent' color='light' className='text-center text-lg-start text-white'>
+            <div className={styles.bgColor}>
+                <section className='d-flex justify-content-center align-items-center justify-content-lg-between p-4 border-bottom'>
+                    <div className='me-5 d-none d-lg-block'>
+                        <h4>Rețele de socializare</h4>
+                    </div>
 
-                <div>
-                    <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-                        <MDBIcon fab icon="facebook"/>
-                    </MDBBtn>   
+                    <div className='d-flex  justify-content-center '>
+                        <MDBBtn color="transparent" floating className='m-1' href='https://www.facebook.com/people/VOLEI-CSM-Suceava/100057069055225/' target='_blank' role='button'>
+                            {/* <BsFacebook /> */}
+                        <RiFacebookCircleLine className={styles.icon}/>
+                        </MDBBtn>
 
-                    <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-                        <MDBIcon fab icon='twitter' />
-                    </MDBBtn>
+                        <MDBBtn color="transparent" floating className='m-1' href='https://www.instagram.com/csmsuceavavolei/' target='_blank' role='button'>
+                            <RiInstagramLine className={styles.icon}/>
+                        </MDBBtn>
 
-                    <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-                        <MDBIcon fab icon='google' />
-                    </MDBBtn>
+                    </div>
+                </section>
 
-                    <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-                        <MDBIcon fab icon='instagram' />
-                    </MDBBtn>
-
-                    <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-                        <MDBIcon fab icon='linkedin-in' />
-                    </MDBBtn>
-
-                    <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-                        <MDBIcon fab icon='github' />
-                    </MDBBtn>
-                </div>
-            </section>
-
-            <section className=''>
-                <MDBContainer className='text-center text-md-start mt-5'>
-                    <MDBRow className='mt-3'>
-                        <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
+                <section className=''>
+                    <MDBContainer className='text-center text-md-start mt-5'>
+                        <MDBRow className='mt-3'>
+                            <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
                             <h6 className='text-uppercase fw-bold mb-4'>
-                                <MDBIcon icon="gem" className="me-3" />
-                                Company name
-                            </h6>
-                            <p>
-                                Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit.
-                            </p>
-                        </MDBCol>
+                                    <MDBIcon icon="gem" className="me-3" />
+                                    Contact
+                                </h6>
+                                <p> csm.suceava@sport.gov.ro</p>
+                                <p> 0230 531 289</p>
+                                <p> 0230 524 767</p>
+                            </MDBCol>
 
-                        <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
-                            <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Angular
-                                </a>
-                            </p>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    React
-                                </a>
-                            </p>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Vue
-                                </a>
-                            </p>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Laravel
-                                </a>
-                            </p>
-                        </MDBCol>
+                            <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
+                                <h6 className='text-uppercase fw-bold mb-4'>Adresa</h6>
+                                <p>1 Decembrie 1918, nr.7 Suceava Romania</p>
+                            </MDBCol>
 
-                        <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
-                            <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Pricing
-                                </a>
-                            </p>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Settings
-                                </a>
-                            </p>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Orders
-                                </a>
-                            </p>
-                            <p>
-                                <a href='#!' className='text-reset'>
-                                    Help
-                                </a>
-                            </p>
-                        </MDBCol>
-
-                        <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
-                            <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
-                            <p>
-                                <MDBIcon icon="home" className="me-2" />
-                                New York, NY 10012, US
-                            </p>
-                            <p>
-                                <MDBIcon icon="envelope" className="me-3" />
-                                info@example.com
-                            </p>
-                            <p>
-                                <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
-                            </p>
-                            <p>
-                                <MDBIcon icon="print" className="me-3" /> + 01 234 567 89
-                            </p>
-                        </MDBCol>
-                    </MDBRow>
-                </MDBContainer>
-            </section>
-
+                           
+                        </MDBRow>
+                    </MDBContainer>
+                </section>
+            </div>
         </MDBFooter >
     );
 }

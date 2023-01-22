@@ -1,0 +1,23 @@
+.parent {
+    position: relative;
+  }
+  
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index:9999999999999;
+  }
+  
+.hide-toolbar-and-disable-input .rdw-editor-toolbar {
+    display: block;
+ }
+ .hide-toolbar-and-disable-input .public-DraftEditor-content {
+     /* pointer-events: none; */
+     overflow: hidden;
+     display: block;
+ }
+ 

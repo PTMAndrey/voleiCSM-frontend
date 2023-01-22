@@ -12,7 +12,7 @@ import styles from './Card.module.scss';
 const CardPersonal = ({ data }) => {
     const { user } = useAuth();
     const [openPopup, setOpenPopup] = useState(false);
-    const { setAlert, fetchPersonalbyFilter,filtruPersonal } = useStateProvider();
+    const { setAlert, fetchPersonalbyFilter, filtruPersonal } = useStateProvider();
 
     const navigate = useNavigate();
     function stopPropagation(e) {
@@ -21,7 +21,7 @@ const CardPersonal = ({ data }) => {
 
     const handleDelete = async () => {
         try {
-            const response =  await deletePersonalById(data?.id);
+            const response = await deletePersonalById(data?.id);
             if (response.status === 200) {
                 togglePopup();
                 fetchPersonalbyFilter(filtruPersonal);
@@ -43,21 +43,22 @@ const CardPersonal = ({ data }) => {
     const defaultAvatar = `${require('../../assets/images/Jucator-Default.svg').default}`;
     return (
         <>
-            <Card className={styles.personalContainer} onClick={() => {navigate("/personal/" + data?.id); }} >
-                <Card.Img className={`${styles.imagesDiv} ${styles.imagine}`} variant="top" src={`${data.imagine ? data.imagine : defaultAvatar}`} />
-                <Card.Body>
+            <Card className={styles.personalContainer} onClick={() => { navigate("/personal/" + data?.id); }} >
+                <div className={styles.imgContainer}>
+                    <Card.Img className={`${styles.imagesDiv} ${styles.imagine}`} variant="top" src={`${data.imagine ? data.imagine : defaultAvatar}`} />
+                </div><Card.Body>
                     {data ?
                         <Card.Title className={styles.alignCenter} >{data.nume + ' ' + data.prenume}</Card.Title>
                         :
                         <Card.Title className={styles.alignCenter} >Jucator</Card.Title>
                     }
 
-                    {user?.role && data?.id && (
+                    {user?.role === 'Administrator' && data?.id && (
                         <Card.Title className={`${styles.controls}`}>
                             <div onClick={stopPropagation} className={styles.butoane}>
-                                <RiEdit2Fill className={styles.edit} onClick={() => {navigate(`/personal/edit/${data?.id}`);}} />
+                                <RiEdit2Fill className={styles.edit} onClick={() => { navigate(`/personal/edit/${data?.id}`); }} />
 
-                                <RiDeleteBinFill className={styles.delete} onClick={() => {togglePopup();}} />
+                                <RiDeleteBinFill className={styles.delete} onClick={() => { togglePopup(); }} />
                             </div>
                         </Card.Title>
                     )}
@@ -79,13 +80,13 @@ const CardPersonal = ({ data }) => {
                                 <div className={styles.butonsPopup}>
                                     <button
                                         className={styles.deletePopup}
-                                        onClick={(e) => {handleDelete(e);}}
+                                        onClick={(e) => { handleDelete(e); }}
                                     >
                                         Șterge
                                     </button>
                                     <button
                                         className={styles.backPopup}
-                                        onClick={() => {setOpenPopup(!openPopup);}}
+                                        onClick={() => { setOpenPopup(!openPopup); }}
                                     >
                                         Anulează
                                     </button>

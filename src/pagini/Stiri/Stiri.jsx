@@ -66,7 +66,7 @@ const Stiri = () => {
         </div>
 
         <div className={styles.rightSide}>
-          {user?.role !== null &&
+          {user?.role &&
             <div className={styles.dropdownStiri}>
 
               <Buton
@@ -93,6 +93,7 @@ const Stiri = () => {
           { (stiriOrdonate === null || stiriOrdonate === undefined) &&
             <h2 style={{ marginTop: '25px' }}>Momentan nu există știri care să îndeplinească filtrele selectate</h2>
           }
+          {!user?.role && <div style={{ marginTop: '20px' }}></div>}
           <ListStiri currentTableData={currentTableData}/>
         </div>
 

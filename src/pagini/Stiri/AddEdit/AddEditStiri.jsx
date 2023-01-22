@@ -25,7 +25,7 @@ const AddEditStiri = () => {
   const navigate = useNavigate();
 
   const { previzualizareStiri, setPrevizualizareStiri } = useStateProvider();
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const { id } = useParams();
 
@@ -45,7 +45,7 @@ const AddEditStiri = () => {
   const [formValue, setFormValue] = useState({
     // file: previzualizareStiri.file || [],
     titlu: previzualizareStiri.title || "",
-    autor: userId || '',
+    autor: user.id || '',
     descriere: previzualizareStiri.descriere || "",
     status: previzualizareStiri.status || "PUBLICAT",
     dataPublicarii: previzualizareStiri.dataPublicarii || String(getCurrentData()),

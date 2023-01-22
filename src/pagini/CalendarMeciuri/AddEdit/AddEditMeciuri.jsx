@@ -18,6 +18,12 @@ const AddEdit = () => {
   const navigate = useNavigate();
   const { editii, echipe, setAlert, filtruMeciuri, setFiltruMeciuri } = useStateProvider();
   const { id } = useParams();
+  
+  useEffect(() => {
+    if(id && id.length < 30)
+      navigate('/not-found');
+  }, [id]);
+  
   const [showErrors, setShowErrors] = useState(false);
   const [showEroareCalendar, setShowEroareCalendar] = useState(false);
   const [dataCalendar, setDataCalendar] = useState('');

@@ -20,9 +20,15 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 const AddEditRaportCronologic = ({ pagina }) => {
+  const {Posturi} = useStateProvider()
   const navigate = useNavigate();
 
   const { id } = useParams();
+  useEffect(() => {
+    if (id && id.length < 30)
+      navigate('/not-found');
+  }, [id]);
+  
   const { user } = useAuth();
   // show errors only if clicked to submit
   const [showErrors, setShowErrors] = useState(false);
@@ -30,7 +36,8 @@ const AddEditRaportCronologic = ({ pagina }) => {
   const [dataTypeDateButton, setDataTypeDateButton] = useState('');
   const [showCalendar, setShowCalendar] = useState({});
   const [idFieldToDelete, setIdFieldToDelete] = useState('');
-
+  const [oldDates, setOldDates] = useState({});
+  
   // istoric posturi
   const [istoricPosturi, setIstoricPosturi] = useState([{
     idIstoricPersoana: '',
@@ -175,19 +182,6 @@ const AddEditRaportCronologic = ({ pagina }) => {
     }
   };
 
-  //handle Previzualizare
-  // const handlePrevizualizare = () => {
-  //   if (!isFormValid()) {
-  //     setShowErrors(true);
-  //   }
-  //   if (isFormValid()) {
-  //     setShowErrors(false);
-  //     setPrevizualizareStiri(formValue);
-  //     navigate('./preview');
-  //   }
-  // };
-
-
 
   //-------------------------------- VALIDARI
   // check errors
@@ -207,45 +201,6 @@ const AddEditRaportCronologic = ({ pagina }) => {
         return 'Alegerea unei date este obligatorie!';
       }
     }
-
-    // // imagini
-    // if (field === 'imagini') {
-    //   if (file.length > 9) {
-    //     return 'Maxim 9 imagini';
-    //   }
-    // }
-    // // descriere
-    // if (field === 'descriere') {
-    //   if (formValue.descriere?.length < 2)
-    //     return `${formValue.descriere?.length} / 250 caractere obligatorii`;
-    //   // } 
-    //   // else if (formValue.descriere.length > 500) {
-    //   //   return 'Description must be less than 500 characters long';
-    //   else if (formValue.descriere.length === 0) {
-    //     return 'Descrierea este obligatorie!';
-    //   }
-    // }
-
-    // if (field === 'status') {
-    //   if (formValue.status.length === 0) {
-    //     return 'Selectați una dintre opțiunile de publicare existente!'
-    //   }
-    // }
-
-    // if (formValue.status === 'PROGRAMAT') {
-    //   if (field === 'data')
-    //     if (dataProgramata === '')
-    //       return <p style={{ color: 'red', marginTop: '20px' }}>Alegeti data pentru a programa publicarea!</p>;
-
-    //   if (field === 'ora')
-    //     if (selectedHour === '')
-    //       return 'Alegeti o ora pentru a programa publicarea!';
-
-    //   if (field === 'minut')
-    //     if (selectedMinute === '')
-    //       return 'Alegeti minutele pentru a programa publicarea!';
-    // }
-
     return '';
   };
 
@@ -261,12 +216,6 @@ const AddEditRaportCronologic = ({ pagina }) => {
     }
     else
       if (pagina === 'editPremii' || pagina === 'adaugaPremii') {
-        // Object.keys(realizariPersonale).forEach((field) => {
-        //   console.log(realizariPersonale[field].denumireRezultat,realizariPersonale[field].idRealizariPersonale);
-        //     if (checkErrors(realizariPersonale[field].denumireRezultat,realizariPersonale[field].idRealizariPersonale)) {
-        //       isValid = false;
-        //     }
-        // });
         const newRows = [...realizariPersonale];
         newRows.map(premiu =>{
           if(checkErrors('denumireRezultat',premiu.denumireRezultat))
@@ -315,11 +264,8 @@ const AddEditRaportCronologic = ({ pagina }) => {
     setOpenPopup(!openPopup);
   };
 
-  const [oldDates, setOldDates] = useState({});
-
   const handleStartDateClick = (idIstoricPersoana) => {
     const oldDate = istoricPosturi.find(post => post.idIstoricPersoana === idIstoricPersoana).dataInceput;
-
     setOldDates({ ...oldDates, [idIstoricPersoana]: oldDate });
     setDataTypeDateButton('data de început');
     setShowCalendar({ ...showCalendar, [idIstoricPersoana]: true });
@@ -353,21 +299,10 @@ const AddEditRaportCronologic = ({ pagina }) => {
     setShowCalendar({ ...showCalendar, [id]: false });
   }
 
-  let Posturi = [
-    { value: 'PRINCIPAL', label: 'PRINCIPAL' },
-    { value: 'SECUNDAR', label: 'SECUNDAR' },
-    { value: 'CENTRU', label: 'CENTRU' },
-    { value: 'OPUS', label: 'OPUS' },
-    { value: 'RIDICATOR', label: 'RIDICATOR' },
-    { value: 'LIBERO', label: 'LIBERO' },
-    { value: 'EXTREMA', label: 'EXTREMA' },
-    { value: 'ANTRENOR', label: 'ANTRENOR' },
-  ];
-
 
   return (
     <>
-      {user?.role ?
+      {user?.role === 'Administrator' ?
         <>
           <Container>
 

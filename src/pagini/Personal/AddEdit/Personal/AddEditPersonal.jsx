@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 
 import { ReactComponent as Add } from "../../../../assets/icons/add.svg";
 
@@ -8,88 +8,123 @@ import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Calendar } from "react-calendar";
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, ContentState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { Editor } from 'react-draft-wysiwyg';
 
-import { addStire, updateStire, getStireById} from "../../../../api/API";
+import moment from 'moment/moment';
+
+
+import { addPersoana, updatePersoana, getPersonalById } from "../../../../api/API";
 import useStateProvider from "../../../../hooks/useStateProvider";
 import useAuth from "../../../../hooks/useAuth";
 
 import Input from "../../../../componente/Input/Input";
 import Buton from "../../../../componente/Buton/Buton";
-import TextArea from "../../../../componente/TextArea/TextArea";
 import DropdownComponent from "../../../../componente/Dropdown/Dropdown";
 
 import styles from "./AddEditPersonal.module.scss";
-import { createReadStream } from 'fs';
+import TextArea from "../../../../componente/TextArea/TextArea";
 
-const AddEditStiri = () => {
+const AddEditPersonal = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
-
-  const { previzualizareStiri, setPrevizualizareStiri } = useStateProvider();
-  const { userId } = useAuth();
-
+  const { previzualizarePersonal, setAlert, setPrevizualizarePersonal, divizii, Posturi } = useStateProvider();
   const { id } = useParams();
+  useEffect(() => {
+    if (id && id.length < 30)
+      navigate('/not-found');
+  }, [id]);
 
-  // show errors only if clicked to submit
   const [showErrors, setShowErrors] = useState(false);
-
-  const [dataProgramata, setDataProgramata] = useState('');
-  const [selectedHour, setSelectedHour] = useState('');
-  const [selectedMinute, setSelectedMinute] = useState('');
-
-  // show calendar if clicked to Publica Acum
-  const [showCalendar, setShowCalendar] = useState(false);
-
+  const [showEroareCalendar, setShowEroareCalendar] = useState(false);
+  const [showEroareDescriere, setShowEroareDescriere] = useState(false);
+  const [eroareCalendar, setEroareCalendar] = useState('');
+  const [eroareDescriere, setEroareDescriere] = useState('');
+  const [dataCalendar, setDataCalendar] = useState('');
+  const [dataCalendarEdit, setDataCalendarEdit] = useState()
+  const [disabledButton, setDisabledButton] = useState(false);
 
   // form data
-  const [file, setFile] = useState(previzualizareStiri.file || []);
+  const [file, setFile] = useState({ file: previzualizarePersonal.file } || []);
+  const [fileInForm, setFileInForm] = useState({ file: previzualizarePersonal.file } || []);
   const [formValue, setFormValue] = useState({
-    // file: previzualizareStiri.file || [],
-    titlu: previzualizareStiri.title || "",
-    autor: userId || '',
-    descriere: previzualizareStiri.descriere || "",
-    status: previzualizareStiri.status || "PUBLICAT",
-    dataPublicarii: previzualizareStiri.dataPublicarii || String(getCurrentData()),
-    hashtag: previzualizareStiri.hashtag || "",
-    imagini: previzualizareStiri.imagini || [],
-    videoclipuri: previzualizareStiri.videoclipuri || '',
+    nume: previzualizarePersonal.nume || '',
+    prenume: previzualizarePersonal.prenume || '',
+    dataNasterii: previzualizarePersonal.dataNasterii || '',
+    inaltime: previzualizarePersonal.inaltime || "",
+    nationalitate: previzualizarePersonal.nationalitate || '',
+    personal: previzualizarePersonal.personal || 'JUCATOR',
+    post: previzualizarePersonal.post || '',
+    descriere: previzualizarePersonal.descriere || '',
+    numeDivizie: previzualizarePersonal.numeDivizie || '',
+    imagine: previzualizarePersonal.imagine || '',
+    file: previzualizarePersonal.file || [],
   });
 
-  const getStire = async () => {
-    const response = await getStireById(id);
+  const getPersoana = async () => {
+    const response = await getPersonalById(id);
     if (response.status === 200) {
       setFormValue({
-        autor: response.data.autor,
-        id: response.data.id,
-        titlu: response.data.titlu,
-        imagini: response.data.imagini,
-        imaginiURL: response.data.imaginiURL,
+        nume: response.data.nume,
+        prenume: response.data.prenume,
+        dataNasterii: response.data.dataNasterii,
+        inaltime: response.data.inaltime,
+        nationalitate: response.data.nationalitate,
+        personal: response.data.personal,
+        post: response.data.post,
         descriere: response.data.descriere,
-        hashtag: response.data.hashtag || "",
-        status: response.data.status,
-        dataPublicarii: response.data.dataPublicarii,
-        videoclipuri: response.data.videoclipuri,
+        numeDivizie: response.data.numeDivizie,
+        imagine: response.data.imagine,
       });
-      console.log(response.data);
+      setDataCalendarEdit(moment(response.data.dataNasterii, 'DD-MM-YYYY hh:mm').toDate())
+      setDataCalendar(response.data.dataNasterii)
+
+      console.log('edit', response.data);
     }
   };
 
+  const [editorState, setEditorState] = useState(
+    EditorState.createEmpty());
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    formValue.descriere = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
 
-  //------------------------------ useEffect
+  }
 
-  //set previzualizareStiri in useEffect
+  //------------------------------ useEffect 
   useEffect(() => {
-    setPrevizualizareStiri(formValue);
-  }, [formValue]);
+    if (formValue.descriere) {
+      const content = JSON.parse(formValue.descriere);
+      const contentState = convertFromRaw(content);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState)
+    }
+  }, [formValue.descriere])
 
-  // get stire by id to edit
+  // get personal by id to edit
   useEffect(() => {
     if (id) {
-      getStire();
+      getPersoana();
     }
   }, [id]);
 
+  useEffect(() => {
+    setPrevizualizarePersonal(formValue);
+  }, [formValue]);
+
+  let Divizii = [];
+  useEffect(() => {
+    divizii?.map(divizie =>
+      Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` })
+    )
+  }, [divizii, Divizii]);
 
 
+  useEffect(() => {
+    setFormValue({ ...formValue, file: fileInForm.file })
+  }, [fileInForm])
 
   //------------------------------- HANDLERE
   // handleChange
@@ -102,15 +137,13 @@ const AddEditStiri = () => {
 
   // handleDrop
   const handleDrop = useCallback((acceptedFiles) => {
+    //! setez imaginile
+    setFileInForm({ file: acceptedFiles[0] })
+    //! afisez imaginile
     acceptedFiles.map((file) => {
       const reader = new FileReader();
       reader.onload = function (e) {
-        setFormValue((prevState) => {
-          return {
-            ...prevState,
-            imagini: [...prevState.imagini, e.target.result],
-          };
-        });
+        setFile({ file: e.target.result });
       };
       reader.readAsDataURL(file);
       return file;
@@ -119,28 +152,34 @@ const AddEditStiri = () => {
 
   // handleDelete imagine
   const handleDelete = (index) => {
-    setFormValue((prevState) => {
-      return {
-        imagini: prevState.imagini.filter((imagine, i) => i !== index),
-      };
-    });
+    setFile({ file: '' });
+    setFileInForm({ file: '' })
+    if (id)
+      setFormValue({ ...formValue, imagine: '', file: '' });
   };
 
   // handleSubmit
   const handleSubmit = async () => {
     if (!isFormValid()) {
+      setShowEroareCalendar(true);
       setShowErrors(true);
       console.log("Required fields must be completed!");
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
+
     }
     if (isFormValid()) {
+      setShowEroareCalendar(false);
       setShowErrors(false);
       try {
-        const response = await addStire(formValue);
+        setDisabledButton(true);
+        const response = await addPersoana(formValue.file, formValue);
         console.log("\nraspuns\n", response);
         if (response?.status === 200) {
-          navigate("/confirmation");
-          setPrevizualizareStiri({});
+          navigate("/confirmare/personal/");
+          setPrevizualizarePersonal({});
         }
+        else
+          setAlert({ type: 'danger', message: 'Eroare la trimiterea datelor!' });
       } catch (error) {
         console.log(error);
       }
@@ -150,15 +189,18 @@ const AddEditStiri = () => {
   // handleUpdate
   const handleUpdate = async () => {
     if (!isFormValid()) {
+      setShowEroareCalendar(true);
       setShowErrors(true);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
+      setShowEroareCalendar(false);
       setShowErrors(false);
       try {
-        const response = await updateStire(formValue);
-        if (response.status === 200) {
-          navigate("/confirmation");
-          setPrevizualizareStiri({});
+        const response = await updatePersoana(id, formValue.file, formValue);
+        if (response) {
+          navigate("/confirmare/personal/");
+          setPrevizualizarePersonal({});
         }
       } catch (error) {
         console.log(error);
@@ -170,72 +212,82 @@ const AddEditStiri = () => {
   const handlePrevizualizare = () => {
     if (!isFormValid()) {
       setShowErrors(true);
+      setShowEroareCalendar(true);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowErrors(false);
-      setPrevizualizareStiri(formValue);
+      setShowEroareCalendar(false);
+      setPrevizualizarePersonal(formValue);
       navigate("./preview");
     }
   };
 
-
-
   //-------------------------------- VALIDARI
-  // check errors
+
   const checkErrors = (field) => {
-    // title
-    if (field === "titlu") {
-      if (formValue.titlu.length < 10 && formValue.titlu.length > 0) {
-        return "Titlul trebuie sa conțină cel puțin 10 caractere!";
-      } else if (formValue.titlu.length > 50) {
-        return "Titlul trebuie să conțină maxim 50 de caractere!";
-      } else if (formValue.titlu.length === 0) {
-        return "Titlul este obligatoriu!";
+    if (field === "nume") {
+      if (!formValue.nume) {
+        return "Numele este obligatoriu de introdus!";
       }
+    }
+    if (field === "prenume") {
+      if (!formValue.prenume) {
+        return "Prenumele este obligatoriu de introdus!";
+      }
+    }
+    if (field === "inaltime") {
+      if (!formValue.inaltime) {
+        return "Inaltimea este obligatoriu de introdus!";
+      }
+    }
+    if (field === "nationalitate") {
+      if (!formValue.nationalitate) {
+        return "Nationalitatea este obligatoriu de introdus!";
+      }
+    }
+    if (field === "numeDivizie") {
+      if (!formValue.numeDivizie) {
+        return "Echipa este obligatoriu de selectat!";
+      }
+    }
+    if (field === "post") {
+      if (!formValue.post) {
+        return "Postul este obligatoriu de selectat!";
+      }
+    }
+    if (field === "dataNasterii") {
+      if (!dataCalendar) {
+        setShowEroareCalendar(true);
+        setEroareCalendar('Alegeti data calendaristică!');
+        return 'Alegeti data calendaristică!';
+      }
+      else
+        setShowEroareCalendar(false);
     }
 
-    // imagini
-    if (field === "imagini") {
-      if (file.length > 9) {
-        return "Maxim 9 imagini";
-      }
-    }
-    // descriere
     if (field === "descriere") {
-      if (formValue.descriere?.length < 2)
-        return `${formValue.descriere?.length} / 250 caractere obligatorii`;
-      // } 
-      // else if (formValue.descriere.length > 500) {
-      //   return "Description must be less than 500 characters long";
-      else if (formValue.descriere.length === 0) {
+      if (formValue.descriere.length < 15) {
+        setShowEroareDescriere(true);
+        setEroareDescriere("Descrierea este obligatorie!")
         return "Descrierea este obligatorie!";
       }
-    }
-
-    if (field === "status") {
-      if (formValue.status.length === 0) {
-        return "Selectați una dintre opțiunile de publicare existente!"
+      else {
+        setShowEroareDescriere(false);
       }
     }
 
-    if (formValue.status === 'PROGRAMAT') {
-      if (field === "data")
-        if (dataProgramata === '')
-          return <p style={{ color: 'red', marginTop: '20px' }}>Alegeti data pentru a programa publicarea!</p>;
-
-      if (field === "ora")
-        if (selectedHour === '')
-          return "Alegeti o ora pentru a programa publicarea!";
-
-      if (field === "minut")
-        if (selectedMinute === '')
-          return "Alegeti minutele pentru a programa publicarea!";
+    if (field === "file") {
+      if (!formValue.file)
+        return 'Alegeti o imagine de profil';
+      if (formValue.file.length > 1)
+        return "Doar o imagine";
     }
+
 
     return "";
   };
 
-  // check if form is valid
   const isFormValid = () => {
     let isValid = true;
     Object.keys(formValue).forEach((field) => {
@@ -246,286 +298,284 @@ const AddEditStiri = () => {
     return isValid;
   };
 
-  function getCurrentData() {
-    const e = new Date();
-    const hour = e.getHours();
-    const minutes = e.getMinutes();
-
-    return (e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1) + '-' + e.getFullYear() + ' ' + (hour < 10 ? ('0' + hour) : hour) + ':' + (minutes < 10 ? ('0' + minutes) : minutes));
-
+  const getDataFromCalendar = (e) => {
+    return !e ? null : ((e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
   }
-  const hours = [];
-  const minutes = [];
-
-  for (let i = 0; i < 60; i++) {
-    if (i < 10 && i < 24)
-      hours.push({ value: `0${i}`, label: `0${i}` },);
-    else
-      if (i < 24)
-        hours.push({ value: `${i}`, label: `${i}` },);
-
-    if (i < 10 && i < 60)
-      minutes.push({ value: `0${i}`, label: `0${i}` },);
-    else
-      minutes.push({ value: `${i}`, label: `${i}` },);
-  }
-
-  console.log(formValue, "formValue");
 
   return (
-    <Container className={styles.addBackgroundColor}>
-      <h1 className={styles.addTitlu}>Adaugă știre</h1>
-      <Row>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>Detalii *</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.inputs}>
-            <Input
-              name="titlu"
-              id="titlu"
-              value={formValue.titlu}
-              label="Titlu"
-              placeholder="Titlu"
-              onChange={handleChange}
-              error={showErrors && checkErrors("titlu") ? true : false}
-              helper={showErrors ? checkErrors("titlu") : ""}
-            />
-            <Input
-              name="hashtag"
-              id="hashtag"
-              value={formValue.hashtag}
-              // placeholder="#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty"
-              placeholder="#tag"
-              label="Definire hashtaguri"
-              onChange={handleChange}
-            />
-          </div>
-        </Col>
-      </Row>
-      <Row style={{ marginTop: "40px" }}>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>{"Imagini & videoclipuri"}</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* previzualizareStiris */}
-          <Col
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "1rem",
-            }}
-          >
-            {formValue?.imagini?.map((img, index) => (
-              <div key={index} className={styles.previzualizareStiri}>
-                <img src={img} alt="" />
-                <RiDeleteBinFill onClick={() => {
-                  handleDelete(index);
-                }} />
-
-              </div>
-            ))}
-
-            {/* dropzone */}
-            {formValue?.imagini?.length < 9 && <Dropzone onDrop={handleDrop} />}
-          </Col>
-          {showErrors && (
-            <div>
-              <p className={styles.error}>{checkErrors("imagini")}</p>
-            </div>
-          )}
-        </Col>
-      </Row>
-      <Row style={{ marginTop: "40px" }}>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3
-              onClick={() =>
-                setFormValue({
-                  ...formValue,
-                  descriere:
-                    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque illum recusandae molestiae consequuntur tempora, esse omnis fugiat quam harum iure?",
-                })
-              }
-            >
-              Descriere *
-            </h3>
-          </div>
-        </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* descriere */}
-          <TextArea
-            name="descriere"
-            id="descriere"
-            label="Detalii descriere"
-            placeholder="Descriere"
-            error={(showErrors && checkErrors("descriere")) ? true : false}
-            helper={checkErrors("descriere")}
-            value={formValue.descriere}
-            onChange={handleChange}
-          />
-        </Col>
-      </Row>
-      <Row style={{ marginTop: "40px" }}>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.info}>
-            <h3>Publicare *</h3>
-          </div>
-        </Col>
-        <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
-
-          <div className={styles.publicare}>
-            {/* Publica acum */}
-            <div>
-              <label htmlFor="publicaAcum">
-                <input
-                  id="publicaAcum"
-                  type="radio"
-                  name="status"
-                  value="PUBLICAT"
-                  checked={formValue.status === 'PUBLICAT'}
-                  onLoad={(e) => { console.log(getCurrentData()) }}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setFormValue({ ...formValue, status: 'PUBLICAT', dataPublicarii: getCurrentData() });
-                    setDataProgramata('');
-                    setSelectedHour('');
-                    setSelectedMinute('');
-                    setShowCalendar(false);
+    <>
+      {user?.role === 'Administrator' ?
+        <>
+          <Container className={styles.addBackgroundColor}>
+            <h1 className={styles.addTitlu}>Adaugă Personal</h1>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Imagine *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+                <Col
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "1rem",
                   }}
-                />
-                {" "} Publică acum
-              </label>
-            </div>
+                >
+                  <label>Poza de profil persoană</label>
+                  <br />
+                  {file?.file ?
+                    <div className={styles.previzualizarePersonal}>
+                      <img src={file?.file} alt="" />
+                      <RiDeleteBinFill onClick={() => {
+                        handleDelete();
+                      }} />
+                    </div>
+                    :
+                    formValue?.imagine &&
+                    <div className={styles.previzualizarePersonal}>
+                      <img src={formValue?.imagine} alt="" />
+                      <RiDeleteBinFill onClick={() => {
+                        handleDelete();
+                      }} />
+                    </div>
+                  }
+                  {/* dropzone */}
+                  {!formValue.imagine ? <>
+                    {fileInForm?.file?.length < 1 &&
+                      <Dropzone onDrop={handleDrop}
+                        error={showErrors && checkErrors('file') ? true : false}
+                        helper={showErrors ? checkErrors('file') : ''}
+                      />}
 
-            <div>
-              <label>
-                <input
-                  id="programeaza"
-                  type="radio"
-                  name="status"
-                  value="PROGRAMAT"
-                  checked={formValue.status === 'PROGRAMAT'}
-                  onChange={(e) => { handleChange(e); setFormValue({ ...formValue, status: 'PROGRAMAT' }); setDataProgramata('') }}
-                  onClick={() => setShowCalendar(true)}
-                />
-                {" "}Programează publicarea
-              </label>
-              {showCalendar &&
-                <div className={styles.programeazaStire}>
-                  <div>
-                    <p>Alege zi</p>
-                    <Calendar onChange={(e) => {
-                      console.log("calendar", (e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
-                      // setFormValue({...formValue, dataPublicarii:(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear()})
-                      setDataProgramata(String(e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear())
-                    }} minDate={new Date(2010, 1, 1)} />
+                    {fileInForm?.file === undefined &&
+                      <Dropzone onDrop={handleDrop}
+                        error={showErrors && checkErrors('file') ? true : false}
+                        helper={showErrors ? checkErrors('file') : ''}
+                      />}
+                  </>
+                    : null}
+                </Col>
+              </Col>
+            </Row>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Echipă *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.inputs}>
+                  <DropdownComponent
+                    title={id ? formValue.numeDivizie : 'Alege echipa'}
+                    options={Divizii}
+                    searchable={true}
+                    onChange={(e) => {
+                      e === null ?
+                        setFormValue({ ...formValue, numeDivizie: '' }) :
+                        setFormValue({ ...formValue, numeDivizie: e.value });
+                    }}
+                    error={showErrors && checkErrors('numeDivizie') ? true : false}
+                    helper={showErrors ? checkErrors('numeDivizie') : ''}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Personal *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 8, offset: 0 }} className={styles.bottomBorder}>
 
-                    {showErrors ? checkErrors("data") : ""}
-                  </div>
+                <div className={styles.inputs}>
                   <div>
-                    <p>Ore</p>
-                    <DropdownComponent
-                      title="00"
-                      options={hours}
-                      clearable={true}
-                      searchable={true}
-                      onChange={(e) => {
-                        !e ? setSelectedHour('') : setSelectedHour(e.value);
-                      }}
-                      error={showErrors && checkErrors("ora") ? true : false}
-                      helper={showErrors ? checkErrors("ora") : ""}
-                    />
-                    { }
+                    <label htmlFor='jucator'>
+                      <input
+                        id='jucator'
+                        type='radio'
+                        name='personal'
+                        value='JUCATOR'
+                        checked={formValue.personal === 'JUCATOR'}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setFormValue({ ...formValue, personal: 'JUCATOR' });
+                        }}
+                      />
+                      {' '} JUCATOR
+                    </label>
                   </div>
-                  <div>
-                    <p>Minute</p>
-                    <DropdownComponent
-                      title="00"
-                      options={minutes}
-                      clearable={true}
-                      searchable={true}
-                      onChange={(e) => {
-                        e === null ? setSelectedMinute('') : setSelectedMinute(e.value);
-                      }}
-                      error={showErrors && checkErrors("minut") ? true : false}
-                      helper={showErrors ? checkErrors("minut") : ""}
-                    />
+                  <div className='mt-3'>
+                    <label htmlFor='antrenor'>
+                      <input
+                        id='antrenor'
+                        type='radio'
+                        name='personal'
+                        value='ANTRENOR'
+                        checked={formValue.personal === 'ANTRENOR'}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setFormValue({ ...formValue, personal: 'ANTRENOR' });
+                        }}
+                      />
+                      {' '} ANTRENOR
+                    </label>
                   </div>
                 </div>
-              }
-            </div>
-            <div>
-              {/* Daca salveaza ca draft si nu are descriere sa pot inlocui textul cu 'draft' sau ceva asemanator
-              astfel incat sa ii permit sa puna camp gol
-              * ! sau vorbeste cu Ana sa schimbe in BD
-               */}
-              <label>
-                <input
-                  id="draft"
-                  type="radio"
-                  name="status"
-                  value="DRAFT"
-                  checked={formValue.status === 'DRAFT'}
-                  onChange={(e) => {
-                    handleChange(e);
-                    setFormValue({ ...formValue, status: 'DRAFT', dataPublicarii: getCurrentData() });
-                    setDataProgramata('');
-                    setSelectedHour('');
-                    setSelectedMinute('');
-                    setShowCalendar(false);
-                  }}
-                />
-                {' '} Salveaza ca draft
-              </label>
-            </div>
+              </Col>
+            </Row>
 
-          </div>
-        </Col>
-      </Row>
-      <Row style={{ marginTop: "40px", marginBottom: "60px" }}>
-        <Col md={{ span: 4, offset: 0 }}></Col>
-        <Col md={{ span: 6, offset: 0 }}>
-          <Row>
-            <Col sm={{ span: 4, offset: 1 }}>
-              {!id && (
-                <Buton
-                  variant="secondary"
-                  label="Previzualizare"
-                  onClick={handlePrevizualizare}
-                />
-              )}
-            </Col>
+            <Row className='mt-5'>
+              <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3>Detalii *</h3>
+                </div>
+              </Col>
+              <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.inputs}>
+                  <Input
+                    name='nume'
+                    id='nume'
+                    label='Nume'
+                    placeholder="Nume"
+                    value={formValue.nume}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('nume') ? true : false}
+                    helper={showErrors ? checkErrors('nume') : ''}
+                  />
+                  <Input
+                    name='prenume'
+                    id='prenume'
+                    label='Prenume'
+                    placeholder='Prenume'
+                    value={formValue.prenume}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('prenume') ? true : false}
+                    helper={showErrors ? checkErrors('prenume') : ''}
+                  />
+                  <label>Data nașterii</label>
+                  <Calendar
+                    className={` ${showEroareCalendar && eroareCalendar && styles.helperErrCalendar} mb-4`}
+                    name='data'
+                    value={dataCalendarEdit}
+                    onChange={(e) => {
+                      setFormValue({ ...formValue, dataNasterii: getDataFromCalendar(e) })
+                      setDataCalendar(getDataFromCalendar(e))
+                      setDataCalendarEdit(e)
+                      setShowEroareCalendar(false);
+                    }} />
+                  {showEroareCalendar && <p className={`mt-2 ${styles.helperErr}`}>{eroareCalendar}</p>}
+                  <Input
+                    name='inaltime'
+                    id='inaltime'
+                    label='Înălțime'
+                    placeholder='Înălțime'
+                    value={formValue.inaltime}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('inaltime') ? true : false}
+                    helper={showErrors ? checkErrors('inaltime') : ''}
+                  />
+                  <Input
+                    name='nationalitate'
+                    id='nationalitate'
+                    label='Naționalitate'
+                    placeholder='Naționalitate'
+                    value={formValue.nationalitate}
+                    onChange={handleChange}
+                    error={showErrors && checkErrors('nationalitate') ? true : false}
+                    helper={showErrors ? checkErrors('nationalitate') : ''}
+                  />
+                  <label>Post</label>
+                  <DropdownComponent
+                    title={id ? formValue.post : 'Alege post'}
+                    options={Posturi}
+                    onChange={(e) => {
+                      setFormValue({ ...formValue, post: e.value });
+                    }}
+                    error={showErrors && checkErrors('post') ? true : false}
+                    helper={showErrors ? checkErrors('post') : ''}
+                  />
+                </div>
+              </Col>
+            </Row>
 
-            <Col sm={{ span: 4, offset: 3 }}>
-              <Buton
-                variant="primary"
-                label={id ? "Actualizează" : "Publică"}
-                // onClick={id ? handleUpdate : handleSubmit}
-                onClick={
-                  id
-                    ? () => {
-                      handleUpdate();
+            <Row className='mt-5'>
+              <Col md={{ span: 2, offset: 0 }} className={styles.bottomBorder}>
+                <div className={styles.info}>
+                  <h3
+                    onClick={() =>
+                      setFormValue({
+                        ...formValue,
+                        descriere:
+                          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque illum recusandae molestiae consequuntur tempora, esse omnis fugiat quam harum iure?",
+                      })
                     }
-                    : handleSubmit
-                }
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container >
+                  >
+                    Descriere *
+                  </h3>
+                </div>
+              </Col>
+              <Col md={{ span: 10, offset: 0 }} className={styles.bottomBorder}>
+                {/* descriere */}
+                <div className={styles.inputs}>
+                  <Editor
+                    editorState={editorState}
+                    onEditorStateChange={onEditorStateChange}
+                    wrapperClassName={styles.wrapperClass}
+                    editorClassName={styles.editorClass}
+                    toolbarClassName={styles.toolbarClass} />
+                  {showEroareDescriere && <p className='mt-4 text-danger'>{eroareDescriere}</p>}
+                </div>
+
+              </Col>
+            </Row>
+
+            <Row className='mt-5 mb-5'>
+              <Col md={{ span: 4, offset: 0 }}></Col>
+              <Col md={{ span: 6, offset: 0 }}>
+                <Row>
+                  <Col sm={{ span: 4, offset: 1 }}>
+                    {!id && (
+                      <Buton
+                        variant="secondary"
+                        label="Previzualizare"
+                        onClick={handlePrevizualizare}
+                      />
+                    )}
+                  </Col>
+
+                  <Col sm={{ span: 4, offset: 3 }}>
+                    <Buton
+                      variant="primary"
+                      disabled={disabledButton}
+                      label={id ? "Actualizează" : "Publică"}
+                      onClick={
+                        id
+                          ? () => {
+                            handleUpdate();
+                          }
+                          : handleSubmit
+                      }
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container >
+        </>
+        :
+        navigate('/')
+      }
+    </>
   );
 };
 
-export default AddEditStiri;
+
+export default AddEditPersonal;
 
 
-function Dropzone({ onDrop, accept, open }) {
+function Dropzone({ onDrop, accept, open, error, helper }) {
   const {
     getRootProps,
     getInputProps,
@@ -539,7 +589,7 @@ function Dropzone({ onDrop, accept, open }) {
       "image/jpeg": [],
       "image/bmp": [],
     },
-    maxFiles: 9,
+    maxFiles: 5,
     onDrop,
   });
 
@@ -551,8 +601,11 @@ function Dropzone({ onDrop, accept, open }) {
     >
       <div
         {...getRootProps({
-          className: `${styles.dropzone} ${isDragAccept && styles.accept} ${isDragReject && styles.reject
-            }`,
+          className: `${styles.dropzone} 
+          ${isDragAccept && styles.accept} 
+          ${isDragReject && styles.reject}
+          ${error && styles.error}
+          `,
         })}
       >
         <input {...getInputProps()} />
@@ -569,7 +622,8 @@ function Dropzone({ onDrop, accept, open }) {
             <Add />
           )}
         </div>
-      </div>
+
+      </div> <p className={error ? styles.helperErr : null}>{helper}</p>
     </div>
   );
 }

@@ -9,28 +9,7 @@ axios.defaults.headers = {
 // access control axios
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-export const getUserById = async (id) => {
-  //try {
-  //   const response = await axios.get('/user/' + id);
-  //   return response;
-  return {
-    data: {
-      userId: '44232',
-      firstName: 'Andrei',
-      lastName: 'Andries',
-      token: 'tkn123',
-      email: 'email@email.com',
-      password: '1234',
-      // role: null,
-      role: 'Administrator',
-      // role: 'CreatorContinut',
-    },
-    response: 200,
-  };
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-};
+// ---------------------------- USER ----------------------------------
 
 export const getStiriByStatus = async (status) => {
   try {
@@ -193,6 +172,31 @@ export const getCluburiSportive = async () => {
   try {
     const response = await axios.get('/cluburiSportive');
     return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addPersoana = async (file, data) => {
+  try {
+    console.log('api',file,'\n',data)
+    const response = await axios.post('/persoana', data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file}
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updatePersoana = async (id,file,data) => {
+  try {
+    const response = await axios.put('/persoana/'+id, data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file ? file : null}
+    });
+    return response;
   } catch (error) {
     console.error(error);
   }
