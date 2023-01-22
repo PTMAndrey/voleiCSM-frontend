@@ -32,7 +32,7 @@ const Navigare = (props) => {
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/personal">Personal</Nav.Link>              
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/parteneri">Parteneri</Nav.Link>                  
                   <Nav.Link className={`text-black  ${styles.onHover}`} href="/detalii">Detalii</Nav.Link>                  
-                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/conectare">Conectare</Nav.Link>
+                  <Nav.Link className={`text-black  ${styles.onHover}`} href="/login">Conectare</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

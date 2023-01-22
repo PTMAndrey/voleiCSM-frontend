@@ -9,6 +9,22 @@ axios.defaults.headers = {
 // access control axios
 // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
+// ---------------------------- USER ----------------------------------
+// login  authenticate
+export const login = async (email, password) => {
+  try {
+    const response = await axios.post("/user/authenticate", {
+      email,
+      password,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
 export const getUserById = async (id) => {
   //try {
   //   const response = await axios.get('/user/' + id);
