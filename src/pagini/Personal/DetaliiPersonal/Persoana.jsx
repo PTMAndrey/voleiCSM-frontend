@@ -9,28 +9,16 @@ import 'moment/locale/ro';
 import { ReactComponent as AvatarDefault } from "../../../assets/images/Jucator-Default.svg";
 import { deleteIstoricPosturiById, deletePersonalById, deleteRealizarePersonalaById, getPersonalById } from "../../../api/API";
 import useStateProvider from "../../../hooks/useStateProvider";
-import Carusel from '../../../componente/Carusel/Carusel';
-import useWindowDimensions from "../../../hooks/useWindowDimensions"
-import NotFound from "../../NotFound/NotFound";
-import Input from "../../../componente/Input/Input";
 import useAuth from "../../../hooks/useAuth";
 import styles from "./Persoana.module.scss";
 import Popup from "../../PaginaPrincipala/Popup";
-import AddIcon from '@mui/icons-material/Add';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-
-import { ContentBlock, ContentState } from 'draft-js';
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
+import { EditorState, convertFromRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg';
-import DOMPurify from 'dompurify';
-import htmlToDraft from "html-to-draftjs";
-import { convertFromHTML, convertToHTML } from "draft-convert";
 import './MyEditor.css';
 
 const Persoana = () => {
-  const { fromJS } = require('immutable');
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();

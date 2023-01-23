@@ -42,7 +42,6 @@ export const StateProvider = ({ children }) => {
   // calendar meciuri
   const [meciuriOrdonate, setMeciuriOrdonate] = useState([]);
   const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
-  const [previzualizareMeciuri, setPrevizualizareMeciuri] = useState({});
   const [filtruMeciuri, setFiltruMeciuri] = useState({
     status: 'VIITOR',
     editieId: '1',
@@ -57,7 +56,6 @@ export const StateProvider = ({ children }) => {
   const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
   const [paginaCurentaPremiiPersonal, setPaginaCurentaPremiiPersonal] = useState(1);
   // previzualizare personal
-  const [previzualizarePersonal, setPrevizualizarePersonal] = useState({});
   const [filtruPersonal, setFiltruPersonal] = useState({
     tipPersonal: 'JUCATOR',
     divizie: 'A1',
@@ -239,9 +237,6 @@ export const StateProvider = ({ children }) => {
       filtruMeciuri,
       setFiltruMeciuri,
       fetchMeciuribyFilter,
-      previzualizareMeciuri,
-      setPrevizualizareMeciuri,
-      editii,
       setEditii,
       echipe,
       setEchipe,
@@ -256,8 +251,6 @@ export const StateProvider = ({ children }) => {
       filtruPersonal,
       setFiltruPersonal,
       fetchPersonalbyFilter,
-      previzualizarePersonal,
-      setPrevizualizarePersonal,
       pageSizePremiiEchipa,
       paginaCurentaPremiiPersonal,
       setPaginaCurentaPremiiPersonal,

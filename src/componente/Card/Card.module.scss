@@ -165,8 +165,8 @@
   // display: flex;
   // position: relative;
   justify-content: center;
-  display:grid;
-  grid-gap:8px;
+  display: grid;
+  grid-gap: 8px;
 }
 
 
@@ -192,7 +192,7 @@
     &:hover {
       background-color: $color-primary-500;
       box-sizing: border-box;
-      cursor:pointer;
+      cursor: pointer;
     }
   }
 
@@ -202,7 +202,7 @@
     &:hover {
       background-color: $color-primary-500;
       box-sizing: border-box;
-      cursor:pointer;
+      cursor: pointer;
     }
   }
 }
@@ -289,7 +289,37 @@
   background-color: $color-dark-blue !important;
   opacity: 1 !important;
   margin: 30px 0;
-  cursor:pointer;
+  cursor: pointer;
+
+  @include medium {
+    width: 200px;
+  }
+  @media(max-width:750px){
+    width: 170px;
+  }
+
+  @include responsive_W550px {
+    width: 150px;
+  }
+  @include small{
+    width:110px;
+  }
+}
+
+.nume {
+  @include medium {
+    font-size: 15px !important;
+  }
+  @media(max-width: 750px){
+    font-size: 12px !important;
+  }
+
+  @include responsive_W550px {
+    font-size: 8px !important;
+  }
+  @include small{
+    font-size: 12px !important;
+  }
 }
 
 .alignCenter {
@@ -301,16 +331,22 @@
 }
 
 .butoane {
-  .edit{
-    margin-right:50px;
+  .edit {
+    margin-right: 50px;
+  }
+  @include small{
+    display:flex;
+    flex-direction: row;
+    margin-top:25px;
   }
 }
 
-.imgContainer{
-  margin:10px;
+.imgContainer {
+  margin: 10px;
   max-height: 250px;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
+
 .imagine {
   align-self: center;
   // height: fit-content;
@@ -318,5 +354,5 @@
   border: 5px solid $color-yellow;
   max-height: 230px;
 
-  width:fit-content;
+  width: fit-content;
 }

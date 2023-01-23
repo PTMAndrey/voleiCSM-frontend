@@ -17,21 +17,18 @@ import Layout from './pagini/Layout/Layout.jsx'
 import NotFound from './pagini/NotFound/NotFound.jsx';
 import Stire from './pagini/Stiri/DetaliiStiri/Stire.jsx';
 import AddEditStiri from './pagini/Stiri/AddEdit/AddEditStiri';
-import AddEditMeciuri from './pagini/CalendarMeciuri/AddEdit/AddEditMeciuri';
 import PrevizualizareStiri from './pagini/Stiri/AddEdit/PrevizualizareStiri';
-import Confirmare from './pagini/Confirmare/Confirmare';
+import AddEditMeciuri from './pagini/CalendarMeciuri/AddEdit/AddEditMeciuri';
 import CalendarMeciuri from './pagini/CalendarMeciuri/CalendarMeciuri';
+import Confirmare from './pagini/Confirmare/Confirmare';
 import Personal from './pagini/Personal/Personal.jsx';
 import Persoana from './pagini/Personal/DetaliiPersonal/Persoana';
 import HeaderPersonal from './componente/Header/HeaderPersonal';
 import AddEditPersonal from './pagini/Personal/AddEdit/Personal/AddEditPersonal';
 import AddEditRaportCronologic from './pagini/Personal/AddEdit/RaportCronologic/AddEditRaportCronologic'
-
 import Onboarding from './pagini/Onboarding/Onboarding.jsx'
 
-
 import ProtectedRoute from './rute/RuteProtejate';
-
 import useStateProvider from './hooks/useStateProvider';
 import useWindowDimensions from './hooks/useWindowDimensions';
 
@@ -65,7 +62,6 @@ function App() {
             <Route path='/personal/adauga' element={<AddEditPersonal />} />
             {/* <Route path='/personal/adauga/premii' element={<AddEditPremiiPersonal/>}/> */}
             <Route path='/personal/edit/:id' element={<AddEditPersonal />} />
-            <Route path='/personal/edit/preview' element={<AddEditPersonal />} />
             <Route path='/personal/adauga/roluri/:id' element={<AddEditRaportCronologic pagina="adaugaRoluri" />} />
             <Route path='/personal/adauga/premii/:id' element={<AddEditRaportCronologic pagina="adaugaPremii" />} />
             <Route path='/personal/edit/roluri/:id' element={<AddEditRaportCronologic pagina="editRoluri" />} />

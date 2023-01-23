@@ -4,7 +4,7 @@
 .headerSwiper {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0px 20px 0px;
+  margin: 10px 0px 20px 50px;
 
   h5 {
     font-size: $font-h5;
@@ -19,8 +19,8 @@
       font-weight: 300;
       font-size: $font-body-tiny;
     }
-    
-    &{
+
+    & {
       flex-direction: column;
     }
   }
@@ -73,7 +73,7 @@
 
 }
 
-.centrareStire{
+.centrareStire {
   display: flex;
   justify-content: center;
 }

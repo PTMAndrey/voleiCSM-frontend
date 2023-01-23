@@ -48,13 +48,46 @@
     width: 100%;
     height: auto;
     background-color: rgba(13, 4, 11, 0.25);
+    border-radius: 0 50px;
     padding: 20px;
 }
+
 .personal {
     margin-top: 7%;
     width: 100%;
     height: auto;
-    background-color: transparent;
+    border: 2px solid $color-yellow;
+    background-color: rgba(13, 4, 11, 0.25);
+    border-radius: 50px 0;
     padding: 20px;
 }
 
+.parteneri {
+    margin-top: 7%;
+    color: $color-dark-blue;
+
+    .bgParteneri {
+        background-color: $color-dark-blue;
+        padding: 20px;
+    }
+
+    .img3 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        @media(max-width:600px) {
+            flex-direction: column;
+            align-items: center;
+        }
+
+    }
+
+    img {
+        width: 150px;
+        @media(max-width:600px) {
+        width: 130px;
+        margin-bottom:15px;
+        }
+    }
+}

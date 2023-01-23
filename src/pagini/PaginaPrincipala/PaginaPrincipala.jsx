@@ -3,19 +3,24 @@ import Iframe from 'react-iframe';
 import parse from 'date-fns/parse'
 
 import butonClasament from './../../assets/images/butonClasament.svg';
+import Primaria from './../../assets/images/Primaria.svg';
+import SUCT from './../../assets/images/SUCT.svg';
+import Bucovina from './../../assets/images/Bucovina.svg';
+import Bazzil from './../../assets/images/Bazzil.svg';
+import Assist from './../../assets/images/Assist.svg';
+import Celestin from './../../assets/images/Celestin.svg';
 import useStateProvider from '../../hooks/useStateProvider';
 import Layout from '../Layout/Layout';
 import Partida from '../../componente/Partida/Partida';
 import Header from '../../componente/Header/Header';
 import Titlu from '../../componente/Titlu/Titlu';
 import Carusel from '../../componente/Carusel/Carusel';
+import CaruselPersonal from '../../componente/Carusel/CaruselPersonal';
 import { getMeciuriByStatus } from '../../api/API';
 import styles from './PaginaPrincipala.module.scss'
+import { Col, Row } from 'react-bootstrap';
 
 const PaginaPrincipala = () => {
-
-  // const Background = `${require('./../../assets/images/PersonalPaginaPrincipala.svg').default}`;
-
   const { stiriPublicate, personal, meciuriOrdonate } = useStateProvider();
 
   const [meciViitor, setMeciViitor] = useState([]);
@@ -92,17 +97,32 @@ const PaginaPrincipala = () => {
         {/* ################  ULTIMELE NOUTATI ################ */}
         {stiriPublicate?.length > 0 &&
           <div className={styles.stiri}>
-            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' isHomePage />
+            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' />
           </div>
         }
-        {/* <img src={Background} alt=''/> */}
         {/* ################  PERSONAL ################ */}
-        {/* {personal?.length > 0 &&
+        {personal?.length > 0 &&
           <div className={styles.personal}>
-            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' isHomePage />
+            <CaruselPersonal data={personal} titluCarousel='Întâlnește echipa' />
           </div>
-        } */}
+        }
 
+        <div className={styles.parteneri}>
+          <h3>Parteneri</h3>
+          <div className={styles.bgParteneri}>
+            <div className={styles.img3}>
+              <img src={Primaria} alt='' />
+              <img src={SUCT} alt='' />
+              <img src={Bucovina} alt='' />
+            </div>
+            <div className={styles.img3}>
+              <img src={Bazzil} alt='' />
+              <img src={Assist} alt='' />
+              <img src={Celestin} alt='' />
+            </div>
+
+          </div>
+        </div>
 
       </Layout>
     </>

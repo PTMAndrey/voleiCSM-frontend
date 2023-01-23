@@ -14,7 +14,7 @@ import useAuth from '../../hooks/useAuth';
 
 const Personal = () => {
     const { user } = useAuth();
-    const { divizii, fetchPersonalbyFilter, filtruPersonal, setFiltruPersonal, personal, setPrevizualizarePersonal } = useStateProvider();
+    const { divizii, fetchPersonalbyFilter, filtruPersonal, setFiltruPersonal, personal } = useStateProvider();
     const navigate = useNavigate();
     const [filtruDivizie, setFiltruDivizie] = useState('A1');
     const [premiiEchipa, setPremiiEchipa] = useState('');
@@ -180,7 +180,6 @@ const Personal = () => {
                             label="Adaugă personal"
                             className={styles.addPersonal}
                             onClick={() => {
-                                setPrevizualizarePersonal({});
                                 navigate("/personal/adauga");
                             }}
                         />
