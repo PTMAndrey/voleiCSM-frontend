@@ -237,6 +237,7 @@ export const StateProvider = ({ children }) => {
       filtruMeciuri,
       setFiltruMeciuri,
       fetchMeciuribyFilter,
+      editii,
       setEditii,
       echipe,
       setEchipe,

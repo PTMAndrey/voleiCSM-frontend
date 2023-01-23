@@ -22,24 +22,26 @@ const FiltreCalendarMeciuri = () => {
     return (
         <div className={styles.containerFiltre}>
             <h3 className={styles.titlu}>Filtre</h3>
-            <div className={styles.filtruMeciuri}>
-                <h5>Tip de campionat</h5>
-                <div>
-                    {editii?.map(editieCampionat => (
-                        <div key={editieCampionat.idEditie}>
-                            <label>
-                                <input
-                                    type='radio'
-                                    value={editieCampionat.idEditie}
-                                    checked={filtruMeciuri.editieId === editieCampionat.idEditie}
-                                    onChange={(e) => { handleFilter(); setFiltruMeciuri({ ...filtruMeciuri, editieId: editieCampionat.idEditie }) }}
-                                />
-                                {" "} {editieCampionat?.numeEditie}
-                            </label>
-                        </div>
-                    ))}
+            {editii &&
+                <div className={styles.filtruMeciuri}>
+                    <h5>Tip de campionat</h5>
+                    <div>
+                        {editii?.map(editieCampionat => (
+                            <div key={editieCampionat.idEditie}>
+                                <label>
+                                    <input
+                                        type='radio'
+                                        value={editieCampionat.idEditie}
+                                        checked={filtruMeciuri.editieId === editieCampionat.idEditie}
+                                        onChange={(e) => { handleFilter(); setFiltruMeciuri({ ...filtruMeciuri, editieId: editieCampionat.idEditie }) }}
+                                    />
+                                    {" "} {editieCampionat?.numeEditie}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            }
 
             <div className={styles.filtruMeciuri}>
                 <div>

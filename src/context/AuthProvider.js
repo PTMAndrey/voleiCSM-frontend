@@ -7,12 +7,10 @@ export const AuthProvider = ({ children }) => {
 
   const [userId, setUserId] = useState(sessionStorage.getItem("userId") || null);
 
-  console.log("user: ", user);
   const fetchUser = async () => {
     try {
       const response = sessionStorage.getItem('user');
       setUser( JSON.parse(response));
-      console.log(JSON.parse(response));
     } catch (error) {
       console.log("Error: ", error);
     }
