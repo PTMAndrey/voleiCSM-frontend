@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React, { useState, useEffect } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
@@ -18,12 +19,7 @@ const AddEdit = () => {
   const navigate = useNavigate();
   const { editii, echipe, setAlert, filtruMeciuri, setFiltruMeciuri } = useStateProvider();
   const { id } = useParams();
-  
-  useEffect(() => {
-    if(id && id.length < 30)
-      navigate('/not-found');
-  }, [id]);
-  
+
   const [showErrors, setShowErrors] = useState(false);
   const [showEroareCalendar, setShowEroareCalendar] = useState(false);
   const [dataCalendar, setDataCalendar] = useState('');
@@ -31,6 +27,7 @@ const AddEdit = () => {
   const [selectedHour, setSelectedHour] = useState('12');
   const [selectedMinute, setSelectedMinute] = useState('00');
   const [eroareCalendar, setEroareCalendar] = useState('');
+  const [disabledButton, setDisabledButton] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const togglePopup = () => {
     setOpenPopup(!openPopup);
@@ -51,7 +48,7 @@ const AddEdit = () => {
 
   const getMeci = async () => {
     const response = await getMeciById(id);
-    if (response.status === 200) {
+    if (response?.status === 200) {
       setFormValue({
         id: response.data.id,
         idEditie: response.data.idEditie,
@@ -86,6 +83,14 @@ const AddEdit = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+  
+  useEffect(() => {
+    if (id && !formValue) {
+      navigate('/not-found')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+  
 
   useEffect(() => {
     setFiltruMeciuri({ ...filtruMeciuri, status: 'VIITOR' });
@@ -123,16 +128,24 @@ const AddEdit = () => {
     if (!isFormValid()) {
       setShowEroareCalendar(true);
       setShowErrors(true);
+      setDisabledButton(false);
       setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowEroareCalendar(false);
       setShowErrors(false);
       try {
+        setDisabledButton(true);
         const response = await addMeci(formValue);
 
-        if (response.status === 200)
+        if (response.status === 200) {
           navigate('/calendar');
+          setAlert({ type: 'success', message: 'Meciul a fost publicat' });
+        }
+        else {
+          setDisabledButton(false);
+          setAlert({ type: 'danger', message: 'Eroare la trimiterea datelor!' });
+        }
 
       } catch (error) {
         console.log(error);
@@ -143,15 +156,22 @@ const AddEdit = () => {
   const handleUpdate = async () => {
     if (!isFormValid()) {
       setShowEroareCalendar(true);
+      setDisabledButton(false);
       setShowErrors(true);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowEroareCalendar(false);
       setShowErrors(false);
       try {
+        setDisabledButton(true);
         const response = await updateMeci(formValue);
-        if (response.status === 200) {
+        if (response?.status === 200) {
           navigate('/calendar');
+        }
+        else {
+          setDisabledButton(false);
+          setAlert({ type: 'danger', message: 'Eroare la actualizarea datelor!' });
         }
       } catch (error) {
         console.log(error);
@@ -497,14 +517,16 @@ const AddEdit = () => {
             <Col sm={{ span: 4, offset: 0 }}>
               <Buton
                 variant='primary'
+                disabled={disabledButton}
                 label={id ? 'Actualizează' : 'Publică'}
                 onClick={() => {
                   if (id) handleUpdate(); else handleSubmit();
                 }} />
             </Col>
-            <Col sm={{ span: 4, offset: 2 }}>
+            <Col sm={{ span: 4, offset: 2 }} className={styles.phoneResolutionMarginTop}>
               <Buton
                 variant='destructive'
+                disabled={disabledButton}
                 label='Anulează'
                 onClick={() => togglePopup()}
               />

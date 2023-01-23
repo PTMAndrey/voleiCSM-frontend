@@ -17,7 +17,6 @@ import Layout from './pagini/Layout/Layout.jsx'
 import NotFound from './pagini/NotFound/NotFound.jsx';
 import Stire from './pagini/Stiri/DetaliiStiri/Stire.jsx';
 import AddEditStiri from './pagini/Stiri/AddEdit/AddEditStiri';
-import PrevizualizareStiri from './pagini/Stiri/AddEdit/PrevizualizareStiri';
 import AddEditMeciuri from './pagini/CalendarMeciuri/AddEdit/AddEditMeciuri';
 import CalendarMeciuri from './pagini/CalendarMeciuri/CalendarMeciuri';
 import Confirmare from './pagini/Confirmare/Confirmare';
@@ -54,7 +53,6 @@ function App() {
             {/* protected rute */}
             <Route path='/noutati/adauga' element={<AddEditStiri />} />
             <Route path='/noutati/edit/:id' element={<AddEditStiri />} />
-            <Route path='/noutati/adauga/stire/preview' element={<PrevizualizareStiri />} />
 
             <Route path='/calendar/adauga' element={<AddEditMeciuri />} />
             <Route path='/calendar/edit/:id' element={<AddEditMeciuri />} />

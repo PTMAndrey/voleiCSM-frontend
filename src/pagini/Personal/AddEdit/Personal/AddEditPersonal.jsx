@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useCallback, useEffect } from "react";
 
 import { ReactComponent as Add } from "../../../../assets/icons/add.svg";
 
@@ -9,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Calendar } from "react-calendar";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, ContentState, convertToRaw, convertFromRaw, convertFromHTML } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
 import moment from 'moment/moment';
@@ -25,7 +25,7 @@ import Buton from "../../../../componente/Buton/Buton";
 import DropdownComponent from "../../../../componente/Dropdown/Dropdown";
 
 import styles from "./AddEditPersonal.module.scss";
-import TextArea from "../../../../componente/TextArea/TextArea";
+import Popup from "../../../PaginaPrincipala/Popup";
 
 const AddEditPersonal = () => {
   const { user } = useAuth();
@@ -45,6 +45,10 @@ const AddEditPersonal = () => {
   const [dataCalendar, setDataCalendar] = useState('');
   const [dataCalendarEdit, setDataCalendarEdit] = useState()
   const [disabledButton, setDisabledButton] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const togglePopup = () => {
+    setOpenPopup(!openPopup);
+  };
 
   // form data
   const [file, setFile] = useState({});
@@ -55,12 +59,12 @@ const AddEditPersonal = () => {
     dataNasterii: '',
     inaltime: "",
     nationalitate: '',
-    personal:'JUCATOR',
-    post:'',
+    personal: 'JUCATOR',
+    post: '',
     descriere: '',
-    numeDivizie:'',
+    numeDivizie: '',
     imagine: '',
-    file:[],
+    file: [],
   });
 
   const getPersoana = async () => {
@@ -160,7 +164,6 @@ const AddEditPersonal = () => {
       setDisabledButton(false);
       setShowEroareCalendar(true);
       setShowErrors(true);
-      console.log("Required fields must be completed!");
       setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
 
     }
@@ -170,7 +173,6 @@ const AddEditPersonal = () => {
       try {
         setDisabledButton(true);
         const response = await addPersoana(formValue.file, formValue);
-        console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmare/personal/");
         }
@@ -188,6 +190,7 @@ const AddEditPersonal = () => {
   const handleUpdate = async () => {
     if (!isFormValid()) {
       setShowEroareCalendar(true);
+      setDisabledButton(false);
       setShowErrors(true);
       setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
@@ -195,9 +198,14 @@ const AddEditPersonal = () => {
       setShowEroareCalendar(false);
       setShowErrors(false);
       try {
+        setDisabledButton(true);
         const response = await updatePersoana(id, formValue.file, formValue);
         if (response) {
           navigate("/confirmare/personal/");
+        }
+        else {
+          setDisabledButton(false);
+          setAlert({ type: 'danger', message: 'Eroare la actualizarea datelor!' });
         }
       } catch (error) {
         console.log(error);
@@ -514,11 +522,11 @@ const AddEditPersonal = () => {
             </Row>
 
             <Row className='mt-5 mb-5'>
-              <Col md={{ span: 4, offset: 0 }}></Col>
-              <Col md={{ span: 6, offset: 0 }}>
+              <Col md={{ span: 5, offset: 0 }}></Col>
+              <Col md={{ span: 5, offset: 0 }}>
                 <Row>
 
-                  <Col sm={{ span: 4, offset: 3 }}>
+                  <Col sm={{ span: 4, offset: 0 }}>
                     <Buton
                       variant="primary"
                       disabled={disabledButton}
@@ -532,9 +540,47 @@ const AddEditPersonal = () => {
                       }
                     />
                   </Col>
+
+                  <Col sm={{ span: 4, offset: 2 }} className={styles.phoneResolutionMarginTop}>
+                    <Buton
+                      variant='destructive'
+                      label='Anulează'
+                      disabled={disabledButton}
+                      onClick={() => togglePopup()}
+                    />
+                  </Col>
                 </Row>
               </Col>
             </Row>
+            {openPopup && (
+        <Popup
+          setOpenPopup={setOpenPopup}
+          openPopup={openPopup}
+          content={
+            <div className={styles.popup}>
+              <h3 className={styles.titlePopup}>Confirmare acțiuni efectuate</h3>
+              <p className={styles.descriptionPopup}>
+                Această acțiune este permanentă și nu poate fi anulată.
+              </p>
+              <div className={styles.butonsPopup}>
+                <button
+                  className={styles.backPopup}
+                  onClick={() => { navigate(-1) }}
+                >
+                  Confirm
+                </button>
+                <button
+                  className={styles.deletePopup}
+                  onClick={() => { togglePopup(); }}
+                >
+                  Renunț
+                </button>
+              </div>
+            </div>
+          }
+        />
+      )
+      }
           </Container >
         </>
         :

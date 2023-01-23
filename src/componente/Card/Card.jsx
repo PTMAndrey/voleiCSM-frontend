@@ -19,6 +19,7 @@ const Card = ({
   style,
   data,
   isHomePage,
+  caruselPopup,
 }) => {
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -27,7 +28,7 @@ const Card = ({
   const navigate = useNavigate();
 
   const { setAlert } = useStateProvider();
-  const { fetchStiribyFilter } = useStateProvider();
+  const { fetchStiribyFilter, fetchStiriPublicate } = useStateProvider();
 
   //grid view list view
   const { listView } = useStateProvider();
@@ -42,6 +43,7 @@ const Card = ({
       if (response.status === 200) {
         togglePopup();
         fetchStiribyFilter();
+        fetchStiriPublicate();
         setAlert({ type: 'success', message: 'Deleted' });
       }
     } catch (error) {
@@ -82,7 +84,7 @@ const Card = ({
                 }`}
             >
               <p className={styles.cardDataPublicarii}>
-                {moment(data?.dataPublicarii,'DD-MM-YYYY HH:mm').format('DD MMMM YYYY HH:mm')}
+                {moment(data?.dataPublicarii, 'DD-MM-YYYY HH:mm').format('DD MMMM YYYY HH:mm')}
               </p>
               <p className={styles.cardTitlu}>{data?.titlu}</p>
             </div>
@@ -96,7 +98,9 @@ const Card = ({
               }
             </p>
 
-            {data.hashtag && <p className='text-white' style={{ fontSize: '12px' }}>{data.hashtag}</p>}
+            {data.hashtag &&
+              <p className={`text-white ${styles.hashtag}`} style={{ fontSize: '12px' }}>{data.hashtag}</p>
+            }
 
             <div className={styles.citesteMaiMult}>
               <span onClick={() => navigate(`/noutati/${data?.id}`)}>
@@ -113,9 +117,9 @@ const Card = ({
 
             {user?.role && (
               <div onClick={stopPropagation} className={styles.controls}>
-                  <RiEdit2Fill className={styles.edit} onClick={() => {  console.log(`${data?.id}`); navigate(`/noutati/edit/${data?.id}`);}} />
+                <RiEdit2Fill className={styles.edit} onClick={() => { console.log(`${data?.id}`); navigate(`/noutati/edit/${data?.id}`); }} />
 
-                  <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
+                <RiDeleteBinFill className={styles.delete} onClick={() => togglePopup()} />
               </div>
             )}
 
@@ -126,6 +130,7 @@ const Card = ({
       {
         openPopup && (
           <Popup
+            caruselPopup={caruselPopup}
             setOpenPopup={setOpenPopup}
             openPopup={openPopup}
             content={

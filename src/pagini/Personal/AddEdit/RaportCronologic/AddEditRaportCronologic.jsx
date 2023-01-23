@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import { MdAddCircleOutline } from 'react-icons/md';
-import { useDropzone } from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Calendar } from 'react-calendar';
@@ -20,7 +21,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 const AddEditRaportCronologic = ({ pagina }) => {
-  const {Posturi} = useStateProvider()
+  const {Posturi,setAlert} = useStateProvider()
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -37,6 +38,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
   const [showCalendar, setShowCalendar] = useState({});
   const [idFieldToDelete, setIdFieldToDelete] = useState('');
   const [oldDates, setOldDates] = useState({});
+  const [disabledButton, setDisabledButton] = useState(false);
   
   // istoric posturi
   const [istoricPosturi, setIstoricPosturi] = useState([{
@@ -105,6 +107,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
     }
   };
   const handleChangeDropdown = (e, id) => {
+    // eslint-disable-next-line no-unused-vars
     const { value, label } = e;
     if (pagina === 'editRoluri' || pagina === 'adaugaRoluri') {
       const newRows = [...istoricPosturi];
@@ -138,10 +141,13 @@ const AddEditRaportCronologic = ({ pagina }) => {
   const handleSubmit = async () => {
     if (!isFormValid()) {
       setShowErrors(true);
+      setDisabledButton(false);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowErrors(false);
       try {
+        setDisabledButton(true);
         let response;
         if (pagina === 'adaugaRoluri')
           response = await addIstoricPosturiToId(id, istoricPosturi);
@@ -152,6 +158,10 @@ const AddEditRaportCronologic = ({ pagina }) => {
         if (response.status === 200) {
           navigate('/personal/' + id);
         }
+        else {
+          setDisabledButton(false);
+          setAlert({ type: 'danger', message: 'Eroare la trimiterea datelor!' });
+        }
 
       } catch (error) {
         console.log(error);
@@ -161,11 +171,14 @@ const AddEditRaportCronologic = ({ pagina }) => {
 
   const handleUpdate = async () => {
     if (!isFormValid()) {
+      setDisabledButton(false);
       setShowErrors(true);
+      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
     }
     if (isFormValid()) {
       setShowErrors(false);
       try {
+        setDisabledButton(true);
         let response;
         if (pagina === 'editRoluri')
           response = await updateIstoricPosturiToId(id, istoricPosturi);
@@ -175,6 +188,10 @@ const AddEditRaportCronologic = ({ pagina }) => {
 
         if (response.status === 200) {
           navigate('/personal/' + id);
+        }
+        else {
+          setDisabledButton(false);
+          setAlert({ type: 'danger', message: 'Eroare la actualizarea datelor!' });
         }
       } catch (error) {
         console.log(error);
@@ -514,6 +531,7 @@ const AddEditRaportCronologic = ({ pagina }) => {
                   <Col sm={{ span: 4, offset: 0 }}>
                     <Buton
                       variant='primary'
+                      disabled={disabledButton}
                       label={(pagina === 'editRoluri' || pagina === 'editPremii') ? 'Actualizează' : 'Publică'}
                       onClick={
                         (pagina === 'editRoluri' || pagina === 'editPremii')
@@ -524,9 +542,10 @@ const AddEditRaportCronologic = ({ pagina }) => {
                       }
                     />
                   </Col>
-                  <Col sm={{ span: 4, offset: 2 }}>
+                  <Col sm={{ span: 4, offset: 2 }} className={styles.phoneResolutionMarginTop}>
                     <Buton
                       variant='destructive'
+                      disabled={disabledButton}
                       label='Anulează'
                       onClick={() => togglePopup()}
                     />

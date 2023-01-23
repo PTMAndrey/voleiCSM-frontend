@@ -150,6 +150,12 @@
     overflow: hidden;
   }
 }
+.hashtag{
+    height: 50px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 .cardPrice {
   font-weight: $font-semibold;
@@ -215,7 +221,16 @@
 }
 
 .popup {
-  padding: 30px;
+  padding: 30px;  
+  @include medium{
+    padding:15px;
+  }
+  @media(max-width:750px){
+    padding:10px;
+  }
+  @include responsive_W550px {
+  padding: 20px;  
+  }
 }
 
 .titlePopup {
@@ -231,6 +246,9 @@
   color: $color-gray-700;
   margin: 20px 20px 30px 20px;
   text-align: center;
+  @include responsive_W550px {
+    margin: 0;
+  }
 }
 
 .butonsPopup {
@@ -238,14 +256,16 @@
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
+  min-width: 90px;
 
+  @include medium{
+    flex-direction: column;
+  }
+  @media(max-width:750px){
+    flex-direction: column;
+  }
   @include responsive_W550px {
     flex-direction: column;
-
-    & button {
-      margin: 10px 0 7px 0;
-
-    }
   }
 }
 
@@ -277,6 +297,19 @@
   &:hover {
     background-color: $color-primary-500;
     color: $color-white;
+  }
+  
+  @include medium{
+  padding: 5px 10px;
+  margin-top:10px;
+  }
+  @media(max-width:750px){
+  padding: 5px 10px;
+  margin-top:10px;
+  }
+  @include responsive_W550px{
+  padding: 5px 10px;
+  margin-top:10px;
   }
 }
 

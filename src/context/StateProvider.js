@@ -25,9 +25,6 @@ export const StateProvider = ({ children }) => {
   const [stiriOrdonate, setStiriOrdonate] = useState([]); // folosit in restul aplicatiei
   const [paginaCurentaStiri, setPaginaCurentaStiri] = useState(1);
 
-  // previzualizare Stiri
-  const [previzualizareStiri, setPrevizualizareStiri] = useState({});
-
   // show grid show list
   const [listView, setListView] = useState(false);
   // filtru pentru stiri
@@ -79,7 +76,10 @@ export const StateProvider = ({ children }) => {
   const fetchStiriPublicate = async () => {
     try {
       const response = await getStiriByStatus('PUBLICAT');
-      response ? setStiriPublicate(sortDataStiri(response)) : setStiriPublicate(null);
+      if (response?.status === 200)
+        setStiriPublicate(sortDataStiri(response.data))
+      else
+        setStiriPublicate(null);
 
     } catch (error) { }
   };
@@ -87,9 +87,9 @@ export const StateProvider = ({ children }) => {
   const fetchStiribyFilter = async () => {
     try {
       const response = await getStiriByFilter(filtruStiri);
-      if (response) {
-        setStiri(response);
-        setStiriOrdonate(sortDataStiri(response));
+      if (response?.status === 200) {
+        setStiri(response.data);
+        setStiriOrdonate(sortDataStiri(response.data));
         setPaginaCurentaStiri(1);
       }
       else { setStiri(null); setStiriOrdonate(null); }
@@ -213,8 +213,6 @@ export const StateProvider = ({ children }) => {
       alert,
       setAlert,
       pageSize,
-      previzualizareStiri,
-      setPrevizualizareStiri,
       listView,
       setListView,
 
@@ -229,6 +227,7 @@ export const StateProvider = ({ children }) => {
       filtruStiri,
       setFiltruStiri,
       fetchStiribyFilter,
+      fetchStiriPublicate,
 
       meciuriOrdonate,
       setMeciuriOrdonate,

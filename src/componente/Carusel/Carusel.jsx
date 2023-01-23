@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
@@ -16,6 +16,7 @@ import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg
 const Carusel = ({
     data,
     titluCarousel,
+    caruselPopup,
 }) => {
     const { width } = useWindowDimensions();
     const navigate = useNavigate();
@@ -53,6 +54,7 @@ const Carusel = ({
                                     style={{ width: "90%" }}
                                     data={_data}
                                     isHomePage
+                                    caruselPopup={caruselPopup}
                                     onClick={() => {
                                         navigate("/noutati/" + _data?.id);
                                     }}
@@ -76,6 +78,7 @@ const Carusel = ({
                                     style={{ width: "90%", backgroundColor: "#1B1D49" }}
                                     data={_data}
                                     isHomePage
+                                    caruselPopup={caruselPopup}
                                     onClick={() => {
                                         navigate("/noutati/" + _data?.id);
                                     }}
