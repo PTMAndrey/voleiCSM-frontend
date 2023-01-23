@@ -46,9 +46,10 @@ const CardPersonal = ({ data }) => {
             <Card className={styles.personalContainer} onClick={() => { navigate("/personal/" + data?.id); }} >
                 <div className={styles.imgContainer}>
                     <Card.Img className={`${styles.imagesDiv} ${styles.imagine}`} variant="top" src={`${data.imagine ? data.imagine : defaultAvatar}`} />
-                </div><Card.Body>
+                </div>
+                <Card.Body>
                     {data ?
-                        <Card.Title className={styles.alignCenter} >{data.nume + ' ' + data.prenume}</Card.Title>
+                        <Card.Title className={`${styles.alignCenter} ${styles.nume}`} >{data.nume + ' ' + data.prenume}</Card.Title>
                         :
                         <Card.Title className={styles.alignCenter} >Jucator</Card.Title>
                     }

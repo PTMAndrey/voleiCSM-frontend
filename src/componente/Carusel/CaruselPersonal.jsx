@@ -9,10 +9,9 @@ import "swiper/css/navigation";
 
 import styles from "./Carusel.module.scss";
 import Buton from "../Buton/Buton";
-import Card from "../Card/Card";
 import useWindowDimensions from "../../hooks/useWindowDimensions"
-
 import { ReactComponent as ArrowRight } from "../../assets/icons/arrow-right.svg";
+import CardPersonal from '../Card/CardPersonal';
 const Carusel = ({
     data,
     titluCarousel,
@@ -28,33 +27,33 @@ const Carusel = ({
             <div>
                 <div className={styles.headerSwiper}>
                     <h5 className='text-black mr-5'>{titluCarousel}</h5>
-                    <span onClick={() => navigate("/noutati")}>
+                    <span onClick={() => navigate("/personal")}>
                         <Buton
                             icon={<ArrowRight />}
                             position="right"
                             variant="tertiary"
-                            label="Vezi toate"
+                            label="Personal"
                         />
                     </span>
                 </div>
 
-                {width < 550 ?
+                {width < 651 ?
                     <Swiper
                         slidesPerView={1}
-                        spaceBetween={1}
-                        slidesPerGroup={1}
-                        navigation={true}
-                        modules={[Pagination, Navigation]}
+                        // spaceBetween={30}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        modules={[Pagination,Navigation]}
                         className={`mySwiper ${styles.centrareStire}`}>
 
-                        {data?.slice(0, 3).map((_data) =>
+                        {data?.slice(0, data.length).map((_data) =>
                             <SwiperSlide key={_data.id}>
-                                <Card
-                                    style={{ width: "90%" }}
+                                <CardPersonal
+                                    style={{ width: "90%", marginLeft:'150px'}}
                                     data={_data}
-                                    isHomePage
                                     onClick={() => {
-                                        navigate("/noutati/" + _data?.id);
+                                        navigate("/personal/" + _data?.id);
                                     }}
                                 />
                             </SwiperSlide>
@@ -62,22 +61,23 @@ const Carusel = ({
                         }
                     </Swiper>
                     :
+
                     <Swiper
                         slidesPerView={3}
-                        spaceBetween={1}
-                        slidesPerGroup={1}
-                        navigation={true}
+                        spaceBetween={30}
+                        pagination={{
+                            clickable: true,
+                        }}
                         modules={[Pagination, Navigation]}
-                        className='mySwiper'>
+                        className={`mySwiper ${styles.centrareStire}`}>
 
-                        {data?.slice(0, 3).map(_data =>
+                        {data?.slice(0, data.length).map(_data =>
                             <SwiperSlide key={_data.id}>
-                                <Card
+                                <CardPersonal
                                     style={{ width: "90%", backgroundColor: "#1B1D49" }}
                                     data={_data}
-                                    isHomePage
                                     onClick={() => {
-                                        navigate("/noutati/" + _data?.id);
+                                        navigate("/personal/" + _data?.id);
                                     }}
                                 />
                             </SwiperSlide>

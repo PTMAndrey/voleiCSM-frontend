@@ -30,7 +30,7 @@ import TextArea from "../../../../componente/TextArea/TextArea";
 const AddEditPersonal = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { previzualizarePersonal, setAlert, setPrevizualizarePersonal, divizii, Posturi } = useStateProvider();
+  const { setAlert, divizii, Posturi } = useStateProvider();
   const { id } = useParams();
   useEffect(() => {
     if (id && id.length < 30)
@@ -47,20 +47,20 @@ const AddEditPersonal = () => {
   const [disabledButton, setDisabledButton] = useState(false);
 
   // form data
-  const [file, setFile] = useState({ file: previzualizarePersonal.file } || []);
-  const [fileInForm, setFileInForm] = useState({ file: previzualizarePersonal.file } || []);
+  const [file, setFile] = useState({});
+  const [fileInForm, setFileInForm] = useState({});
   const [formValue, setFormValue] = useState({
-    nume: previzualizarePersonal.nume || '',
-    prenume: previzualizarePersonal.prenume || '',
-    dataNasterii: previzualizarePersonal.dataNasterii || '',
-    inaltime: previzualizarePersonal.inaltime || "",
-    nationalitate: previzualizarePersonal.nationalitate || '',
-    personal: previzualizarePersonal.personal || 'JUCATOR',
-    post: previzualizarePersonal.post || '',
-    descriere: previzualizarePersonal.descriere || '',
-    numeDivizie: previzualizarePersonal.numeDivizie || '',
-    imagine: previzualizarePersonal.imagine || '',
-    file: previzualizarePersonal.file || [],
+    nume: '',
+    prenume: '',
+    dataNasterii: '',
+    inaltime: "",
+    nationalitate: '',
+    personal:'JUCATOR',
+    post:'',
+    descriere: '',
+    numeDivizie:'',
+    imagine: '',
+    file:[],
   });
 
   const getPersoana = async () => {
@@ -110,10 +110,6 @@ const AddEditPersonal = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    setPrevizualizarePersonal(formValue);
-  }, [formValue]);
-
   let Divizii = [];
   useEffect(() => {
     divizii?.map(divizie =>
@@ -161,6 +157,7 @@ const AddEditPersonal = () => {
   // handleSubmit
   const handleSubmit = async () => {
     if (!isFormValid()) {
+      setDisabledButton(false);
       setShowEroareCalendar(true);
       setShowErrors(true);
       console.log("Required fields must be completed!");
@@ -176,10 +173,11 @@ const AddEditPersonal = () => {
         console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmare/personal/");
-          setPrevizualizarePersonal({});
         }
-        else
+        else {
+          setDisabledButton(false);
           setAlert({ type: 'danger', message: 'Eroare la trimiterea datelor!' });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -200,26 +198,10 @@ const AddEditPersonal = () => {
         const response = await updatePersoana(id, formValue.file, formValue);
         if (response) {
           navigate("/confirmare/personal/");
-          setPrevizualizarePersonal({});
         }
       } catch (error) {
         console.log(error);
       }
-    }
-  };
-
-  //handle Previzualizare
-  const handlePrevizualizare = () => {
-    if (!isFormValid()) {
-      setShowErrors(true);
-      setShowEroareCalendar(true);
-      setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
-    }
-    if (isFormValid()) {
-      setShowErrors(false);
-      setShowEroareCalendar(false);
-      setPrevizualizarePersonal(formValue);
-      navigate("./preview");
     }
   };
 
@@ -535,15 +517,6 @@ const AddEditPersonal = () => {
               <Col md={{ span: 4, offset: 0 }}></Col>
               <Col md={{ span: 6, offset: 0 }}>
                 <Row>
-                  <Col sm={{ span: 4, offset: 1 }}>
-                    {!id && (
-                      <Buton
-                        variant="secondary"
-                        label="Previzualizare"
-                        onClick={handlePrevizualizare}
-                      />
-                    )}
-                  </Col>
 
                   <Col sm={{ span: 4, offset: 3 }}>
                     <Buton

@@ -12,7 +12,6 @@ const CalendarMeciuri = () => {
   // view
   const { meciuriOrdonate, paginaCurentaMeciuri } = useStateProvider();
   const { fetchMeciuribyFilter, filtruMeciuri, setFiltruMeciuri, filtruOrdonareMeciuri, setFiltruOrdonareMeciuri } = useStateProvider();
-  const { setPrevizualizareMeciuri } = useStateProvider();
   const { pageSize } = useStateProvider();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -64,7 +63,6 @@ const CalendarMeciuri = () => {
                   label="Adaugă meci"
                   className={styles.addMeciuri}
                   onClick={() => {
-                    setPrevizualizareMeciuri({});
                     navigate("/calendar/adauga");
                   }}
                 />
