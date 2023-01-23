@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
@@ -15,6 +15,7 @@ import CardPersonal from '../Card/CardPersonal';
 const Carusel = ({
     data,
     titluCarousel,
+    caruselPopup,
 }) => {
     const { width } = useWindowDimensions();
     const navigate = useNavigate();
@@ -44,14 +45,15 @@ const Carusel = ({
                         pagination={{
                             clickable: true,
                         }}
-                        modules={[Pagination,Navigation]}
+                        modules={[Pagination, Navigation]}
                         className={`mySwiper ${styles.centrareStire}`}>
 
                         {data?.slice(0, data.length).map((_data) =>
                             <SwiperSlide key={_data.id}>
                                 <CardPersonal
-                                    style={{ width: "90%", marginLeft:'150px'}}
+                                    style={{ width: "90%", marginLeft: '150px' }}
                                     data={_data}
+                                    caruselPopup={caruselPopup}
                                     onClick={() => {
                                         navigate("/personal/" + _data?.id);
                                     }}
@@ -76,6 +78,7 @@ const Carusel = ({
                                 <CardPersonal
                                     style={{ width: "90%", backgroundColor: "#1B1D49" }}
                                     data={_data}
+                                    caruselPopup={caruselPopup}
                                     onClick={() => {
                                         navigate("/personal/" + _data?.id);
                                     }}

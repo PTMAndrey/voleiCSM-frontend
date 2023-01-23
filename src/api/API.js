@@ -1,4 +1,6 @@
+/* eslint-disable array-callback-return */
 import axios from 'axios';
+import {users} from '../assets/users/users';
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.headers = {
   // 'Content-Type': 'multipart/form-data',
@@ -11,10 +13,27 @@ axios.defaults.headers = {
 
 // ---------------------------- USER ----------------------------------
 
+export const getUserById = async (id) => {
+  try {
+    let response = ({data: [], status: 500})
+
+    users.map(user => {
+      if (user.id === id ) {
+       response.data = user;
+       response.status = 200;
+      }
+    })
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 export const getStiriByStatus = async (status) => {
   try {
     const response = await axios.get('/stiri?status=' + status);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
   }
@@ -36,7 +55,7 @@ export const getStiriByFilter = async (stire) => {
 
     response = await axios.get(defaultURL);
 
-    return response.data;
+    return response;
 
   } catch (error) {
     console.error(error);
@@ -61,9 +80,13 @@ export const getStireById = async (id) => {
   }
 };
 
-export const addStire = async (stiri) => {
+export const addStire = async (file, data) => {
   try {
-    const response = await axios.post('/stiri', stiri);
+    console.log('api',file,'\n',data)
+    const response = await axios.post('/stiri', data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file}
+    });
     return response;
   } catch (error) {
     console.error(error);
@@ -71,27 +94,12 @@ export const addStire = async (stiri) => {
 };
 
 
-
-// export const addStire = async (file, stire) => {
-//   try {
-//     const response = await axios.post('/stiri', stire, 
-//       {
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//         }
-//       },);
-//     if (response.status === 200)
-//       return response;
-//     else
-//       return null;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-export const updateStire = async (data) => {
+export const updateStire = async (id,file,data) => {
   try {
-    const response = await axios.post('/stiri/' + data.id, data); // put ???
+    const response = await axios.put('/stiri/'+id, data,{
+      headers:{'Content-Type': 'multipart/form-data',},
+      params:{file:file ? file : null}
+    });
     return response;
   } catch (error) {
     console.error(error);

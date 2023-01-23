@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router';
 
 const Stiri = () => {
   // view
-  const { setListView, stiriOrdonate, setPrevizualizareStiri  } = useStateProvider();
+  const { setListView, stiriOrdonate } = useStateProvider();
   const { fetchStiribyFilter, filtruStiri, setFiltruStiri } = useStateProvider();
 
   const navigate = useNavigate();
@@ -73,7 +73,6 @@ const Stiri = () => {
                 label="Adaugă știre"
                 className={styles.addStire}
                 onClick={() => {
-                  setPrevizualizareStiri({});
                   navigate("/noutati/adauga");
                 }}
               />
@@ -90,11 +89,11 @@ const Stiri = () => {
 
             </div>
           }
-          { (stiriOrdonate === null || stiriOrdonate === undefined) &&
+          {stiriOrdonate?.length < 1 ?
             <h2 style={{ marginTop: '25px' }}>Momentan nu există știri care să îndeplinească filtrele selectate</h2>
+            :
+            <ListStiri currentTableData={currentTableData} />
           }
-          {!user?.role && <div style={{ marginTop: '20px' }}></div>}
-          <ListStiri currentTableData={currentTableData}/>
         </div>
 
       </div>

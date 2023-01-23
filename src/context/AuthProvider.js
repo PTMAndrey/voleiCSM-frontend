@@ -4,9 +4,6 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   // user
   const [user, setUser] = useState(null);
-
-  const [userId, setUserId] = useState(sessionStorage.getItem("userId") || null);
-
   const fetchUser = async () => {
     try {
       const response = sessionStorage.getItem('user');
@@ -19,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  }, []);
 
   // logout function
   function logout() {

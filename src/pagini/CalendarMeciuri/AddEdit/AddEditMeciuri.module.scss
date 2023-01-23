@@ -67,6 +67,11 @@ div>label>input {
   margin-top: 4px;
 }
 
+.phoneResolutionMarginTop{
+  @include responsive_W550px{
+    margin-top:30px;
+  }
+}
 
 .popup {
   padding: 30px;

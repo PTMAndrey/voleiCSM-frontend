@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,7 +8,7 @@ import { RiDeleteBinFill } from 'react-icons/ri';
 import moment from "moment";
 import 'moment/locale/ro';
 import { ReactComponent as AvatarDefault } from "../../../assets/images/Jucator-Default.svg";
-import { deleteIstoricPosturiById, deletePersonalById, deleteRealizarePersonalaById, getPersonalById } from "../../../api/API";
+import { deleteIstoricPosturiById, deleteRealizarePersonalaById, getPersonalById } from "../../../api/API";
 import useStateProvider from "../../../hooks/useStateProvider";
 import useAuth from "../../../hooks/useAuth";
 import styles from "./Persoana.module.scss";
@@ -23,7 +24,7 @@ const Persoana = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [openPopup, setOpenPopup] = useState(false);
-  const { setAlert, filtruPersonal } = useStateProvider();
+  const { setAlert } = useStateProvider();
 
   // states for the details page
   const [persoana, setPersoana] = useState(null);
@@ -64,8 +65,8 @@ const Persoana = () => {
 
   // const [editorState, setEditorState] = useState(persoana?.descriere ?  EditorState.createWithContent(convertFromRaw(JSON.parse(persoana?.descriere))) : EditorState.createEmpty()) 
 
-  const getHtml = editorState => JSON.stringify(editorState.getCurrentContent());
-  const readOnly = false;
+  // const getHtml = editorState => JSON.stringify(editorState.getCurrentContent());
+  // const readOnly = false;
   const [editorState, setEditorState] = useState(
     EditorState.createEmpty());
 

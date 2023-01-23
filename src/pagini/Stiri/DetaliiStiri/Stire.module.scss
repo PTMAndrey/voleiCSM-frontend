@@ -115,8 +115,8 @@
         width: 100%;
 
         .description {
-          margin-top:20px;
-          padding:15px;
+          margin-top: 20px;
+          padding: 15px;
           border: 1px solid $color-gray-100;
           border-radius: 12px;
         }
@@ -124,7 +124,7 @@
     }
 
     .ownerDetails {
-      border: 1px solid $color-gray-100;
+      border: 2px solid $color-gray-100;
       border-radius: 12px;
       padding: 20px;
       display: flex;
@@ -139,11 +139,16 @@
         margin-right: 12px;
       }
 
+      .ownerName {
+        font-weight: $font-bold;
+        margin-top: 10px;
+      }
+
       >div {
         >h6 {
           font-size: $font-body-normal;
-          font-weight: $font-bold;
-          line-height: 24px;
+          // font-weight: $font-bold;
+          line-height: 20px;
           color: $color-black;
           margin-bottom: 4px;
         }
@@ -181,7 +186,9 @@
     margin-top: 7%;
     width: 100%;
     height: auto;
+    border: 2px solid $color-yellow;
     background-color: rgba(13, 4, 11, 0.25);
+    border-radius: 0 50px;
     padding: 20px;
   }
 }

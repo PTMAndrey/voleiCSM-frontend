@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './FiltreStiri.module.scss';
 import { getStiriByFilter } from '../../../api/API';
 import useStateProvider from '../../../hooks/useStateProvider';
@@ -11,6 +11,7 @@ const FiltreStiri = (props) => {
 
     const handleFilter = async () => {
         try{
+            // eslint-disable-next-line no-unused-vars
             let response = await getStiriByFilter(filtruStiri)
         }catch(e){
             console.log(e);
@@ -155,7 +156,6 @@ const FiltreStiri = (props) => {
                     <div>
                         <br/><h5>Alege zi</h5>
                         <Calendar onChange={(e)=>{
-                        console.log("calendar",( e.getDate() < 10 ? ('0'+String(e.getDate()) ) : e.getDate())+'-'+((e.getMonth()+1) < 10 ? ('0'+String(e.getMonth()+1)) : (e.getMonth()+1))+'-'+e.getFullYear());
                         handleFilter(); 
                         setFiltruStiri({...filtruStiri, numarZile:'', perioadaSpecifica:{firstDay:'',lastDay:''}, dataSpecifica:( e.getDate() < 10 ? ('0'+String(e.getDate()) ) : e.getDate())+'-'+( (e.getMonth()+1) < 10 ? ('0'+String(e.getMonth()+1)) : (e.getMonth()+1) )+'-'+e.getFullYear()})
                         }} minDate={new Date(2010, 1, 1)}/></div>

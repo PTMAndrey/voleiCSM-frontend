@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import Iframe from 'react-iframe';
 import parse from 'date-fns/parse'
@@ -18,10 +19,9 @@ import Carusel from '../../componente/Carusel/Carusel';
 import CaruselPersonal from '../../componente/Carusel/CaruselPersonal';
 import { getMeciuriByStatus } from '../../api/API';
 import styles from './PaginaPrincipala.module.scss'
-import { Col, Row } from 'react-bootstrap';
 
 const PaginaPrincipala = () => {
-  const { stiriPublicate, personal, meciuriOrdonate } = useStateProvider();
+  const { stiriPublicate, personal } = useStateProvider();
 
   const [meciViitor, setMeciViitor] = useState([]);
   const [meciRezultat, setMeciRezultat] = useState([]);
@@ -97,13 +97,13 @@ const PaginaPrincipala = () => {
         {/* ################  ULTIMELE NOUTATI ################ */}
         {stiriPublicate?.length > 0 &&
           <div className={styles.stiri}>
-            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' />
+            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' caruselPopup={true}/>
           </div>
         }
         {/* ################  PERSONAL ################ */}
         {personal?.length > 0 &&
           <div className={styles.personal}>
-            <CaruselPersonal data={personal} titluCarousel='Întâlnește echipa' />
+            <CaruselPersonal data={personal} titluCarousel='Întâlnește echipa' caruselPopup={true} />
           </div>
         }
 

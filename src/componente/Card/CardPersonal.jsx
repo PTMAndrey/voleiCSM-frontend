@@ -9,7 +9,7 @@ import useStateProvider from '../../hooks/useStateProvider';
 import Popup from '../../pagini/PaginaPrincipala/Popup';
 import styles from './Card.module.scss';
 
-const CardPersonal = ({ data }) => {
+const CardPersonal = ({ data,caruselPopup }) => {
     const { user } = useAuth();
     const [openPopup, setOpenPopup] = useState(false);
     const { setAlert, fetchPersonalbyFilter, filtruPersonal } = useStateProvider();
@@ -70,6 +70,7 @@ const CardPersonal = ({ data }) => {
             {
                 openPopup && (
                     <Popup
+                        caruselPopup={caruselPopup}
                         setOpenPopup={setOpenPopup}
                         openPopup={openPopup}
                         content={
