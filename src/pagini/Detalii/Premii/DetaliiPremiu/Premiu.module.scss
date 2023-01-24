@@ -1,0 +1,200 @@
+@import '../../../../styles/variables.scss';
+@import '../../../../styles/mixins.scss';
+
+.cardPremiu {
+    display: flex !important;
+    background-color: $color-dark-blue !important;
+    color: $color-yellow !important;
+    width: 100vw !important;
+}
+
+.descrierePremiu {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    width: 100%;
+}
+
+.coloana {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center;
+    font-weight: $font-bold;
+
+    h4 {
+        margin-bottom: 20px;
+    }
+}
+
+.coloana .text {
+    color: white !important;
+    justify-content: center !important;
+}
+
+.divider {
+    border-bottom: 2px solid transparent;
+}
+
+@include responsive_W550px {
+
+    .cardPremiu {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-width: 150px !important;
+    }
+
+    .descrierePremiu {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+
+        * {
+            padding: 20px 0;
+        }
+    }
+
+    .divider {
+        border-bottom: 2px solid gray;
+    }
+}
+
+
+.controls {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    border-top: 1px solid $color-yellow;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 20px;
+
+    .delete {
+        fill: white !important;
+        margin-left: 100px;
+
+        &:hover {
+            background-color: $color-primary-500;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+    }
+
+    .edit {
+        fill: white !important;
+
+        &:hover {
+            background-color: $color-primary-500;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+    }
+
+    @include responsive_W550px {
+        .delete {
+            margin-left: 20px;
+        }
+    }
+}
+
+
+
+.popup {
+    padding: 30px;  
+    @include medium{
+      padding:15px;
+    }
+    @media(max-width:750px){
+      padding:10px;
+    }
+    @include responsive_W550px {
+    padding: 20px;  
+    }
+  }
+  
+  .titlePopup {
+    font-weight: 700;
+    font-size: $font-h5;
+    text-align: center;
+    color: $color-black;
+  }
+  
+  .descriptionPopup {
+    font-weight: 400;
+    font-size: $font-body-small;
+    color: $color-gray-700;
+    margin: 20px 20px 30px 20px;
+    text-align: center;
+    @include responsive_W550px {
+      margin: 0;
+    }
+  }
+  
+  .butonsPopup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    min-width: 90px;
+  
+    @include medium{
+      flex-direction: column;
+    }
+    @media(max-width:750px){
+      flex-direction: column;
+    }
+    @include responsive_W550px {
+      flex-direction: column;
+    }
+  }
+  
+  .deletePopup {
+    cursor: pointer;
+    padding: 5px 20px;
+    background-color: $color-alert-400;
+    border-radius: 5px;
+    font-weight: 600;
+    color: $color-white;
+    border: 1px solid;
+  
+    &:hover {
+      color: $color-alert-700;
+      background-color: $color-white;
+      border: 1px solid $color-alert-400;
+    }
+  }
+  
+  .backPopup {
+    cursor: pointer;
+    padding: 5px 20px;
+    background-color: transparent;
+    border: 1px solid $color-primary-500;
+    color: $color-primary-500;
+    border-radius: 5px;
+    font-weight: 600;
+  
+    &:hover {
+      background-color: $color-primary-500;
+      color: $color-white;
+    }
+    
+    @include medium{
+    padding: 5px 10px;
+    margin-top:10px;
+    }
+    @media(max-width:750px){
+    padding: 5px 10px;
+    margin-top:10px;
+    }
+    @include responsive_W550px{
+    padding: 5px 10px;
+    margin-top:10px;
+    }
+  }
+  
+

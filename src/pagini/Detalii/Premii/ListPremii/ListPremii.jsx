@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import CardPersonal from '../../../componente/Card/CardPersonal';
+import Premiu from '../DetaliiPremiu/Premiu';
 import styles from './ListPremii.module.scss';
 import { Col, Row } from 'react-bootstrap';
-import Paginare from '../../../componente/Paginare/Paginare';
-import useStateProvider from '../../../hooks/useStateProvider';
+import Paginare from '../../../../componente/Paginare/Paginare';
+import useStateProvider from '../../../../hooks/useStateProvider';
 import { useNavigate } from 'react-router-dom';
 
 const ListPersonal = (props) => {
@@ -12,6 +12,7 @@ const ListPersonal = (props) => {
   function stopPropagation(e) {
     e.stopPropagation();
   }
+  let numeEchipa = String(props.numeEchipa)[0].toUpperCase() + String(props.numeEchipa).substr(1).toLowerCase();
   return (
     <>
       {props.currentTableData?.length > 1 &&
@@ -29,11 +30,9 @@ const ListPersonal = (props) => {
           <Row className={styles.dataRow}>
             {
               props.currentTableData?.map((data, index) => (
-                // <Fragment>
                   <Col className={styles.dataCol} key={`${data?.id}_${index + Math.random()}`} >
-                    <CardPersonal data={data} />
+                    <Premiu data={data} />
                   </Col>
-                // </Fragment>
               ))
             }
           </Row>
@@ -42,7 +41,7 @@ const ListPersonal = (props) => {
         (
           (props.currentTableData === null || props.currentTableData === undefined || props.currentTableData.length === 0) &&
           <div className={styles.data}>
-            <h2>Nu există personal corespunzător filtrelor aplicate.</h2>
+            <h2>Echipa „{numeEchipa}” nu deține un istoric de premii</h2>
           </div>
         )
       }
