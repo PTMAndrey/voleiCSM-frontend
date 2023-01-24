@@ -1,0 +1,97 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.containerParteneri {
+    display: flex;
+    flex-direction: column;
+    margin-top: -50px;
+
+    @include responsive_W550px {
+        justify-content: center;
+        // flex-direction: row;
+    }
+}
+
+.titluPartener {
+    font-size: $font-h3;
+    font-weight: 700;
+    color: $color-white;
+    background-color: #1B1D49;
+    padding: 15px;
+    width: 100%;
+
+    @include responsive_W550px {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.parteneriBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    @include responsive_W550px {
+        justify-content: center;
+        align-items: center;
+    }
+
+}
+
+.cardPartener {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background-color: $color-dark-blue !important;
+    color: white !important;
+    width: 100% !important;
+}
+
+.logoPartner {
+    // width:250px;
+    width: 30% !important;
+    height: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    .imgPartener {
+        width: 75% !important;
+        height: 150px !important;
+        border: 2px solid $color-yellow !important;
+        padding: 10px !important;
+    }
+}
+
+.descrierePartener {
+    width: 70% !important;
+
+    .linkPartener {
+        width: 30% !important;
+        min-width: 100px !important;
+    }
+}
+
+@include responsive_W550px {
+
+    .cardPartener {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-width: 150px !important;
+    }
+
+    .logoPartner {
+        width: 100% !important;
+        height: 200px !important;
+        border-bottom: 2px solid gray !important;
+    }
+
+    .descrierePartener {
+        width: 100% !important;
+    }
+
+}

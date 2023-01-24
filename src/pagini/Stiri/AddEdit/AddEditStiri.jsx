@@ -57,33 +57,36 @@ const AddEditStiri = () => {
   const [file, setFile] = useState({});
   const [fileInForm, setFileInForm] = useState({});
   const [formValue, setFormValue] = useState({
-    file: [],
     titlu: '',
     autor: '',
     descriere: '',
     status: 'PUBLICAT',
     dataPublicarii: String(getCurrentData()),
     hashtag: '',
-    imagine: [],
+    imagini: [],
+    imaginiURL: [],
     videoclipuri: '',
+    file: [],
   });
 
   const getStire = async () => {
     const response = await getStireById(id);
     if (response?.status === 200) {
       setFormValue({
-        autor: response.data.autor,
         id: response.data.id,
         titlu: response.data.titlu,
-        imagine: response.data.imagini,
-        imaginiURL: response.data.imaginiURL,
+        autor: response.data.autor,
         descriere: response.data.descriere,
         hashtag: response.data.hashtag || '',
         status: response.data.status,
         dataPublicarii: response.data.dataPublicarii,
+        imagini: response.data.imagini,
+        imaginiURL: response.data.imaginiURL,
         videoclipuri: response.data.videoclipuri,
       });
       console.log('edit', response.data);
+      setDataCalendarEdit(moment(response.data.dataPublicarii, 'DD-MM-YYYY hh:mm').toDate())
+      setDataCalendar(response.data.dataPublicarii)
     }
   };
   //------------------------------ useEffect
@@ -113,6 +116,7 @@ const AddEditStiri = () => {
     acceptedFiles.map((file) => {
       const reader = new FileReader();
       reader.onload = function (e) {
+        console.log('file',e.target.result);
         setFile((prevState) => {
           return {
             ...prevState,
@@ -137,6 +141,15 @@ const AddEditStiri = () => {
         file: prevState.file.filter((imagine, i) => i !== index),
       };
     });
+    if(id){
+      setFormValue((prevState) => {
+        return {
+          ...prevState,
+          imagini: prevState.imagini.filter((image, i) => i !== index),
+          imaginiURL: prevState.imaginiURL.filter((image, i) => i !== index),
+        };
+      });
+    }
   };
 
   const handleSubmit = async () => {
@@ -335,7 +348,7 @@ const AddEditStiri = () => {
       <Row style={{ marginTop: '40px' }}>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
-            <h3>{'Imagini & videoclipuri'}</h3>
+            <h3>Imagini</h3>
           </div>
         </Col>
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
@@ -360,36 +373,37 @@ const AddEditStiri = () => {
             {formValue?.imagini?.length < 9 && <Dropzone onDrop={handleDrop} />} */}
 
             {file?.file ?
-              <div className={styles.previzualizarePersonal}>
-                <img src={file?.file} alt="" />
-                <RiDeleteBinFill onClick={() => {
-                  handleDelete();
-                }} />
-              </div>
+              <>{file?.file.map((img,index)=>(
+                <div key={index} className={styles.previzualizareStiri}>
+                  <img src={img} alt="" />
+                  <RiDeleteBinFill onClick={() => {
+                    handleDelete(index);
+                  }} />
+                </div>
+              ))}</>
               :
-              formValue?.imagine &&
-              <div className={styles.previzualizarePersonal}>
-                <img src={formValue?.imagine} alt="" />
+              formValue?.imaginiURL &&
+              <>{formValue?.imaginiURL.map((img,index)=>(
+              <div key={index} className={styles.previzualizareStiri}>
+                <img src={img} alt="" />
                 <RiDeleteBinFill onClick={() => {
-                  handleDelete();
+                  handleDelete(index);
                 }} />
               </div>
+              ))}</>
             }
             {/* dropzone */}
-            {!formValue.imagine ? <>
-              {fileInForm?.file?.length < 10 &&
                 <Dropzone onDrop={handleDrop}
                   error={showErrors && checkErrors('file') ? true : false}
                   helper={showErrors ? checkErrors('file') : ''}
-                />}
+                />
 
-              {fileInForm?.file === undefined &&
+              {/* {fileInForm?.file === undefined &&
                 <Dropzone onDrop={handleDrop}
                   error={showErrors && checkErrors('file') ? true : false}
                   helper={showErrors ? checkErrors('file') : ''}
-                />}
-            </>
-              : null}
+                />} */}
+           
 
           </Col>
           {showErrors && (

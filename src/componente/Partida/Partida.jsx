@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -28,11 +28,15 @@ const Partida = ({ data }) => {
     function stopPropagation(e) {
         e.stopPropagation();
     }
+    const location = useLocation();
     const handleDelete = async () => {
         try {
             const response = await deleteMeciById(data?.id);
             if (response.status === 200) {
                 togglePopup();
+                console.log(location);
+                if(location.pathname === '/')
+                    window.location.reload();
                 fetchMeciuribyFilter();
                 setAlert({ type: 'success', message: 'Deleted' });
             }
