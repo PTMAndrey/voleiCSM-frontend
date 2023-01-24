@@ -36,6 +36,8 @@ import './App.scss';
 import Parteneri from './pagini/Parteneri/Parteneri.jsx';
 import Viziune from './pagini/Detalii/Viziune/Viziune.jsx';
 import Istorie from './pagini/Detalii/Istorie/Istorie.jsx';
+import Premii from './pagini/Detalii/Premii/Premii.jsx';
+import AddEditPremii from './pagini/Detalii/Premii/AddEdit/AddEditPremii.jsx';
 function App() {
   const { width } = useWindowDimensions();
   const { alert } = useStateProvider();
@@ -67,6 +69,8 @@ function App() {
             <Route path='/personal/adauga/premii/:id' element={<AddEditRaportCronologic pagina="adaugaPremii" />} />
             <Route path='/personal/edit/roluri/:id' element={<AddEditRaportCronologic pagina="editRoluri" />} />
             <Route path='/personal/edit/premii/:id' element={<AddEditRaportCronologic pagina="editPremii" />} />
+            <Route path='/detalii/adauga/premii' element={<AddEditPremii />} />
+            <Route path='/detalii/edit/premii/:id' element={<AddEditPremii />} />
 
 
             <Route path='/confirmare/noutati/' element={<Confirmare pagina={'Noutati'} />} />
@@ -115,6 +119,7 @@ function App() {
             <Route path='/parteneri' element={<Layout><Parteneri /></Layout>} />
             <Route path='/detalii/viziune' element={<Layout><Viziune /></Layout>} />
             <Route path='/detalii/istorie' element={<Layout><Istorie /></Layout>} />
+            <Route path='/detalii/premii' element={<Layout><Premii/></Layout>} />
             
             <Route path='/not-found' element={<Layout><NotFound /></Layout>} />
             <Route path='*' element={<Layout><NotFound /></Layout>} />

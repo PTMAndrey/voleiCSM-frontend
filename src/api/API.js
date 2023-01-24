@@ -230,6 +230,7 @@ export const getPersonalByFilter = async (personal) => {
   }
 };
 
+
 export const getPersonalById = async (id) => {
   try {
     const response = await axios.get('/persoana/' + id);
@@ -328,6 +329,58 @@ export const getDivizii = async (id) => {
   try {
     const response = await axios.get('/divizii');
     return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const getPremiiPersonalByFilter = async (data) => {
+  try {
+    const response = await axios.get('/premii/filtru?divizie=' + data.divizie);
+
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addPremiu = async (data) => {
+  try {
+    const response = await axios.post('/premii/', data);
+    return response;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const updatePremiu = async (data) => {
+  try {
+    const response = await axios.put('/premii/', data);
+    return response;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+export const getPremiuById = async (id) => {
+  try {
+    const response = await axios.get('/premii/' + id);
+    return response;
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePremiubyId = async (id) => {
+  try {
+    const response = await axios.delete('/premii/' + id);
+    return response;
+
   } catch (error) {
     console.error(error);
   }

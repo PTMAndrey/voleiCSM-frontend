@@ -19,6 +19,7 @@ const Navigare = (props) => {
   const { logout } = useAuth();
   const handleLogout = () => {
     logout();
+    navigate('/');
   }
   return (
     <Navbar key={props.expand} bg="light" expand={props.expand} className={`mb-3 border-bottom ${width <= 750 && styles.stickyNav}`}>
@@ -53,6 +54,10 @@ const Navigare = (props) => {
                   <NavDropdown.Divider />
                   <NavDropdown.Item className={styles.hello} href='/detalii/istorie'>
                     Istorie
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item className={styles.hello} href='/detalii/premii'>
+                    Premii
                   </NavDropdown.Item>
                 </NavDropdown>
               {!user ?

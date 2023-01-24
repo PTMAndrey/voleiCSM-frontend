@@ -1,5 +1,5 @@
-@import "../../../styles/variables.scss";
-@import "../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/mixins.scss";
 
 .data {
     display: flex;
@@ -8,7 +8,7 @@
     justify-content: space-between;
     padding: 30px 20px;
     margin-top: 30px;
-    background-color: #1b1d49a1;
+    background-color: #1b1d4937;
     border: 2px solid $color-yellow;
     color: white;
 

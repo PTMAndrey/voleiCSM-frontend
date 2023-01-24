@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter, getPersonalByFilter, getDivizii, getEditii, getCluburiSportive } from '../api/API';
+import { getStiriByStatus, getStiriByFilter, getMeciuriByFilter, getPersonalByFilter, getDivizii, getEditii, getCluburiSportive, getPremiiPersonalByFilter } from '../api/API';
 import parse from 'date-fns/parse'
 
 const StateContext = createContext({});
@@ -50,6 +50,7 @@ export const StateProvider = ({ children }) => {
 
   // personal
   const [personal, setPersonal] = useState([]);
+  const [premiiEchipa, setPremiiEchipa] = useState([]);
   const [paginaCurentaPersonal, setPaginaCurentaPersonal] = useState(1);
   const [paginaCurentaPremiiPersonal, setPaginaCurentaPremiiPersonal] = useState(1);
   // previzualizare personal
@@ -58,6 +59,9 @@ export const StateProvider = ({ children }) => {
     divizie: 'A1',
     nume: '',
     prenume: '',
+  });
+  const [filtruPremii, setFiltruPremii] = useState({
+    divizie: 'A1'
   });
 
   let Posturi = [
@@ -149,11 +153,24 @@ export const StateProvider = ({ children }) => {
     } catch (error) { }
   };
 
+  const fetchPremiibyFilter = async () => {
+    try {
+      const response = await getPremiiPersonalByFilter(filtruPremii);
+      if (response) {
+        setPremiiEchipa(response);
+        setPaginaCurentaPremiiPersonal(1);
+      }
+      else { setPremiiEchipa(null); }
+
+    } catch (error) { }
+  };
+
   const fetchDivizii = async () => {
     try {
       const response = await getDivizii();
       if (response) {
         setDivizii(response.data);
+        setFiltruPremii({...filtruPremii, divizie: response.data[0].denumireDivizie})
       }
       else { setDivizii(null); }
 
@@ -200,6 +217,7 @@ export const StateProvider = ({ children }) => {
 
   useEffect(() => {
     fetchPersonalbyFilter(); // pentru pagina Personal
+    fetchPremiibyFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -253,7 +271,12 @@ export const StateProvider = ({ children }) => {
       fetchPersonalbyFilter,
       pageSizePremiiEchipa,
       paginaCurentaPremiiPersonal,
+      premiiEchipa,
+      setPremiiEchipa,
+      filtruPremii,
+      setFiltruPremii,
       setPaginaCurentaPremiiPersonal,
+      fetchPremiibyFilter,
       Posturi,
 
       divizii,
