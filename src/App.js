@@ -34,6 +34,8 @@ import useWindowDimensions from './hooks/useWindowDimensions';
 import 'react-calendar/dist/Calendar.css';
 import './App.scss';
 import Parteneri from './pagini/Parteneri/Parteneri.jsx';
+import Viziune from './pagini/Detalii/Viziune/Viziune.jsx';
+import Istorie from './pagini/Detalii/Istorie/Istorie.jsx';
 function App() {
   const { width } = useWindowDimensions();
   const { alert } = useStateProvider();
@@ -111,6 +113,8 @@ function App() {
             <Route path='/personal/:id' exact element={<><HeaderPersonal /><Layout><Persoana /></Layout></>} />
 
             <Route path='/parteneri' element={<Layout><Parteneri /></Layout>} />
+            <Route path='/detalii/viziune' element={<Layout><Viziune /></Layout>} />
+            <Route path='/detalii/istorie' element={<Layout><Istorie /></Layout>} />
             
             <Route path='/not-found' element={<Layout><NotFound /></Layout>} />
             <Route path='*' element={<Layout><NotFound /></Layout>} />

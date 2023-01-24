@@ -1,0 +1,105 @@
+@import '../../../styles/index.scss';
+@import '../../../styles/mixins.scss';
+
+
+.containerViziune {
+    display: flex;
+    flex-direction: column;
+    margin-top: -50px;
+
+    @include responsive_W550px {
+        justify-content: center;
+        // flex-direction: row;
+    }
+}
+
+.titluViziune {
+    font-size: $font-h3;
+    font-weight: 700;
+    color: $color-white;
+    background-color: #1B1D49;
+    padding: 15px;
+    width: 100%;
+
+    @include responsive_W550px {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.viziuneBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    @include responsive_W550px {
+        justify-content: center;
+        align-items: center;
+    }
+
+}
+
+
+.cardViziune {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    // align-items: center !important;
+    background-color: $color-dark-blue !important;
+    color: white !important;
+    width: 100% !important;
+}
+
+.descriereViziune {
+    // display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+}
+
+.imgViziune {
+    width: 40% !important;
+    height: 250px !important;
+    border: 2px solid $color-yellow !important;
+    padding: 10px !important;
+    margin-right: 20px;
+    float:left;
+}
+
+.descriere {
+    width: 100% !important;
+    height: 100% !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: 0 25px 0 0 !important;
+    
+}
+.titluArticol{
+    color:$color-yellow !important;
+}
+
+@include responsive_W550px {
+
+    .cardViziune {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-width: 150px !important;
+    }
+    .imgViziune {
+        width: 100% !important;
+        height: 200px !important;
+        border: 2px solid $color-yellow !important;
+        padding: 10px !important;
+        margin-right: 20px;
+        float:left;
+    }
+
+    .descriereViziune {
+        width: 100% !important;
+    }
+    .titluArticol{
+        margin-top:250px !important;
+    }
+}

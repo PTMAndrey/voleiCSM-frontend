@@ -41,44 +41,23 @@ const Navigare = (props) => {
               <Nav.Link className={`text-black  ${styles.onHover}`} href="/calendar">Calendar meciuri</Nav.Link>
               <Nav.Link className={`text-black  ${styles.onHover}`} href="/personal">Personal</Nav.Link>
               <Nav.Link className={`text-black  ${styles.onHover}`} href="/parteneri">Parteneri</Nav.Link>
-              <Nav.Link className={`text-black  ${styles.onHover}`} href="/detalii">Detalii</Nav.Link>
+              {/* <Nav.Link className={`text-black  ${styles.onHover}`} href="/detalii">Detalii</Nav.Link> */}
+              <NavDropdown
+                  title={"Detalii"}
+                  className={`text-black  ${styles.onHover}`}
+                  id={`offcanvasNavbarDropdown-expand-${props.expand}`}
+                >
+                  <NavDropdown.Item className={styles.hello} href='/detalii/viziune'>
+                    Viziune
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item className={styles.hello} href='/detalii/istorie'>
+                    Istorie
+                  </NavDropdown.Item>
+                </NavDropdown>
               {!user ?
                 <Nav.Link className={`text-black  ${styles.onHover}`} href="/login">Conectare</Nav.Link>
                 :
-                // <Dropdown className="transparent-dropdown">
-                //   <Dropdown.Toggle
-                //     className={`${styles.profileTitle} bg-transparent transparent-dropdown`}
-                //     style={{ display: "inline-flex", backgroundColor:'transparent !important'}}
-                //   >
-                //       <div className={styles.profile}>
-                //         <div className={styles.photoDiv}>
-                //           <img
-                //             src={user?.photo}
-                //             alt=""
-                //             className={styles.userPhoto}
-                //           />
-                //         </div>
-                //         {user?.nume}
-                //       </div>
-                //   </Dropdown.Toggle>
-
-                //   <Dropdown.Menu className={styles.dropMenu}>
-                //     <Dropdown.ItemText className={styles.hello}>
-                //       {'Hello, ' + user.prenume}
-                //     </Dropdown.ItemText>
-
-                //     <Dropdown.Divider />
-
-                //     <Dropdown.Item
-                //       onClick={handleLogout}
-                //       className={styles.profileOption}
-                //     >
-                //       <Logout className={styles.logout} />
-                //       Logout
-                //     </Dropdown.Item>
-                //   </Dropdown.Menu>
-                // </Dropdown>
-
                 <NavDropdown
                   title={<div className={styles.profile}>
                     <div className={styles.photoDiv}>
