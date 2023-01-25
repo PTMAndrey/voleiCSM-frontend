@@ -35,6 +35,7 @@ const AddEditPremii = () => {
         idEditie: '',
         idDivizie: '',
         numeDivizie: '',
+        numeEditie: '',
     });
 
     const getPremiu = async () => {
@@ -48,6 +49,7 @@ const AddEditPremii = () => {
                 idEditie: response.data.idEditie,
                 idDivizie: response.data.idDivizie,
                 numeDivizie: response.data.numeDivizie,
+                numeEditie: response.data.numeEditie,
             });
             console.log('edit', response.data);
         }
@@ -133,7 +135,7 @@ const AddEditPremii = () => {
             setShowErrors(false);
             try {
                 setDisabledButton(true);
-                const response = await updatePremiu(formValue);
+                const response = await updatePremiu(id,formValue);
                 if (response?.status === 200) {
                     navigate('/detalii/premii');
                 }

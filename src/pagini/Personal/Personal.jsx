@@ -22,7 +22,7 @@ const Personal = () => {
     let Divizii = [];
 
     useEffect(() => {
-        divizii?.map(divizie => 
+        divizii?.map(divizie =>
             Divizii.push({ value: `${divizie.denumireDivizie}`, label: `${divizie.denumireDivizie}` })
         )
     }, [divizii, Divizii]);
@@ -73,8 +73,8 @@ const Personal = () => {
                     <span className={styles.linie2} />
                 </div>
                 <div className={styles.filtru}>
-                    <p className={title === 'Jucatori' ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'JUCATOR' }); setTitle('Jucatori')}}>Jucători</p>
-                    <p className={title === 'Antrenori' ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'ANTRENOR' }); setTitle('Antrenori')}}>Antrenori</p>
+                    <p className={title === 'Jucatori' ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'JUCATOR' }); setTitle('Jucatori') }}>Jucători</p>
+                    <p className={title === 'Antrenori' ? styles.isActive : null} onClick={() => { setFiltruPersonal({ ...filtruPersonal, tipPersonal: 'ANTRENOR' }); setTitle('Antrenori') }}>Antrenori</p>
                 </div>
             </div>
             <div className={styles.bodyPersonal}>
@@ -92,47 +92,45 @@ const Personal = () => {
                     }
                 </div>
                 <div className={styles.filtre}>
-                        <div>
-                            <Input
-                                name="nume"
-                                id="nume"
-                                label="Nume"
-                                placeholder="Nume"
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div>
-                            <Input
-                                name="prenume"
-                                id="prenume"
-                                label="Prenume"
-                                placeholder="Prenume"
-                                onChange={handleChange}
-                            />
-                        </div>
-                    {console.log('pagina', title)}
+                    <div>
+                        <Input
+                            name="nume"
+                            id="nume"
+                            label="Nume"
+                            placeholder="Nume"
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <Input
+                            name="prenume"
+                            id="prenume"
+                            label="Prenume"
+                            placeholder="Prenume"
+                            onChange={handleChange}
+                        />
+                    </div>
                     <div className={styles.ddContainer}>
                         <p className={styles.label}>Echipe</p>
-                            <DropdownComponent
-                                title={filtruPersonal.divizie}
-                                options={Divizii}
-                                onChange={(e) => {
-                                    setFiltruPersonal({ ...filtruPersonal, divizie: e.value })
-                                }}
-                            />
-                        
+                        <DropdownComponent
+                            title={filtruPersonal.divizie}
+                            options={Divizii}
+                            onChange={(e) => {
+                                setFiltruPersonal({ ...filtruPersonal, divizie: e.value })
+                            }}
+                        />
                     </div>
-                        <div>
-                            <Button
-                                label="Cauta"
-                                className={styles.cauta}
-                                onClick={() => handleCauta()}
-                            />
-                        </div>
-                </div>
                     <div>
-                        <ListPersonal currentTableData={currentTableData} fullData={personal} />
+                        <Button
+                            label="Cauta"
+                            className={styles.cauta}
+                            onClick={() => handleCauta()}
+                        />
                     </div>
+                </div>
+                <div>
+                    <ListPersonal currentTableData={currentTableData} fullData={personal} />
+                </div>
             </div>
         </div >
     );

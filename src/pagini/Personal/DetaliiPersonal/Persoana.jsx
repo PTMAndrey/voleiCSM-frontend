@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { EditorState, convertFromRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg';
-import './MyEditor.css';
+import '../../../styles/MyEditor.css';
 
 const Persoana = () => {
   const { id } = useParams();

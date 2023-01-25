@@ -1,33 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import styles from "./Stire.module.scss";
-
+import { useNavigate, useParams } from "react-router-dom";
 import Buton from "../../../componente/Buton/Buton";
 import ModalPoze from "../../../componente/Modal/ModalPoze";
 import { ReactComponent as GridDense } from "../../../assets/icons/grid-dense.svg";
 import { ReactComponent as Share } from "../../../assets/icons/share.svg";
 import AvatarDefault from "../../../assets/images/Jucator-Default.svg";
-
 import { getStireById, getUserById } from "../../../api/API";
-
-import { useParams } from "react-router-dom";
-
 import moment from "moment";
 import 'moment/locale/ro';
 import useStateProvider from "../../../hooks/useStateProvider";
 import Carusel from '../../../componente/Carusel/Carusel';
 import useWindowDimensions from "../../../hooks/useWindowDimensions"
 import NotFound from "../../NotFound/NotFound";
-const Stire = () => {
+import { EditorState, convertFromRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg';
+import '../../../styles/MyEditor.css';
+import styles from "./Stire.module.scss";
 
-  // states for the details page
+
+const Stire = () => {
   const { stiriPublicate } = useStateProvider();
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [stire, setStire] = useState({});
-
   const { width } = useWindowDimensions();
   const { id } = useParams();
-
 
   // get stire from API
   useEffect(() => {
@@ -42,6 +40,11 @@ const Stire = () => {
     })();
   }, [id]);
 
+  useEffect(() => {
+    if (id && !stire)
+      navigate('/noutati');
+  }, [stire])
+
   const [autor, setAutor] = useState()
   const getUserName = async () => {
     const response = await getUserById(stire?.autor);
@@ -49,14 +52,26 @@ const Stire = () => {
       setAutor(response.data)
       console.log('autor', response.data);
     }
-    else{
-      setAutor({...autor,nume:'Redacția', prenume:'C.S.M.'})
+    else {
+      setAutor({ ...autor, nume: 'Redacția', prenume: 'C.S.M.' })
     }
   };
 
+  const [editorState, setEditorState] = useState(
+    EditorState.createEmpty());
 
   useEffect(() => {
-    if(stire?.autor)
+    if (stire?.descriere) {
+      const content = JSON.parse(stire?.descriere);
+      const contentState = convertFromRaw(content);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState)
+    }
+  }, [stire?.descriere])
+
+
+  useEffect(() => {
+    if (stire?.autor)
       getUserName();
   }, [stire]);
   return (
@@ -104,7 +119,6 @@ const Stire = () => {
         <div className={styles.title}>
           <div>
             <h5 className={styles.stireName}>{stire?.titlu}</h5>
-            {/* <h4 className={styles.stirePrice}>{stire.price} lei</h4> */}
           </div>
           <button className={styles.shareButon}>
             {" "}
@@ -120,7 +134,18 @@ const Stire = () => {
             <div className={styles.stireDetails}>
               <div className={styles.description}>
                 <h6>Descriere</h6>
-                <p>{stire?.descriere}</p>
+                {/* <p>{stire?.descriere}</p> */}
+                <div className="parent">
+                  <div className="overlay mt-3" onClick={(e) => e.stopPropagation()} > </div>
+                  <div className='hide-toolbar-and-disable-input' contentEditable={false}>
+                    <Editor
+                      editorState={editorState}
+                      toolbarHidden
+                      readOnly={true}
+
+                    />
+                  </div>
+                </div>
               </div>
 
             </div>
@@ -142,7 +167,7 @@ const Stire = () => {
               }
               <div>
                 <h6 className={styles.ownerName}>{stire.autor ? autor?.nume + ' ' + autor?.prenume : 'Redacția C.S.M.'}</h6>
-                {stire.dataPublicarii && <>
+                {stire?.dataPublicarii && <>
                   <h6>Data publicării</h6>
                   <p>
                     {moment(stire?.dataPublicarii, 'DD-MM-YYYY HH:mm').format("DD MMMM YYYY HH:mm")}

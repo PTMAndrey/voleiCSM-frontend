@@ -9,6 +9,9 @@ import { useDropzone } from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Calendar } from 'react-calendar';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
 import { addStire, updateStire, getStireById } from '../../../api/API';
 import useStateProvider from '../../../hooks/useStateProvider';
@@ -54,11 +57,11 @@ const AddEditStiri = () => {
 
   // form data
 
-  const [file, setFile] = useState({});
-  const [fileInForm, setFileInForm] = useState({});
+  const [file, setFile] = useState({ file: [] });
+  const [fileInForm, setFileInForm] = useState({ file: [] });
   const [formValue, setFormValue] = useState({
     titlu: '',
-    autor: '',
+    autor: sessionStorage.getItem('userId'),
     descriere: '',
     status: 'PUBLICAT',
     dataPublicarii: String(getCurrentData()),
@@ -89,6 +92,16 @@ const AddEditStiri = () => {
       setDataCalendar(response.data.dataPublicarii)
     }
   };
+
+
+  const [editorState, setEditorState] = useState(
+    EditorState.createEmpty());
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    formValue.descriere = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+
+  }
+
   //------------------------------ useEffect
 
   // get stire by id to edit
@@ -98,6 +111,18 @@ const AddEditStiri = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    formValue.file = fileInForm.file;
+  }, [fileInForm])
+
+  useEffect(() => {
+    if (formValue.descriere) {
+      const content = JSON.parse(formValue.descriere);
+      const contentState = convertFromRaw(content);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState)
+    }
+  }, [formValue.descriere])
 
   //------------------------------- HANDLERE
   // handleChange
@@ -110,13 +135,21 @@ const AddEditStiri = () => {
 
   // handleDrop
   const handleDrop = useCallback((acceptedFiles) => {
-    setFileInForm({ file: acceptedFiles })
+    acceptedFiles.map((file) =>
+      setFileInForm((prevState) => {
+        return {
+          ...prevState,
+          file: [...prevState.file, file]
+        }
+      })
+    )
+
     console.log('acceptedFiles', acceptedFiles);
 
     acceptedFiles.map((file) => {
       const reader = new FileReader();
       reader.onload = function (e) {
-        console.log('file',e.target.result);
+        // console.log('file',e.target.result);
         setFile((prevState) => {
           return {
             ...prevState,
@@ -128,6 +161,8 @@ const AddEditStiri = () => {
       return file;
     });
   }, []);
+  console.log('fileInForm', fileInForm);
+  console.log('file', file);
 
   // handleDelete imagine
   const handleDelete = (index) => {
@@ -141,11 +176,21 @@ const AddEditStiri = () => {
         file: prevState.file.filter((imagine, i) => i !== index),
       };
     });
-    if(id){
+
+    if (id) {
+      let imagini = formValue.imagini.split(", ");
+      imagini.splice(1, 1);
+      if (imagini.length === 0) {
+        formValue.imagini = "";
+      } else if (imagini.length === 1) {
+        formValue.imagini = imagini[0];
+      } else {
+        formValue.imagini = imagini.join(", ");
+      }
+
       setFormValue((prevState) => {
         return {
           ...prevState,
-          imagini: prevState.imagini.filter((image, i) => i !== index),
           imaginiURL: prevState.imaginiURL.filter((image, i) => i !== index),
         };
       });
@@ -165,7 +210,24 @@ const AddEditStiri = () => {
       setShowErrors(false);
       try {
         setDisabledButton(true);
-        const response = await addStire(formValue.file, formValue);
+        console.log("aaaaaaici", formValue.file);
+        var FormData = require('form-data');
+        var fs = require('fs');
+        var data = new FormData();
+
+        data.append('titlu', formValue.titlu);
+        data.append('descriere', formValue.descriere);
+        data.append('status', formValue.status);
+        data.append('dataPublicarii', formValue.dataPublicarii);
+        data.append('autor', formValue.autor);
+        data.append('hashtag', formValue.hashtag);
+        formValue.file.map((img, i) => {
+          data.append('file', img);
+        })
+        // data.append('file', fs.createReadStream('/D:/1Facultate/An4/SEM 1/IP/app/imagini-echipe/CS Dinamo Bucuresti.png'));
+        // data.append('file', fs.createReadStream('/D:/1Facultate/An4/SEM 1/IP/app/imagini-echipe/CS Rapid Bucuresti.png'));
+        // console.log('\n\n\ndata - ', data, '\n\n\n');
+        const response = await addStire(data);
         console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmare/noutati/");
@@ -175,6 +237,7 @@ const AddEditStiri = () => {
           setAlert({ type: 'danger', message: 'Eroare la trimiterea datelor!' });
         }
       } catch (error) {
+        setDisabledButton(false);
         console.log(error);
       }
     }
@@ -193,7 +256,27 @@ const AddEditStiri = () => {
       setShowErrors(false);
       try {
         setDisabledButton(true);
-        const response = await updateStire(id, formValue.file, formValue);
+        var FormData = require('form-data');
+        var fs = require('fs');
+        var data = new FormData();
+        data.append('titlu', formValue.titlu);
+        data.append('descriere', formValue.descriere);
+        data.append('status', formValue.status);
+        data.append('dataPublicarii', formValue.dataPublicarii);
+        data.append('autor', formValue.autor);
+        data.append('hashtag', formValue.hashtag);
+        data.append('imagini', formValue.imagini);
+        // formValue.file.map((img,i) =>{
+        //   data.append(`file${i+1}`,img);
+        //   console.log(`file${i+1}`,img)
+        // })
+        // data.append('file',formValue.file);
+        formValue.file ?
+          formValue?.file.map((img, i) => {
+            data.append('file', img);
+          }) : data.append('file', null)
+        console.log('\n\n\ndata - ', data, '\n\n\n');
+        const response = await updateStire(id, data);
         if (response?.status === 200) {
           navigate("/confirmare/noutati/");
         }
@@ -202,6 +285,7 @@ const AddEditStiri = () => {
           setAlert({ type: 'danger', message: 'Eroare la actualizarea datelor!' });
         }
       } catch (error) {
+        setDisabledButton(false);
         console.log(error);
       }
     }
@@ -226,11 +310,22 @@ const AddEditStiri = () => {
 
 
     // descriere
-    if (field === 'descriere') {
-      if (formValue.descriere?.length < 2)
-        return `${formValue.descriere?.length} / 250 caractere obligatorii`;
-      else if (formValue.descriere.length === 0) {
-        return 'Descrierea este obligatorie!';
+    // if (field === 'descriere') {
+    //   if (formValue.descriere?.length < 2)
+    //     return `${formValue.descriere?.length} / 250 caractere obligatorii`;
+    //   else if (formValue.descriere.length === 0) {
+    //     return 'Descrierea este obligatorie!';
+    //   }
+    // }
+
+    if (field === "descriere") {
+      if (formValue.descriere.length < 15) {
+        setShowEroareDescriere(true);
+        setEroareDescriere("Descrierea este obligatorie!")
+        return "Descrierea este obligatorie!";
+      }
+      else {
+        setShowEroareDescriere(false);
       }
     }
 
@@ -345,7 +440,7 @@ const AddEditStiri = () => {
           </div>
         </Col>
       </Row>
-      <Row style={{ marginTop: '40px' }}>
+      <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
             <h3>Imagini</h3>
@@ -372,38 +467,38 @@ const AddEditStiri = () => {
 
             {formValue?.imagini?.length < 9 && <Dropzone onDrop={handleDrop} />} */}
 
-            {file?.file ?
-              <>{file?.file.map((img,index)=>(
+            {formValue?.imaginiURL &&
+              <>{formValue?.imaginiURL.map((img, index) => (
                 <div key={index} className={styles.previzualizareStiri}>
                   <img src={img} alt="" />
                   <RiDeleteBinFill onClick={() => {
                     handleDelete(index);
                   }} />
                 </div>
-              ))}</>
-              :
-              formValue?.imaginiURL &&
-              <>{formValue?.imaginiURL.map((img,index)=>(
-              <div key={index} className={styles.previzualizareStiri}>
-                <img src={img} alt="" />
-                <RiDeleteBinFill onClick={() => {
-                  handleDelete(index);
-                }} />
-              </div>
-              ))}</>
-            }
-            {/* dropzone */}
-                <Dropzone onDrop={handleDrop}
-                  error={showErrors && checkErrors('file') ? true : false}
-                  helper={showErrors ? checkErrors('file') : ''}
-                />
+              ))}</>}
 
-              {/* {fileInForm?.file === undefined &&
+            {file?.file &&
+              <>{file?.file.map((img, index) => (
+                <div key={index} className={styles.previzualizareStiri}>
+                  <img src={img} alt="" />
+                  <RiDeleteBinFill onClick={() => {
+                    handleDelete(index);
+                  }} />
+                </div>
+              ))}</>}
+
+            {/* dropzone */}
+            <Dropzone onDrop={handleDrop}
+              error={showErrors && checkErrors('file') ? true : false}
+              helper={showErrors ? checkErrors('file') : ''}
+            />
+
+            {/* {fileInForm?.file === undefined &&
                 <Dropzone onDrop={handleDrop}
                   error={showErrors && checkErrors('file') ? true : false}
                   helper={showErrors ? checkErrors('file') : ''}
                 />} */}
-           
+
 
           </Col>
           {showErrors && (
@@ -413,24 +508,28 @@ const AddEditStiri = () => {
           )}
         </Col>
       </Row>
-      <Row style={{ marginTop: '40px' }}>
-        <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
+      <Row className='mt-5'>
+        <Col md={{ span: 2, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
-            <h3
-              onClick={() =>
-                setFormValue({
-                  ...formValue,
-                  descriere:
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque illum recusandae molestiae consequuntur tempora, esse omnis fugiat quam harum iure?',
-                })
-              }
-            >
+            <h3>
               Descriere *
             </h3>
           </div>
         </Col>
-        <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          {/* descriere */}
+        <Col md={{ span: 10, offset: 0 }} className={styles.bottomBorder}>
+          <div className={styles.inputs}>
+            <Editor
+              editorState={editorState}
+              onEditorStateChange={onEditorStateChange}
+              wrapperClassName={styles.wrapperClass}
+              editorClassName={styles.editorClass}
+              toolbarClassName={styles.toolbarClass} />
+            {showEroareDescriere && <p className='mt-4 text-danger'>{eroareDescriere}</p>}
+          </div>
+
+        </Col>
+        {/* <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
+        
           <TextArea
             name='descriere'
             id='descriere'
@@ -441,9 +540,9 @@ const AddEditStiri = () => {
             value={formValue.descriere}
             onChange={handleChange}
           />
-        </Col>
+        </Col> */}
       </Row>
-      <Row style={{ marginTop: '40px' }}>
+      <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
           <div className={styles.info}>
             <h3>Publicare *</h3>
@@ -573,10 +672,14 @@ const AddEditStiri = () => {
                 variant='primary'
                 disabled={disabledButton}
                 label={id ? 'Actualizează' : 'Publică'}
-                onClick={() => {
-                  setFormValue({ ...formValue, autor: user?.id })
-                  if (id) handleUpdate(); else handleSubmit();
-                }} />
+                // onClick={() => {
+                //   // if (id) handleUpdate(); else handleSubmit();
+                //   id?handleUpdate(): handleSubmit();
+                // }} 
+                onClick={id ? () => {
+                  handleUpdate()
+                } : handleSubmit}
+              />
             </Col>
             <Col sm={{ span: 4, offset: 2 }} className={styles.phoneResolutionMarginTop}>
               <Buton

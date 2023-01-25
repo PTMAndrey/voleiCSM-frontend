@@ -17,7 +17,7 @@ export const StateProvider = ({ children }) => {
   // numar elemente pe o pagina ( ex. noutati )
   let pageSize = 4;
   let pageSizePersonal = 9;
-  let pageSizePremiiEchipa = 9;
+  let pageSizePremiiEchipa = 3;
 
   // stiri 
   const [stiri, setStiri] = useState(null);

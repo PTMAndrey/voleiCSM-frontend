@@ -57,10 +57,16 @@ const Premiu = ({ data }) => {
                             {data.locCampionat}
                         </Card.Text>
                     </Col>
-                    <Col className={`${styles.coloana}`}>
+                    <Col className={`${styles.coloana} ${styles.divider}`}>
                         <h4>Anul obținerii</h4>
                         <Card.Text className={`${styles.text}`}>
                             {data.an}
+                        </Card.Text>
+                    </Col>
+                    <Col className={`${styles.coloana}`}>
+                        <h4>Campionat</h4>
+                        <Card.Text className={`${styles.text}`}>
+                            {data.numeEditie}
                         </Card.Text>
                     </Col>
 

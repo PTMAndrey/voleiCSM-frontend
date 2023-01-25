@@ -7,7 +7,7 @@ import useStateProvider from '../../../../hooks/useStateProvider';
 import { useNavigate } from 'react-router-dom';
 
 const ListPersonal = (props) => {
-  const { pageSizePersonal, paginaCurentaPersonal, setPaginaCurentaPersonal } = useStateProvider();
+  const { pageSizePremiiEchipa, paginaCurentaPremiiPersonal, setPaginaCurentaPremiiPersonal } = useStateProvider();
   const navigate = useNavigate();
   function stopPropagation(e) {
     e.stopPropagation();
@@ -20,9 +20,9 @@ const ListPersonal = (props) => {
           data={props.fullData}
           className="pagination-bar pt-3"
           totalCount={props.fullData?.length}
-          pageSize={pageSizePersonal}
-          paginaCurenta={paginaCurentaPersonal}
-          onPageChange={page => setPaginaCurentaPersonal(page)}
+          pageSize={pageSizePremiiEchipa}
+          paginaCurenta={paginaCurentaPremiiPersonal}
+          onPageChange={page => setPaginaCurentaPremiiPersonal(page)}
         />
       }
       {props.currentTableData?.length > 0 ?
@@ -51,9 +51,9 @@ const ListPersonal = (props) => {
           data={props.fullData}
           className="pagination-bar pt-3"
           totalCount={props.fullData?.length}
-          pageSize={pageSizePersonal}
-          paginaCurenta={paginaCurentaPersonal}
-          onPageChange={page => setPaginaCurentaPersonal(page)}
+          pageSize={pageSizePremiiEchipa}
+          paginaCurenta={paginaCurentaPremiiPersonal}
+          onPageChange={page => setPaginaCurentaPremiiPersonal(page)}
         />
       }
     </>
