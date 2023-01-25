@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Card.module.scss';
 import useAuth from '../../hooks/useAuth';
 import Popup from '../../pagini/PaginaPrincipala/Popup';
@@ -13,6 +13,10 @@ import { deleteStireById } from '../../api/API'
 import Buton from '../Buton/Buton';
 import moment from 'moment';
 import 'moment/locale/ro';
+
+import { EditorState, convertFromRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg';
+import '../../styles/MyEditor.css';
 
 const Card = ({
   onClick,
@@ -58,6 +62,19 @@ const Card = ({
   const togglePopup = (props) => {
     setOpenPopup(!openPopup);
   };
+  
+  const [editorState, setEditorState] = useState(
+    EditorState.createEmpty());
+
+  useEffect(() => {
+    if (data?.descriere) {
+      const content = JSON.parse(data?.descriere);
+      const contentState = convertFromRaw(content);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState)
+    }
+  }, [data?.descriere])
+
   return (
     <div className={styles.cards} >
       <div onClick={onClick}>
@@ -89,14 +106,22 @@ const Card = ({
               <p className={styles.cardTitlu}>{data?.titlu}</p>
             </div>
 
-            <p
+            <div
               style={{ display: 'block', color: 'darkgray ' }}
-              className={`${styles.cardDescription}`}
+              className={`${styles.cardDescription} ml-2`}
             >
-              {
-                data?.descriere.substring(0, 500)
-              }
-            </p>
+              <div className="parent ">
+                <div className="overlay mt-3" onClick={(e) => e.stopPropagation()} > </div>
+                <div className='hide-toolbar-and-disable-input' contentEditable={false}>
+                  <Editor
+                    editorState={editorState}
+                    toolbarHidden
+                    readOnly={true}
+
+                  />
+                </div>
+              </div>
+            </div>
 
             {data.hashtag &&
               <p className={`text-white ${styles.hashtag}`} style={{ fontSize: '12px' }}>{data.hashtag}</p>

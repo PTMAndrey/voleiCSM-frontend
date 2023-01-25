@@ -80,13 +80,25 @@ export const getStireById = async (id) => {
   }
 };
 
-export const addStire = async (file, data) => {
+export const addStire = async ( data) => {
   try {
-    console.log('api',file,'\n',data)
-    const response = await axios.post('/stiri', data,{
+    // console.log('api',file,'\n',data)
+    let response;
+    response = await axios.post('/stiri', data,{
       headers:{'Content-Type': 'multipart/form-data',},
-      params:{file:file}
+      // params:{file:file}
     });
+    // if(file){
+      // response = await axios.post('/stiri', data,{
+      //   headers:{'Content-Type': 'multipart/form-data',},
+      //   params:{file:file}
+      // });
+    // }
+    // else{
+    //   response = await axios.post('/stiri', data,{
+    //     headers:{'Content-Type': 'multipart/form-data',}
+    //   });
+    // }
     return response;
   } catch (error) {
     console.error(error);
@@ -94,11 +106,11 @@ export const addStire = async (file, data) => {
 };
 
 
-export const updateStire = async (id,file,data) => {
+export const updateStire = async (id,data) => {
   try {
     const response = await axios.put('/stiri/'+id, data,{
       headers:{'Content-Type': 'multipart/form-data',},
-      params:{file:file ? file : null}
+      // params:{file:file ? file : null}
     });
     return response;
   } catch (error) {
@@ -187,7 +199,6 @@ export const getCluburiSportive = async () => {
 
 export const addPersoana = async (file, data) => {
   try {
-    console.log('api',file,'\n',data)
     const response = await axios.post('/persoana', data,{
       headers:{'Content-Type': 'multipart/form-data',},
       params:{file:file}
@@ -251,7 +262,6 @@ export const deletePersonalById = async (id) => {
 
 export const addIstoricPosturiToId = async (id,data) => {
   try {
-    console.log(data);
     const response = await axios.post('/istoricPosturi/add/' + id,data);
     return response;
   } catch (error) {
@@ -270,7 +280,6 @@ export const addRealizarePersonaleToId = async (id,data) => {
 
 export const updateIstoricPosturiToId = async (id,data) => {
   try {
-    console.log(data);
     const response = await axios.put('/istoricPosturi/update/' + id,data);
     return response;
   } catch (error) {
@@ -355,9 +364,9 @@ export const addPremiu = async (data) => {
     console.error(error);
   }
 };
-export const updatePremiu = async (data) => {
+export const updatePremiu = async (id,data) => {
   try {
-    const response = await axios.put('/premii/', data);
+    const response = await axios.put('/premii/'+id, data);
     return response;
 
   } catch (error) {
