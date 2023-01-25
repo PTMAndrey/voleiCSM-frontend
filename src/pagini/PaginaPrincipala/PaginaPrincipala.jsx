@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Iframe from 'react-iframe';
 import parse from 'date-fns/parse'
-
+import { BiRefresh } from 'react-icons/bi';
 import butonClasament from './../../assets/images/butonClasament.svg';
 import Primaria from './../../assets/images/Primaria.svg';
 import SUCT from './../../assets/images/SUCT.svg';
@@ -25,6 +25,10 @@ const PaginaPrincipala = () => {
 
   const [meciViitor, setMeciViitor] = useState([]);
   const [meciRezultat, setMeciRezultat] = useState([]);
+  const [iframe, setIframe] = useState({ url: 'https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i', key: 0 })
+
+
+
   const getMeciViitor = async () => {
     try {
       const response = await getMeciuriByStatus('VIITOR');
@@ -62,6 +66,10 @@ const PaginaPrincipala = () => {
     return resp[0];
   }
 
+  const iframeRefresh = () => {
+    setIframe({ ...iframe, key: iframe.key + 1 });
+  }
+
   return (
     <>
       <Header />
@@ -82,9 +90,15 @@ const PaginaPrincipala = () => {
         {/* ################  CLASAMENT ################ */}
 
         <Titlu title='Clasament' />
-        <a href='https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i' target='_blank' rel='noreferrer' className={styles.butonClasament}><img src={butonClasament} alt='Clasament oficial' /></a>
-        <div className={styles.frameCampionat}>
-          <Iframe url='https://competitii.frvolei.eu/table/clasament-a1-masculin-22-23-faza-i'
+        <div>
+          <a href={iframe.url} target='_blank' rel='noreferrer' className={styles.butonClasament}>
+            <img src={butonClasament} alt='Clasament oficial' />
+          </a>
+          <BiRefresh className={styles.butonRefresh} style={{width:'80px'}} onClick={() => { iframeRefresh(); }} />
+        </div>
+        <div key={iframe.key} className={styles.frameCampionat}>
+          <Iframe
+            url={iframe.url}
             width='100%'
             height='520px'
             id=''
@@ -97,7 +111,7 @@ const PaginaPrincipala = () => {
         {/* ################  ULTIMELE NOUTATI ################ */}
         {stiriPublicate?.length > 0 &&
           <div className={styles.stiri}>
-            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' caruselPopup={true}/>
+            <Carusel data={stiriPublicate} titluCarousel='Ultimele noutăți' caruselPopup={true} />
           </div>
         }
         {/* ################  PERSONAL ################ */}

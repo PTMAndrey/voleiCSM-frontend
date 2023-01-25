@@ -29,7 +29,7 @@
 
 
 .butonClasament {
-    // width:210px;
+    width:210px;
     height: 55px;
     padding-left: 10px;
     z-index: 2;
@@ -41,6 +41,16 @@
             width: 130px;
         }
     }
+}
+
+.butonRefresh{
+    // width:210px;
+    height: 55px;
+    // margin-left: 230px;
+    z-index: 2;
+    display: flex;
+    position: relative;
+    cursor:pointer;
 }
 
 .stiri {
