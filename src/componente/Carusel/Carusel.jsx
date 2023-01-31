@@ -28,7 +28,7 @@ const Carusel = ({
         <div>
             <div>
                 <div className={styles.headerSwiper}>
-                    <h5 className='text-black mr-5'>{titluCarousel}</h5>
+                    <h5 className='text-black'>{titluCarousel}</h5>
                     <span onClick={() => navigate("/noutati")}>
                         <Buton
                             icon={<ArrowRight />}

@@ -87,7 +87,6 @@ const AddEditStiri = () => {
         imaginiURL: response.data.imaginiURL,
         videoclipuri: response.data.videoclipuri,
       });
-      console.log('edit', response.data);
       setDataCalendarEdit(moment(response.data.dataPublicarii, 'DD-MM-YYYY hh:mm').toDate())
       setDataCalendar(response.data.dataPublicarii)
     }
@@ -144,12 +143,9 @@ const AddEditStiri = () => {
       })
     )
 
-    console.log('acceptedFiles', acceptedFiles);
-
     acceptedFiles.map((file) => {
       const reader = new FileReader();
       reader.onload = function (e) {
-        // console.log('file',e.target.result);
         setFile((prevState) => {
           return {
             ...prevState,
@@ -161,9 +157,6 @@ const AddEditStiri = () => {
       return file;
     });
   }, []);
-  console.log('fileInForm', fileInForm);
-  console.log('file', file);
-
   // handleDelete imagine
   const handleDelete = (index) => {
     setFile((prevState) => {
@@ -203,14 +196,12 @@ const AddEditStiri = () => {
       setShowEroareCalendar(true);
       setShowErrors(true);
       setAlert({ type: 'danger', message: 'Câmpurile trebuie completate!' });
-
     }
     if (isFormValid()) {
       setShowEroareCalendar(false);
       setShowErrors(false);
       try {
         setDisabledButton(true);
-        console.log("aaaaaaici", formValue.file);
         var FormData = require('form-data');
         var fs = require('fs');
         var data = new FormData();
@@ -224,11 +215,7 @@ const AddEditStiri = () => {
         formValue.file.map((img, i) => {
           data.append('file', img);
         })
-        // data.append('file', fs.createReadStream('/D:/1Facultate/An4/SEM 1/IP/app/imagini-echipe/CS Dinamo Bucuresti.png'));
-        // data.append('file', fs.createReadStream('/D:/1Facultate/An4/SEM 1/IP/app/imagini-echipe/CS Rapid Bucuresti.png'));
-        // console.log('\n\n\ndata - ', data, '\n\n\n');
         const response = await addStire(data);
-        console.log("\nraspuns\n", response);
         if (response?.status === 200) {
           navigate("/confirmare/noutati/");
         }
@@ -266,16 +253,10 @@ const AddEditStiri = () => {
         data.append('autor', formValue.autor);
         data.append('hashtag', formValue.hashtag);
         data.append('imagini', formValue.imagini);
-        // formValue.file.map((img,i) =>{
-        //   data.append(`file${i+1}`,img);
-        //   console.log(`file${i+1}`,img)
-        // })
-        // data.append('file',formValue.file);
         formValue.file ?
           formValue?.file.map((img, i) => {
             data.append('file', img);
           }) : data.append('file', null)
-        console.log('\n\n\ndata - ', data, '\n\n\n');
         const response = await updateStire(id, data);
         if (response?.status === 200) {
           navigate("/confirmare/noutati/");
@@ -301,22 +282,12 @@ const AddEditStiri = () => {
     if (field === 'titlu') {
       if (formValue.titlu.length < 10 && formValue.titlu.length > 0) {
         return 'Titlul trebuie sa conțină cel puțin 10 caractere!';
-      } else if (formValue.titlu.length > 50) {
-        return 'Titlul trebuie să conțină maxim 50 de caractere!';
+      } else if (formValue.titlu.length > 100) {
+        return 'Titlul trebuie să conțină maxim 100 de caractere!';
       } else if (formValue.titlu.length === 0) {
         return 'Titlul este obligatoriu!';
       }
     }
-
-
-    // descriere
-    // if (field === 'descriere') {
-    //   if (formValue.descriere?.length < 2)
-    //     return `${formValue.descriere?.length} / 250 caractere obligatorii`;
-    //   else if (formValue.descriere.length === 0) {
-    //     return 'Descrierea este obligatorie!';
-    //   }
-    // }
 
     if (field === "descriere") {
       if (formValue.descriere.length < 15) {
@@ -366,7 +337,6 @@ const AddEditStiri = () => {
     return '';
   };
 
-  // check if form is valid
   const isFormValid = () => {
     let isValid = true;
     Object.keys(formValue).forEach((field) => {
@@ -402,8 +372,6 @@ const AddEditStiri = () => {
   const getDataFromCalendar = (e) => {
     return !e ? null : ((e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear());
   }
-
-  console.log('form', formValue);
   return (
     <Container className={styles.addBackgroundColor}>
       <h1 className={styles.addTitlu}>Adaugă știre</h1>
@@ -429,7 +397,6 @@ const AddEditStiri = () => {
               name='hashtag'
               id='hashtag'
               value={formValue.hashtag}
-              // placeholder='#FRVolei #suceava #csmsuceava #romania #volei #CupaRomaniei #suceavacounty'
               placeholder='#tag'
               label='Definire hashtaguri'
               onChange={handleChange}
@@ -455,18 +422,6 @@ const AddEditStiri = () => {
               gap: '1rem',
             }}
           >
-            {/* {formValue?.imagini?.map((img, index) => (
-              <div key={index} className={styles.previzualizareStiri}>
-                <img src={img} alt='' />
-                <RiDeleteBinFill onClick={() => {
-                  handleDelete(index);
-                }} />
-
-              </div>
-            ))}
-
-            {formValue?.imagini?.length < 9 && <Dropzone onDrop={handleDrop} />} */}
-
             {formValue?.imaginiURL &&
               <>{formValue?.imaginiURL.map((img, index) => (
                 <div key={index} className={styles.previzualizareStiri}>
@@ -492,13 +447,6 @@ const AddEditStiri = () => {
               error={showErrors && checkErrors('file') ? true : false}
               helper={showErrors ? checkErrors('file') : ''}
             />
-
-            {/* {fileInForm?.file === undefined &&
-                <Dropzone onDrop={handleDrop}
-                  error={showErrors && checkErrors('file') ? true : false}
-                  helper={showErrors ? checkErrors('file') : ''}
-                />} */}
-
 
           </Col>
           {showErrors && (
@@ -528,19 +476,7 @@ const AddEditStiri = () => {
           </div>
 
         </Col>
-        {/* <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
         
-          <TextArea
-            name='descriere'
-            id='descriere'
-            label='Detalii descriere'
-            placeholder='Descriere'
-            error={(showErrors && checkErrors('descriere')) ? true : false}
-            helper={checkErrors('descriere')}
-            value={formValue.descriere}
-            onChange={handleChange}
-          />
-        </Col> */}
       </Row>
       <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
@@ -560,13 +496,11 @@ const AddEditStiri = () => {
                   name='status'
                   value='PUBLICAT'
                   checked={formValue.status === 'PUBLICAT'}
-                  onLoad={(e) => { console.log(getCurrentData()) }}
                   onChange={(e) => {
                     handleChange(e);
                     setFormValue({ ...formValue, status: 'PUBLICAT', dataPublicarii: getCurrentData() });
                     setSelectedHour('');
                     setSelectedMinute('');
-                    // setShowCalendar(false);
                     setDataCalendar('')
                     setDataCalendarEdit();
                     setShowEroareCalendar('');
@@ -585,7 +519,6 @@ const AddEditStiri = () => {
                   value='PROGRAMAT'
                   checked={formValue.status === 'PROGRAMAT'}
                   onChange={(e) => { handleChange(e); setFormValue({ ...formValue, status: 'PROGRAMAT' }); }}
-                // onClick={() => setShowCalendar(true)}
                 />
                 {' '}Programează publicarea
               </label>
@@ -650,7 +583,6 @@ const AddEditStiri = () => {
                     setFormValue({ ...formValue, status: 'DRAFT', dataPublicarii: getCurrentData() });
                     setSelectedHour('');
                     setSelectedMinute('');
-                    // setShowCalendar(false);
                     setDataCalendar('')
                     setDataCalendarEdit();
                     setShowEroareCalendar('');
@@ -672,10 +604,6 @@ const AddEditStiri = () => {
                 variant='primary'
                 disabled={disabledButton}
                 label={id ? 'Actualizează' : 'Publică'}
-                // onClick={() => {
-                //   // if (id) handleUpdate(); else handleSubmit();
-                //   id?handleUpdate(): handleSubmit();
-                // }} 
                 onClick={id ? () => {
                   handleUpdate()
                 } : handleSubmit}

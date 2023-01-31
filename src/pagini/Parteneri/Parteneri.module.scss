@@ -23,6 +23,7 @@
     @include responsive_W550px {
         display: flex;
         justify-content: center;
+        font-size: $font-h4;
     }
 }
 

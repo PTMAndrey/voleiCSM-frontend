@@ -61,6 +61,9 @@
     background-color: rgba(13, 4, 11, 0.25);
     border-radius: 0 50px;
     padding: 20px;
+    @include responsive_W550px{
+        margin-top:50px;
+    }
 }
 
 .personal {
@@ -71,6 +74,9 @@
     background-color: rgba(13, 4, 11, 0.25);
     border-radius: 50px 0;
     padding: 20px;
+    @include responsive_W550px{
+        margin-top:50px;
+    }
 }
 
 .parteneri {
@@ -100,5 +106,8 @@
         width: 130px;
         margin-bottom:15px;
         }
+    }
+    @include responsive_W550px{
+        margin-top:50px;
     }
 }

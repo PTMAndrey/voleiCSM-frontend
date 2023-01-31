@@ -1,20 +1,24 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import moment from "moment";
+import 'moment/locale/ro';
+import { EditorState, convertFromRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg';
+import { FacebookShareButton, FacebookIcon,
+WhatsappShareButton,  WhatsappIcon,
+TwitterShareButton, TwitterIcon, } from 'react-share';
+import useStateProvider from "../../../hooks/useStateProvider";
+import Carusel from '../../../componente/Carusel/Carusel';
 import Buton from "../../../componente/Buton/Buton";
 import ModalPoze from "../../../componente/Modal/ModalPoze";
+import useWindowDimensions from "../../../hooks/useWindowDimensions"
 import { ReactComponent as GridDense } from "../../../assets/icons/grid-dense.svg";
 import { ReactComponent as Share } from "../../../assets/icons/share.svg";
 import AvatarDefault from "../../../assets/images/Jucator-Default.svg";
 import { getStireById, getUserById } from "../../../api/API";
-import moment from "moment";
-import 'moment/locale/ro';
-import useStateProvider from "../../../hooks/useStateProvider";
-import Carusel from '../../../componente/Carusel/Carusel';
-import useWindowDimensions from "../../../hooks/useWindowDimensions"
 import NotFound from "../../NotFound/NotFound";
-import { EditorState, convertFromRaw } from 'draft-js'
-import { Editor } from 'react-draft-wysiwyg';
 import '../../../styles/MyEditor.css';
 import styles from "./Stire.module.scss";
 
@@ -33,7 +37,6 @@ const Stire = () => {
       try {
         const response = await getStireById(id);
         setStire(response.data);
-        console.log("stire by id", response.data);
       } catch (error) {
         console.log("Error: ", error);
       }
@@ -50,7 +53,6 @@ const Stire = () => {
     const response = await getUserById(stire?.autor);
     if (response?.status === 200) {
       setAutor(response.data)
-      console.log('autor', response.data);
     }
     else {
       setAutor({ ...autor, nume: 'Redacția', prenume: 'C.S.M.' })
@@ -121,9 +123,38 @@ const Stire = () => {
             <h5 className={styles.stireName}>{stire?.titlu}</h5>
           </div>
           <button className={styles.shareButon}>
-            {" "}
-            <Share />
-            <span>Share</span>
+            <input type='checkbox' id={styles.click} />
+            <label for={styles.click} className={styles.shareBtn}>
+              <span><Share /></span>
+              <a><span>
+                <FacebookShareButton
+                  url={window.location.href}
+                  quotes={'Hey! Have you seen this post from C.S.M. Suceava Volei Team?'}
+                  hashtag={'#CSMSUCEAVA'}
+                >
+                  <FacebookIcon size={32} round={true}/>
+                </FacebookShareButton>
+              </span></a>
+              <a><span>
+                <WhatsappShareButton
+                  title={'Hey! Have you seen this post from C.S.M. Suceava Volei Team?'}
+                  separator="
+                  "
+                  url={window.location.href}
+                >
+                  <WhatsappIcon size={32} round={true}/>
+                </WhatsappShareButton>
+              </span></a>
+              <a><span>
+                <TwitterShareButton
+                  title={'Hey! Have you seen this post from C.S.M. Suceava Volei Team?\n'}
+                  url={window.location.href}
+                  hashtag={'#CSMSUCEAVA'}
+                >
+                  <TwitterIcon size={32} round={true} />
+                </TwitterShareButton>
+              </span></a>
+            </label>
           </button>
         </div>
 

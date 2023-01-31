@@ -107,7 +107,7 @@ div>label, div>label>input{
 
 .phoneResolutionMarginTop{
   @include responsive_W550px{
-    margin-top:30px;
+    margin-top:30px !important;
   }
 }
 

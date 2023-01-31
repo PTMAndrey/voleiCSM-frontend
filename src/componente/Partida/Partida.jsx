@@ -149,7 +149,7 @@ const Partida = ({ data }) => {
                         openPopup={openPopup}
                         content={
                             <div className={styles.popup}>
-                                <h3 className={styles.titlePopup}>Ștergere știre</h3>
+                                <h3 className={styles.titlePopup}>Ștergere meci</h3>
                                 <p className={styles.descriptionPopup}>
                                     Această acțiune este permanentă și nu poate fi anulată.
                                 </p>

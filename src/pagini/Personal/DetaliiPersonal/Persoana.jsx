@@ -219,7 +219,7 @@ const Persoana = () => {
                     <Col><p className={styles.headerRaport}>Data început</p></Col>
                     <Col><p className={styles.headerRaport}>Data sfârșit</p></Col>
                     <Col><p className={styles.headerRaport}>Post</p></Col>
-                    <Col><p className={styles.quickActions}>Ștergere rapidă</p></Col>
+                    {user?.role === 'Administrator' &&<Col><p className={styles.quickActions}>Ștergere rapidă</p></Col>}
                     <Col />
                   </Row>
                   {persoana?.istoricPosturi.map(istoric => (
@@ -229,7 +229,7 @@ const Persoana = () => {
                       <Col>{moment(istoric.dataInceput, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
                       <Col>{moment(istoric.dataFinal, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
                       <Col>{istoric.post}</Col> <Col>
-                        {user.role === 'Administrator' &&
+                        {user?.role === 'Administrator' &&
                           <Tooltip title="Șterge rol" placement="right" arrow onClick={() => { setIstoricId(istoric.idIstoricPersoana); setRaportCronologic('rol'); togglePopup(); }}>
                             <IconButton className={styles.iconStyle}>
                               <RiDeleteBinFill className={styles.delete} />
@@ -283,16 +283,16 @@ const Persoana = () => {
                   <Row className={styles.premiu}>
                     <Col><p className={styles.headerRaport}>Data obținerii</p></Col>
                     <Col><p className={styles.headerRaport}>Denumire</p></Col>
-                    <Col><p className={styles.quickActions}>Ștergere rapidă</p></Col>
+                    {user?.role === 'Administrator' && <Col><p className={styles.quickActions}>Ștergere rapidă</p></Col> }
                     <Col />
                     <Col />
                   </Row>
-                  {persoana.realizariPersonale.map(istoric => (
+                  {persoana?.realizariPersonale.map(istoric => (
                     <Row key={istoric.idRealizariPersonale} className={styles.premiu}>
 
                       <Col>{moment(istoric.dataObtinerii, 'DD-MM-YYYY').format('DD MMMM YYYY')}</Col>
                       <Col>{istoric.denumireRezultat}</Col><Col>
-                        {user.role === 'Administrator' &&
+                        {user?.role === 'Administrator' &&
 
                           <Tooltip title="Șterge premiu" placement="right" arrow onClick={() => { setIstoricId(istoric.idRealizariPersonale); setRaportCronologic('premiu'); togglePopup(); }}>
                             <IconButton className={styles.iconStyle}>

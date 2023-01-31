@@ -25,4 +25,9 @@ header{
     @include medium{
         margin-top:30px;
     }
+    @include small{
+        h1, h4{
+            font-size: $font-body-normal;
+        }
+    }
 }

@@ -18,4 +18,7 @@
         align-items: center;
         justify-content: center;
     }
+    @include responsive_W550px{
+        padding:15px;
+    }
 }

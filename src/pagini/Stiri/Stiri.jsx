@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import styles from "./Stiri.module.scss";
 import ListStiri from "./ListStiri.jsx";
@@ -15,7 +15,7 @@ const Stiri = () => {
   // view
   const { setListView, stiriOrdonate } = useStateProvider();
   const { fetchStiribyFilter, filtruStiri, setFiltruStiri } = useStateProvider();
-
+  
   const navigate = useNavigate();
 
   const Programare = [
@@ -40,6 +40,8 @@ const Stiri = () => {
   // pagination - current page with the content displayed
   const { paginaCurentaStiri } = useStateProvider();
 
+
+
   const currentTableData = useMemo(() => {
     if (stiriOrdonate) {
       const firstPageIndex = (paginaCurentaStiri - 1) * pageSize;
@@ -60,10 +62,9 @@ const Stiri = () => {
         <h3 className={styles.title}>Noutăți</h3>
       </div>
       <div className={styles.stiriBody}>
-
-        <div className={styles.leftSide}>
-          <FiltreStiri />
-        </div>
+          <div className={styles.leftSide}>
+            <FiltreStiri />
+          </div>
 
         <div className={styles.rightSide}>
           {user?.role &&

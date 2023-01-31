@@ -66,7 +66,7 @@ const Premii = () => {
                     {user?.role === 'Administrator' &&
                         <Buton
                             label="Adaugă premiu"
-                            className={styles.addPersonal}
+                            className={styles.addPremiu}
                             onClick={() => {
                                 navigate("/detalii/adauga/premii");
                             }}
