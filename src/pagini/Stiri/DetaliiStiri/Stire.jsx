@@ -122,14 +122,14 @@ const Stire = () => {
           <div>
             <h5 className={styles.stireName}>{stire?.titlu}</h5>
           </div>
-          <button className={styles.shareButon}>
+          <div className={styles.shareButon}>
             <input type='checkbox' id={styles.click} />
-            <label for={styles.click} className={styles.shareBtn}>
+            <label htmlFor={styles.click} className={styles.shareBtn}>
               <span><Share /></span>
               <a><span>
                 <FacebookShareButton
                   url={window.location.href}
-                  quotes={'Hey! Have you seen this post from C.S.M. Suceava Volei Team?'}
+                  quotes={'Salutare! Ai citit acest articol postat de echipa de volei a clubului C.S.M. Suceava?'}
                   hashtag={'#CSMSUCEAVA'}
                 >
                   <FacebookIcon size={32} round={true}/>
@@ -137,7 +137,7 @@ const Stire = () => {
               </span></a>
               <a><span>
                 <WhatsappShareButton
-                  title={'Hey! Have you seen this post from C.S.M. Suceava Volei Team?'}
+                  title={'Salutare! Ai citit acest articol postat de echipa de volei a clubului C.S.M. Suceava?'}
                   separator="
                   "
                   url={window.location.href}
@@ -147,7 +147,7 @@ const Stire = () => {
               </span></a>
               <a><span>
                 <TwitterShareButton
-                  title={'Hey! Have you seen this post from C.S.M. Suceava Volei Team?\n'}
+                  title={'Salutare! Ai citit acest articol postat de echipa de volei a clubului C.S.M. Suceava?\n'}
                   url={window.location.href}
                   hashtag={'#CSMSUCEAVA'}
                 >
@@ -155,7 +155,7 @@ const Stire = () => {
                 </TwitterShareButton>
               </span></a>
             </label>
-          </button>
+          </div>
         </div>
 
         {/* details */}
