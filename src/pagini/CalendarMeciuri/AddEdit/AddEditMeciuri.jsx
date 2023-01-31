@@ -492,7 +492,7 @@ const AddEdit = () => {
           </div>
         </Col>
         <Col md={{ span: 6, offset: 0 }} className={styles.bottomBorder}>
-          <div className={styles.inputs}>
+          <div className={`mt-2 ${styles.inputs}`}>
             <Input
               name='link'
               id='link'

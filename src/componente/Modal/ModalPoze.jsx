@@ -4,9 +4,11 @@ import Modal from "react-bootstrap/Modal";
 
 import { ReactComponent as LeftChevron } from "../../assets/icons/chevron-left.svg";
 import { ReactComponent as Share } from "../../assets/icons/share.svg";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const ModalPoze = ({ showModal, setShowModal, images }) => {
   const tempImages = { images };
+  const {width} = useWindowDimensions();
   return (
     <Modal
       show={showModal}
@@ -18,19 +20,33 @@ const ModalPoze = ({ showModal, setShowModal, images }) => {
           className={styles.chevron}
           onClick={() => setShowModal(false)}
         />
-        <div className={styles.rightButons}>
+        {/* <div className={styles.rightButons}>
           <div className={styles.share}>
             <Share />
             <h5>Share</h5>
-          </div>
+          </div> */}
           {/* <div className={styles.save}>
             {<Heart />}
             <h5>Save</h5>
           </div> */}
-        </div>
+        {/* </div> */}
       </Modal.Title>
 
       <Modal.Body className={styles.modalBody}>
+        {width < 750 ?
+        <>
+        {
+          images?.map((image,index)=>{
+            return(
+              <div key={index} className={styles.largeImage}>
+                <img src={image} alt="" />
+              </div>
+            )
+          })
+        }
+        </>
+        :
+        <>
         {images?.map((image, index) => {
           if (index === 0 || index === 3 || index === 6) {
             return (
@@ -60,6 +76,7 @@ const ModalPoze = ({ showModal, setShowModal, images }) => {
             );
           }
         })}
+        </>}
       </Modal.Body>
     </Modal>
   );

@@ -22,7 +22,7 @@ const Navigare = (props) => {
     navigate('/');
   }
   return (
-    <Navbar key={props.expand} bg="light" expand={props.expand} className={`mb-3 border-bottom ${width <= 750 && styles.stickyNav}`}>
+    <Navbar key={props.expand} sticky="top" bg="light" expand={props.expand} className={`mb-3 border-bottom`}>
       <Container fluid>
         <Navbar.Brand href="/"><img src={LogoCSM} className={styles.logoNavbar} alt="C.S.M. SUCEAVA - VOLEI" /></Navbar.Brand>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${props.expand}`} />

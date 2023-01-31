@@ -119,8 +119,8 @@ function App() {
             <Route path='/parteneri' element={<Layout><Parteneri /></Layout>} />
             <Route path='/detalii/viziune' element={<Layout><Viziune /></Layout>} />
             <Route path='/detalii/istorie' element={<Layout><Istorie /></Layout>} />
-            <Route path='/detalii/premii' element={<Layout><Premii/></Layout>} />
-            
+            <Route path='/detalii/premii' element={<Layout><Premii /></Layout>} />
+
             <Route path='/not-found' element={<Layout><NotFound /></Layout>} />
             <Route path='*' element={<Layout><NotFound /></Layout>} />
 

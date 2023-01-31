@@ -24,6 +24,7 @@
     @include responsive_W550px {
         display: flex;
         justify-content: center;
+        font-size: $font-h4;
     }
 }
 
@@ -122,11 +123,11 @@
         .linie1 {
             width: calc(70%);
             height: 1px;
-            margin-left:20px;
+            margin-left: 20px;
             background: $color-yellow;
         }
 
-        .addPersonal {
+        .addPremiu {
             width: 150px;
             margin-left: 10px;
         }
@@ -136,6 +137,9 @@
 
             .linie1 {
                 display: none;
+            }
+            .addPremiu{
+                margin-bottom:20px;
             }
 
         }
@@ -148,6 +152,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         .ddContainer {
             margin-bottom: 5px;
 

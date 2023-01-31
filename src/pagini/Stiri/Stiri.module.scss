@@ -22,6 +22,7 @@
   @include responsive_W550px{
     display: flex;
     justify-content: center;
+    font-size: $font-h4;
   }
 }
 
@@ -72,7 +73,7 @@
   width:33%;
   height:100%;
   @include responsive_W550px{
-    // width: 100%;
+    width: 100%;
     flex-direction: row;
   }
 }
