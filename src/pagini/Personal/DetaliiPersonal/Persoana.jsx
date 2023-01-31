@@ -7,16 +7,20 @@ import { MdAddCircleOutline } from 'react-icons/md';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import moment from "moment";
 import 'moment/locale/ro';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import { EditorState, convertFromRaw } from 'draft-js'
+import { Editor } from 'react-draft-wysiwyg';
+import { FacebookShareButton, FacebookIcon,
+WhatsappShareButton,  WhatsappIcon,
+TwitterShareButton, TwitterIcon, } from 'react-share';
 import { ReactComponent as AvatarDefault } from "../../../assets/images/Jucator-Default.svg";
+import { ReactComponent as Share } from "../../../assets/icons/share.svg";
 import { deleteIstoricPosturiById, deleteRealizarePersonalaById, getPersonalById } from "../../../api/API";
 import useStateProvider from "../../../hooks/useStateProvider";
 import useAuth from "../../../hooks/useAuth";
 import styles from "./Persoana.module.scss";
 import Popup from "../../PaginaPrincipala/Popup";
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import { EditorState, convertFromRaw } from 'draft-js'
-import { Editor } from 'react-draft-wysiwyg';
 import '../../../styles/MyEditor.css';
 
 const Persoana = () => {
@@ -45,9 +49,7 @@ const Persoana = () => {
       try {
         const response = await getPersonalById(id);
         if (response.status === 200) {
-          console.log(response.data);
           setPersoana(response.data);
-          // setEditorState(response.data.descriere)
         }
         else {
           setPersoana(null);
@@ -59,14 +61,6 @@ const Persoana = () => {
     })();
   }, [id, istoricSters]);
 
-  // const contentState = persoana?.descriere ? convertFromRaw(JSON.parse(persoana?.descriere)) : null;
-  // const rawContentState = contentState ? convertToRaw(contentState) : null;
-  // const blocks = rawContentState ? rawContentState.blocks : null;
-
-  // const [editorState, setEditorState] = useState(persoana?.descriere ?  EditorState.createWithContent(convertFromRaw(JSON.parse(persoana?.descriere))) : EditorState.createEmpty()) 
-
-  // const getHtml = editorState => JSON.stringify(editorState.getCurrentContent());
-  // const readOnly = false;
   const [editorState, setEditorState] = useState(
     EditorState.createEmpty());
 
@@ -115,6 +109,40 @@ const Persoana = () => {
     < section className={styles.container} >
       <div className={styles.numePersoana}>
         <p>{persoana !== null ? (persoana.nume + ' ' + persoana.prenume) : 'Persoana'}</p>
+        <div className={styles.shareButon}>
+            <input type='checkbox' id={styles.click} />
+            <label htmlFor={styles.click} className={styles.shareBtn}>
+              <span><Share /></span>
+              <a><span>
+                <FacebookShareButton
+                  quote={'Salutare! Ai citit despre acest jucător din echipa de volei a clubului C.S.M. Suceava?'}
+                  url={window.location.href}
+                  hashtag={'#CSMSUCEAVA'}
+                >
+                  <FacebookIcon size={32} round={true}/>
+                </FacebookShareButton>
+              </span></a>
+              <a><span>
+                <WhatsappShareButton
+                  title={'Salutare! Ai citit despre acest jucător din echipa de volei a clubului C.S.M. Suceava?\nVezi articolul aici: '}
+                  separator="
+                  "
+                  url={window.location.href}
+                >
+                  <WhatsappIcon size={32} round={true}/>
+                </WhatsappShareButton>
+              </span></a>
+              <a><span>
+                <TwitterShareButton
+                  title={'Salutare! Ai citit despre acest jucător din echipa de volei a clubului C.S.M. Suceava?\nVezi articolul aici: '}
+                  url={window.location.href}
+                  hashtag={'#CSMSUCEAVA'}
+                >
+                  <TwitterIcon size={32} round={true} />
+                </TwitterShareButton>
+              </span></a>
+            </label>
+          </div>
       </div>
       <div className={styles.persoanaBody}>
         <div className={styles.details}>
