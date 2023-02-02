@@ -217,6 +217,7 @@ const AddEditStiri = () => {
         formValue.file.map((img, i) => {
           data.append('file', img);
         })
+        console.log(formValue.file[0], '\n\n\n',formValue)
         const response = await addStire(data);
         if (response?.status === 200) {
           navigate("/confirmare/noutati/");
@@ -353,7 +354,7 @@ const AddEditStiri = () => {
     const e = new Date();
     const hour = e.getHours();
     const minutes = e.getMinutes();
-    return (e.getDate() < 10 ? ('0' + String(e.getDate())) : e.getDate() + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear() + ' ' + (hour < 10 ? ('0' + String(hour)) : hour) + ':' + (minutes < 10 ? ('0' + String(minutes)) : minutes));
+    return ((e.getDate() < 10 ? '0' + String(e.getDate()) : e.getDate()) + '-' + ((e.getMonth() + 1) < 10 ? ('0' + String(e.getMonth() + 1)) : (e.getMonth() + 1)) + '-' + e.getFullYear() + ' ' + (hour < 10 ? ('0' + String(hour)) : hour) + ':' + (minutes < 10 ? ('0' + String(minutes)) : minutes));
 
   }
   const hours = [];
