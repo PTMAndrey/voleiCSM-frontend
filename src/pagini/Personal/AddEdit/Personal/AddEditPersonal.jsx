@@ -26,11 +26,13 @@ import DropdownComponent from "../../../../componente/Dropdown/Dropdown";
 
 import styles from "./AddEditPersonal.module.scss";
 import Popup from "../../../PaginaPrincipala/Popup";
+import useWindowDimensions from "../../../../hooks/useWindowDimensions";
 
 const AddEditPersonal = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { setAlert, divizii, Posturi } = useStateProvider();
+  const { width } = useWindowDimensions();
   const { id } = useParams();
   useEffect(() => {
     if (id && id.length < 30)
@@ -85,7 +87,6 @@ const AddEditPersonal = () => {
       setDataCalendarEdit(moment(response.data.dataNasterii, 'DD-MM-YYYY hh:mm').toDate())
       setDataCalendar(response.data.dataNasterii)
 
-      console.log('edit', response.data);
     }
   };
 
@@ -359,7 +360,7 @@ const AddEditPersonal = () => {
                   <DropdownComponent
                     title={id ? formValue.numeDivizie : 'Alege echipa'}
                     options={Divizii}
-                    searchable={true}
+                    searchable={width < 750 ? false : true}
                     onChange={(e) => {
                       e === null ?
                         setFormValue({ ...formValue, numeDivizie: '' }) :
@@ -416,7 +417,7 @@ const AddEditPersonal = () => {
               </Col>
             </Row>
 
-            <Row className='mt-5'>
+            <Row className='mt-5' style={{zIndex:'9999999'}}>
               <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
                 <div className={styles.info}>
                   <h3>Detalii *</h3>
@@ -480,6 +481,7 @@ const AddEditPersonal = () => {
                   <DropdownComponent
                     title={id ? formValue.post : 'Alege post'}
                     options={Posturi}
+                    searchable={width < 750 ? false : true}
                     onChange={(e) => {
                       setFormValue({ ...formValue, post: e.value });
                     }}
@@ -553,34 +555,34 @@ const AddEditPersonal = () => {
               </Col>
             </Row>
             {openPopup && (
-        <Popup
-          setOpenPopup={setOpenPopup}
-          openPopup={openPopup}
-          content={
-            <div className={styles.popup}>
-              <h3 className={styles.titlePopup}>Confirmare acțiuni efectuate</h3>
-              <p className={styles.descriptionPopup}>
-                Această acțiune este permanentă și nu poate fi anulată.
-              </p>
-              <div className={styles.butonsPopup}>
-                <button
-                  className={styles.backPopup}
-                  onClick={() => { navigate(-1) }}
-                >
-                  Confirm
-                </button>
-                <button
-                  className={styles.deletePopup}
-                  onClick={() => { togglePopup(); }}
-                >
-                  Renunț
-                </button>
-              </div>
-            </div>
-          }
-        />
-      )
-      }
+              <Popup
+                setOpenPopup={setOpenPopup}
+                openPopup={openPopup}
+                content={
+                  <div className={styles.popup}>
+                    <h3 className={styles.titlePopup}>Confirmare acțiuni efectuate</h3>
+                    <p className={styles.descriptionPopup}>
+                      Această acțiune este permanentă și nu poate fi anulată.
+                    </p>
+                    <div className={styles.butonsPopup}>
+                      <button
+                        className={styles.backPopup}
+                        onClick={() => { navigate(-1) }}
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        className={styles.deletePopup}
+                        onClick={() => { togglePopup(); }}
+                      >
+                        Renunț
+                      </button>
+                    </div>
+                  </div>
+                }
+              />
+            )
+            }
           </Container >
         </>
         :

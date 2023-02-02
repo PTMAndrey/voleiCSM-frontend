@@ -25,6 +25,7 @@ import DropdownComponent from '../../../componente/Dropdown/Dropdown';
 import styles from './AddEditStiri.module.scss';
 import Popup from '../../PaginaPrincipala/Popup';
 import moment from 'moment/moment';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
 
 const AddEditStiri = () => {
@@ -32,6 +33,7 @@ const AddEditStiri = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const { setAlert } = useStateProvider();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (id && id.length < 30)
@@ -476,7 +478,7 @@ const AddEditStiri = () => {
           </div>
 
         </Col>
-        
+
       </Row>
       <Row className='mt-5'>
         <Col md={{ span: 4, offset: 0 }} className={styles.bottomBorder}>
@@ -546,7 +548,7 @@ const AddEditStiri = () => {
                     <DropdownComponent
                       title={formValue.dataPublicarii.length <= 10 ? 'Alege ora' : selectedHour}
                       options={hours}
-                      searchable={true}
+                      searchable={width < 750 ? false : true}
                       onChange={(e) => {
                         setFormValue({ ...formValue, dataPublicarii: formValue.dataPublicarii.split(' ')[0] + ' ' + e.value + ':' + selectedMinute })
                         setSelectedHour(e.value);
@@ -558,7 +560,7 @@ const AddEditStiri = () => {
                     <DropdownComponent
                       title={formValue.dataPublicarii.length <= 13 ? 'Alege minutele' : selectedMinute}
                       options={minutes}
-                      searchable={true}
+                      searchable={width < 750 ? false : true}
                       onChange={(e) => {
                         setFormValue({ ...formValue, dataPublicarii: formValue.dataPublicarii.split(':')[0] + ':' + e.value })
                         setSelectedMinute(e.value);

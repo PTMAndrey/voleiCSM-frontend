@@ -81,7 +81,6 @@ const CalendarMeciuri = () => {
               <DropdownComponent
                 title="Meciuri viitoare"
                 options={Programare}
-                clearable={true}
                 onChange={(e) => {
                   e === null ?
                     setFiltruMeciuri({ ...filtruMeciuri, status: 'VIITOR' }) :
