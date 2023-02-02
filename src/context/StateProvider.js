@@ -41,7 +41,7 @@ export const StateProvider = ({ children }) => {
   const [paginaCurentaMeciuri, setPaginaCurentaMeciuri] = useState(1);
   const [filtruMeciuri, setFiltruMeciuri] = useState({
     status: 'VIITOR',
-    editieId: '1',
+    editieId: '12',
     dataSpecifica: '',
   });
   const [editii, setEditii] = useState([]);
@@ -207,10 +207,13 @@ export const StateProvider = ({ children }) => {
     fetchStiribyFilter(); // pentru pagina Noutati - stiri
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   useEffect(() => {
     fetchEditii();
     fetchEchipe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     fetchMeciuribyFilter(); // pentru pagina Calendar
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

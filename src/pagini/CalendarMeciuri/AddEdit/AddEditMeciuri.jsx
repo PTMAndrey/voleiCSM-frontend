@@ -14,11 +14,13 @@ import Buton from '../../../componente/Buton/Buton';
 import DropdownComponent from '../../../componente/Dropdown/Dropdown';
 import styles from './AddEditMeciuri.module.scss';
 import moment from 'moment/moment';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
 const AddEdit = () => {
   const navigate = useNavigate();
   const { editii, echipe, setAlert, filtruMeciuri, setFiltruMeciuri } = useStateProvider();
   const { id } = useParams();
+  const {width} = useWindowDimensions();
 
   const [showErrors, setShowErrors] = useState(false);
   const [showEroareCalendar, setShowEroareCalendar] = useState(false);
@@ -326,8 +328,7 @@ const AddEdit = () => {
             <DropdownComponent
               title={id ? formValue.numeAdversar ? formValue.numeAdversar : 'Alege echipa' : 'Alege echipa'}
               options={Echipe}
-              clearable={true}
-              searchable={true}
+              searchable={width < 750 ? false : true}
               onChange={(e) => {
                 e === null ?
                   setFormValue({ ...formValue, numeAdversar: '' }) :
@@ -393,7 +394,6 @@ const AddEdit = () => {
             <DropdownComponent
               title={id ? formValue.idEditie ? formValue.numeEditie : 'Alege campionat' : 'Alege campionat'}
               options={Editii}
-              clearable={true}
               onChange={(e) => {
                 e === null ?
                   setFormValue({ ...formValue, idEditie: '' }) :
@@ -435,7 +435,7 @@ const AddEdit = () => {
                 <DropdownComponent
                   title={formValue.data.length <= 10 ? 'Alege ora' : selectedHour}
                   options={hours}
-                  searchable={true}
+                  searchable={width < 750 ? false : true}
                   onChange={(e) => {
                     setFormValue({ ...formValue, data: formValue.data.split(' ')[0] + ' ' + e.value + ':' + selectedMinute })
                     setSelectedHour(e.value);
@@ -448,7 +448,7 @@ const AddEdit = () => {
                 <DropdownComponent
                   title={formValue.data.length <= 13 ? 'Alege minutele' : selectedMinute}
                   options={minutes}
-                  searchable={true}
+                  searchable={width < 750 ? false : true}
                   onChange={(e) => {
                     setFormValue({ ...formValue, data: formValue.data.split(':')[0] + ':' + e.value })
                     setSelectedMinute(e.value);

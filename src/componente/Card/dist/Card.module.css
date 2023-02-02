@@ -1,7 +1,4 @@
-@import "../../styles/variables.scss";
-@import "../../styles/mixins.scss";
-
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 .noBorder {
   border: none;
 }
@@ -11,10 +8,9 @@
   background-color: #1B1D49;
   min-width: 120px;
   margin-bottom: 15px;
-
-  &:hover {
-    cursor: pointer;
-  }
+}
+.cards:hover {
+  cursor: pointer;
 }
 
 .cardContent {
@@ -23,16 +19,15 @@
   flex-direction: column;
   float: left;
   height: 40%;
-  border: 1px solid $color-gray-100;
+  border: 1px solid #e4e7ec;
   background-color: #1B1D49;
   width: 22%;
   margin: 0px 30px 30px 0px;
   border: 2px solid #E4BA48;
-
-  p {
-    padding: 7px;
-    margin: 0px;
-  }
+}
+.cardContent p {
+  padding: 7px;
+  margin: 0px;
 }
 
 .listCardContent {
@@ -44,13 +39,13 @@
   padding: 15px;
   border: 3px solid #E4BA48;
   background-color: #1B1D49;
-
-  p {
-    padding: 7px;
-    margin: 0px;
-  }
-
-  @include responsive_W550px {
+}
+.listCardContent p {
+  padding: 7px;
+  margin: 0px;
+}
+@media screen and (max-width: 550px) {
+  .listCardContent {
     flex-direction: column;
   }
 }
@@ -60,17 +55,17 @@
   display: flex;
   flex-direction: column;
   height: 40%;
-  border: 1px solid $color-gray-100;
+  border: 1px solid #e4e7ec;
   width: 100%;
   padding: 15px;
   margin: 0px 0px 30px 0px;
-
-  p {
-    padding: 7px;
-    margin: 0px;
-  }
-
-  @include responsive_W550px {
+}
+.homeListCardContent p {
+  padding: 7px;
+  margin: 0px;
+}
+@media screen and (max-width: 550px) {
+  .homeListCardContent {
     flex-direction: column;
     height: 300px;
   }
@@ -88,8 +83,9 @@
   width: 451px;
   object-fit: cover;
   min-width: 50px;
-
-  @include responsive_W550px {
+}
+@media screen and (max-width: 550px) {
+  .ListCardImg {
     width: 70px;
   }
 }
@@ -97,10 +93,9 @@
 .contentCard {
   margin-right: 0px 5px;
   width: 100%;
-
-  p {
-    padding: 8px 12px;
-  }
+}
+.contentCard p {
+  padding: 8px 12px;
 }
 
 .listTitluAndLocation {
@@ -114,8 +109,8 @@
 }
 
 .cardTitlu {
-  font-weight: $font-semibold;
-  color: $color-white;
+  font-weight: 600;
+  color: #ffffff;
   font-style: normal;
   font-size: 14px;
   line-height: 22px;
@@ -125,8 +120,8 @@
 }
 
 .cardDataPublicarii {
-  font-weight: $font-regular;
-  color: $color-white;
+  font-weight: 400;
+  color: #ffffff;
   font-size: 12px;
   line-height: 20px;
   text-overflow: ellipsis;
@@ -135,31 +130,33 @@
 }
 
 .cardDescription {
-  font-weight: $font-regular;
-  color: $color-white;
+  font-weight: 400;
+  color: #ffffff;
   font-size: 12px;
   line-height: 20px;
   min-height: 50px;
   height: 70px;
   overflow: hidden;
-
-  @include responsive_W550px {
+}
+@media screen and (max-width: 550px) {
+  .cardDescription {
     height: 50px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
   }
 }
-.hashtag{
-    height: 50px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+
+.hashtag {
+  height: 50px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .cardPrice {
-  font-weight: $font-semibold;
-  color: $color-black;
+  font-weight: 600;
+  color: #1c1c1e;
   font-size: 14px;
   line-height: 22px;
   text-overflow: ellipsis;
@@ -168,13 +165,10 @@
 }
 
 .imagesDiv {
-  // display: flex;
-  // position: relative;
   justify-content: center;
   display: grid;
   grid-gap: 8px;
 }
-
 
 .citesteMaiMult {
   display: flex;
@@ -187,66 +181,70 @@
 .controls {
   display: flex;
   justify-content: space-around;
-  border-top: 1px solid $color-yellow;
+  border-top: 1px solid #f5cd62;
   width: 100%;
   padding: 10px 0;
   font-size: 20px;
-
-  .delete {
-    fill: white !important;
-
-    &:hover {
-      background-color: $color-primary-500;
-      box-sizing: border-box;
-      cursor: pointer;
-    }
-  }
-
-  .edit {
-    fill: white !important;
-
-    &:hover {
-      background-color: $color-primary-500;
-      box-sizing: border-box;
-      cursor: pointer;
-    }
-  }
+}
+.controls .delete {
+  fill: white !important;
+}
+.controls .delete:hover {
+  background-color: #0241ae;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.controls .edit {
+  fill: white !important;
+}
+.controls .edit:hover {
+  background-color: #0241ae;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .approve {
   padding: 10px;
-  background-color: $color-primary-400;
-  color: $color-white;
+  background-color: #0356e8;
+  color: #ffffff;
   border-radius: 8px;
 }
 
 .popup {
-  padding: 30px;  
-  @include medium{
-    padding:15px;
+  padding: 30px;
+}
+@media screen and (max-width: 1024px) {
+  .popup {
+    padding: 15px;
   }
-  @media(max-width:750px){
-    padding:10px;
+}
+@media (max-width: 750px) {
+  .popup {
+    padding: 10px;
   }
-  @include responsive_W550px {
-  padding: 20px;  
+}
+@media screen and (max-width: 550px) {
+  .popup {
+    padding: 20px;
   }
 }
 
 .titlePopup {
   font-weight: 700;
-  font-size: $font-h5;
+  font-size: 20px;
   text-align: center;
-  color: $color-black;
+  color: #1c1c1e;
 }
 
 .descriptionPopup {
   font-weight: 400;
-  font-size: $font-body-small;
-  color: $color-gray-700;
+  font-size: 14px;
+  color: #404653;
   margin: 20px 20px 30px 20px;
   text-align: center;
-  @include responsive_W550px {
+}
+@media screen and (max-width: 550px) {
+  .descriptionPopup {
     margin: 0;
   }
 }
@@ -257,14 +255,19 @@
   justify-content: space-around;
   width: 100%;
   min-width: 90px;
-
-  @include medium{
+}
+@media screen and (max-width: 1024px) {
+  .butonsPopup {
     flex-direction: column;
   }
-  @media(max-width:750px){
+}
+@media (max-width: 750px) {
+  .butonsPopup {
     flex-direction: column;
   }
-  @include responsive_W550px {
+}
+@media screen and (max-width: 550px) {
+  .butonsPopup {
     flex-direction: column;
   }
 }
@@ -272,92 +275,100 @@
 .deletePopup {
   cursor: pointer;
   padding: 5px 20px;
-  background-color: $color-alert-400;
+  background-color: #ef2028;
   border-radius: 5px;
   font-weight: 600;
-  color: $color-white;
+  color: #ffffff;
   border: 1px solid;
-
-  &:hover {
-    color: $color-alert-700;
-    background-color: $color-white;
-    border: 1px solid $color-alert-400;
-  }
+}
+.deletePopup:hover {
+  color: #9e0b11;
+  background-color: #ffffff;
+  border: 1px solid #ef2028;
 }
 
 .backPopup {
   cursor: pointer;
   padding: 5px 20px;
   background-color: transparent;
-  border: 1px solid $color-primary-500;
-  color: $color-primary-500;
+  border: 1px solid #0241ae;
+  color: #0241ae;
   border-radius: 5px;
   font-weight: 600;
-
-  &:hover {
-    background-color: $color-primary-500;
-    color: $color-white;
-  }
-  
-  @include medium{
-  padding: 5px 10px;
-  margin-top:10px;
-  }
-  @media(max-width:750px){
-  padding: 5px 10px;
-  margin-top:10px;
-  }
-  @include responsive_W550px{
-  padding: 5px 10px;
-  margin-top:10px;
+}
+.backPopup:hover {
+  background-color: #0241ae;
+  color: #ffffff;
+}
+@media screen and (max-width: 1024px) {
+  .backPopup {
+    padding: 5px 10px;
+    margin-top: 10px;
   }
 }
-
-//#################################################
+@media (max-width: 750px) {
+  .backPopup {
+    padding: 5px 10px;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 550px) {
+  .backPopup {
+    padding: 5px 10px;
+    margin-top: 10px;
+  }
+}
 
 .personalContainer {
   display: flex;
   width: 300px;
   margin: 0 auto;
-  background-color: $color-dark-blue !important;
+  background-color: #1B1D49 !important;
   opacity: 1 !important;
   margin: 30px 0;
   cursor: pointer;
-
-  @include medium {
+}
+@media screen and (max-width: 1024px) {
+  .personalContainer {
     width: 200px;
   }
-  @media(max-width:750px){
+}
+@media (max-width: 750px) {
+  .personalContainer {
     width: 170px;
   }
-
-  @include responsive_W550px {
+}
+@media screen and (max-width: 550px) {
+  .personalContainer {
     width: 150px;
   }
-  @include small{
-    width:110px;
+}
+@media screen and (max-width: 300px) {
+  .personalContainer {
+    width: 110px;
   }
 }
 
 .nume {
   font-size: 17px !important;
-  // width: auto;
-  // padding-left:20px;
-  // text-overflow: ellipsis;
-  // white-space: nowrap;
-  // overflow: hidden;
-
-  @include medium {
+}
+@media screen and (max-width: 1024px) {
+  .nume {
     font-size: 16px !important;
   }
-  @media(max-width: 750px){
+}
+@media (max-width: 750px) {
+  .nume {
     font-size: 15px !important;
   }
-
-  @include responsive_W550px {
+}
+@media screen and (max-width: 550px) {
+  .nume {
     font-size: 13px !important;
   }
-  @include small{
+}
+@media screen and (max-width: 300px) {
+  .nume {
     font-size: 13px !important;
   }
 }
@@ -370,14 +381,14 @@
   color: white;
 }
 
-.butoane {
-  .edit {
-    margin-right: 50px;
-  }
-  @include small{
-    display:flex;
+.butoane .edit {
+  margin-right: 50px;
+}
+@media screen and (max-width: 300px) {
+  .butoane {
+    display: flex;
     flex-direction: row;
-    margin-top:25px;
+    margin-top: 25px;
   }
 }
 
@@ -389,10 +400,8 @@
 
 .imagine {
   align-self: center;
-  // height: fit-content;
   border-radius: 50%;
-  border: 5px solid $color-yellow;
+  border: 5px solid #f5cd62;
   max-height: 230px;
-
   width: fit-content;
 }
